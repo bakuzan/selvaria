@@ -1,0 +1,33 @@
+/*
+ * GENERAL
+ */
+$darken-amount: 5%;
+
+/* Colours*/
+$selvaria-black: #141318;
+$selvaria-grey: #707686;
+$selvaria-gold: #b88b30;
+
+$white: #fff;
+$black: #000;
+$red: #ff0000;
+$green: #00ff00;
+
+/*
+ * USAGES
+ */
+$primary-background: $selvaria-black;
+$primary-colour: $selvaria-black;
+$primary-colour-contrast: $selvaria-grey;
+
+$secondary-background: $selvaria-gold;
+$secondary-colour: $selvaria-gold;
+$secondary-colour-contrast: $black;
+
+$spinner-colour-one: $selvaria-grey;
+$spinner-colour-two: $selvaria-gold;
+$spinner-colour-three: $selvaria-grey;
+$spinner-colour-four: $selvaria-gold;
+
+$danger-colour: $red;
+$success-colour: $green;

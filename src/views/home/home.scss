@@ -1,0 +1,21 @@
+.home {
+  ol {
+    li {
+      margin-bottom: 2px;
+      div.date {
+        width: 8%;
+      }
+      div.times {
+        width: 92%;
+        div {
+          transform: translateY(-15px) rotate(-45deg);
+        }
+      }
+      div {
+        float: left;
+        min-width: 2%;
+        min-height: 20px;
+      }
+    }
+  }
+}
