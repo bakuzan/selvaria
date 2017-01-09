@@ -9,11 +9,7 @@ class Home extends Component {
     });
   }
   render() {
-    const timeBlocks = Query.getTimeBlocks();
-    const days = [
-      { date: '01/01/2017', timeBlocks: timeBlocks },
-      { date: '02/01/2017', timeBlocks: timeBlocks }
-    ];
+    const days = Query.getsDays();
     return (
       <div className="home">
         <p>Selvaria home page</p>
