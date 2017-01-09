@@ -1,18 +1,45 @@
+@import "../../styles/partials/_colours";
+
 .home {
   ol {
+    padding: 5px 10px;
+    list-style-type: none;
+    li.list-headers {
+      border-bottom: 1px solid $primary-colour;
+    }
     li {
-      margin-bottom: 2px;
+      height: 25px;
+      border-top: 1px solid $white;
+      border-bottom: 1px solid $white;
+      &:not(.list-headers) {
+        div.times {
+          div {
+            &:hover {
+              border: 1px solid $secondary-colour;
+            }
+          }
+        }
+        &:hover {
+          border-top: 1px solid $secondary-colour;
+          border-bottom: 1px solid $secondary-colour;
+        }
+      }
       div.date {
-        width: 8%;
+        width: 10%;
+        text-align: center;
       }
       div.times {
-        width: 92%;
+        width: 90%;
+        height: 100%;
         div {
-          transform: translateY(-15px) rotate(-45deg);
+          height: 100%;
+          border: 1px solid $white;
+          text-align: center;
         }
       }
       div {
-        float: left;
+        display: inline-flex;
+        flex-direction: row;
         min-width: 2%;
         min-height: 20px;
       }
