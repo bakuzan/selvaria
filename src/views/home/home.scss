@@ -1,48 +1,46 @@
 @import "../../styles/partials/_colours";
 
 .home {
-  ol {
+  .timesheet {
     padding: 5px 10px;
     list-style-type: none;
-    li.list-headers {
+    .list-headers {
       border-bottom: 1px solid $primary-colour;
     }
-    li {
+    .day-row {
       height: 25px;
       border-top: 1px solid $white;
       border-bottom: 1px solid $white;
-      &:not(.list-headers) {
-        div.times {
-          div {
-            &:hover {
-              border: 1px solid $secondary-colour;
-            }
+      .times {
+        .time-block {
+          &:hover {
+            border: 1px solid $secondary-colour;
           }
         }
-        &:hover {
-          border-top: 1px solid $secondary-colour;
-          border-bottom: 1px solid $secondary-colour;
-        }
       }
-      div.date {
-        width: 10%;
+      &:hover {
+        border-top: 1px solid $secondary-colour;
+        border-bottom: 1px solid $secondary-colour;
+      }
+    }
+    .date {
+      width: 10%;
+      text-align: center;
+    }
+    .times {
+      width: 90%;
+      height: 100%;
+      .time-block {
+        height: 100%;
+        border: 1px solid $white;
         text-align: center;
       }
-      div.times {
-        width: 90%;
-        height: 100%;
-        div {
-          height: 100%;
-          border: 1px solid $white;
-          text-align: center;
-        }
-      }
-      div {
-        display: inline-flex;
-        flex-direction: row;
-        min-width: 2%;
-        min-height: 20px;
-      }
+    }
+    div {
+      display: inline-flex;
+      flex-direction: row;
+      min-width: 20px;
+      min-height: 20px;
     }
   }
 }

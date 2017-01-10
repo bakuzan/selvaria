@@ -1,14 +1,9 @@
 import React, { Component } from 'react';
+import DayRow from '../../components/day-row/day-row';
 import Query from '../../actions/query.js';
 import './home.css';
 
 class Home extends Component {
-  getTimes(array) {
-    return array.map((item) => {
-      const classColour = item.category ? item.category : '';
-      return <div key={item.id} className={classColour}>{ item.category }</div>
-    });
-  }
   render() {
     const timeBlocks = Query.getTimeBlocks();
     const days = Query.getDays();
@@ -18,7 +13,7 @@ class Home extends Component {
           <h2>Timesheet {new Date().getFullYear()}</h2>
         </header>
         <div>
-          <ol>
+          <ol className="timesheet">
             <li className="list-headers">
               <div className="date">Date</div>
               <div className="times">
@@ -35,14 +30,7 @@ class Home extends Component {
             </li>
              {
                days.map((item) => {
-                  return (
-                    <li key={item.id} className="center-contents">
-                        <div className="date">{ item.date }</div>
-                        <div className="times">
-                          { this.getTimes(item.times) }
-                        </div>
-                    </li>
-                  );
+                  return (<DayRow key={item.id} item={item} />);
                })
              }
           </ol>

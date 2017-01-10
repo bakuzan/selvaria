@@ -6,16 +6,18 @@ class Query {
     const day = date.getDate();
     const monthIndex = date.getMonth();
     const fullYear = date.getFullYear();
-    return `${day} ${this.monthNames[monthIndex]} ${fullYear}`;
+    return `${this.padNumber(day, 2)} ${this.monthNames[monthIndex]} ${fullYear}`;
   }
-  padNumber(number) {
-    return number <= 9999 ? ('000'+number).slice(-4) : number;
+  padNumber(n, width, z) {
+    z = z || '0';
+    n += '';
+    return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
   }
   getTimeBlocks() {
     let array = [];
     for(let i = 0; i < 24; i++) {
-      array.push({ id: this.padNumber(i), time: `${i}`, category: null });
-      array.push({ id: this.padNumber(`${i}30`), time: '', category: null });
+      array.push({ id: this.padNumber(i, 4), time: `${i}`, category: null });
+      array.push({ id: this.padNumber(`${i}30`, 4), time: '', category: null });
     }
     return array;
   }

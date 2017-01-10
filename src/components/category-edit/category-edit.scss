@@ -1,0 +1,13 @@
+.category-edit {
+  position: absolute;
+  input {
+    height: 25px;
+  }
+  .category-list {
+    padding: 5px;
+    list-style-type: none;
+  }
+  input, .category-list {
+    width: 100px;
+  }
+}
