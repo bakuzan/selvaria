@@ -20,7 +20,7 @@ class Home extends Component {
                 {
                   timeBlocks.map((item) => {
                     return (
-                      <div key={item.id}>
+                      <div key={item.id} className="time-title">
                         { item.time }
                       </div>
                     );

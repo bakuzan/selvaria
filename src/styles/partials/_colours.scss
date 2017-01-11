@@ -29,5 +29,19 @@ $spinner-colour-two: $selvaria-gold;
 $spinner-colour-three: $selvaria-grey;
 $spinner-colour-four: $selvaria-gold;
 
+$category-colours: (
+  anime: #ff9900,
+  develop: #674ea7,
+  exercise: #073763,
+  gaming: #ffff00,
+  manga: #6fa8dc,
+  other: #ff00ff,
+  passing: #a61c00,
+  sleep: #666666,
+  social: #93c47d,
+  wasted: #7f6000,
+  work: #efefef
+);
+
 $danger-colour: $red;
 $success-colour: $green;

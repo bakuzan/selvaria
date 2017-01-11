@@ -1,13 +1,29 @@
+@import "../../styles/partials/_colours";
+
 .category-edit {
   position: absolute;
+  background-color: $primary-background;
+  color: $primary-colour-contrast;
+  padding: 2px;
   input {
     height: 25px;
   }
   .category-list {
     padding: 5px;
     list-style-type: none;
+    .category-item {
+      display: flex;
+      justify-content: flex-start;
+      align-items: flex-start;
+    }
   }
   input, .category-list {
-    width: 100px;
+    width: 120px;
   }
+}
+
+.preview-colour {
+  width: 15px;
+  height: 15px;
+  margin: 0 5px 0 0;
 }

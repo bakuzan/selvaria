@@ -36,11 +36,17 @@
         text-align: center;
       }
     }
-    div {
+    .date, .times, .time-title, .time-block {
       display: inline-flex;
       flex-direction: row;
       min-width: 20px;
       min-height: 20px;
     }
+  }
+}
+
+@each $key, $value in $category-colours {
+  .#{$key} {
+    background-color: $value;
   }
 }
