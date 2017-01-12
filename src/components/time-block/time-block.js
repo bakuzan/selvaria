@@ -2,23 +2,17 @@ import React, { Component } from 'react';
 import CategoryEdit from '../category-edit/category-edit';
 
 class TimeBlock extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isEditMode: false
-    };
-  }
   handleClick() {
-    this.setState({ isEditMode: true });
+    this.props.handleEditMode(this.props.item.id);
   }
   render() {
     const classColour = this.props.item.category ? ` ${this.props.item.category}` : '';
 
     return (
-      <div className={`time-block${classColour}`} onClick={() => this.handleClick() }>
+      <div className={`time-block${classColour}`} onClick={this.handleClick()}>
       {
-        this.state.isEditMode && (
-          <CategoryEdit />
+        this.props.item.isEditMode && (
+          <CategoryEdit handleCategorySelect={this.props.handleAssignCategory} />
         )
       }
       </div>

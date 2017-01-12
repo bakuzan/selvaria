@@ -4,9 +4,24 @@ import Query from '../../actions/query.js';
 import './home.css';
 
 class Home extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      days: Query.getDays()
+    }
+
+    this.handleDaysEditMode.bind(this);
+    this.handleUpdateDays.bind(this);
+  }
+  handleDaysEditMode() {
+
+  }
+  handleUpdateDays() {
+
+  }
   render() {
     const timeBlocks = Query.getTimeBlocks();
-    const days = Query.getDays();
+
     return (
       <div className="home">
         <header>
@@ -29,8 +44,10 @@ class Home extends Component {
               </div>
             </li>
              {
-               days.map((item) => {
-                  return (<DayRow key={item.id} item={item} />);
+               this.state.days.map((item) => {
+                  return (<DayRow key={item.id} item={item}
+                                  handleEditMode={this.handleDaysEditMode}
+                                  handleAssignTimeBlockCategory={this.handleUpdateDays} />);
                })
              }
           </ol>

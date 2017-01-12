@@ -16,8 +16,8 @@ class Query {
   getTimeBlocks() {
     let array = [];
     for(let i = 0; i < 24; i++) {
-      array.push({ id: this.padNumber(i, 4), time: `${i}`, category: null });
-      array.push({ id: this.padNumber(`${i}30`, 4), time: '', category: null });
+      array.push({ id: this.padNumber(i, 4), time: `${i}`, category: null, isEditMode: false });
+      array.push({ id: this.padNumber(`${i}30`, 4), time: '', category: null, isEditMode: false });
     }
     return array;
   }
@@ -28,7 +28,11 @@ class Query {
     let day = new Date(2017, 0, 1); // 01/01/2017
 
     while(day < today) {
-      days.push({ id: (day.getTime() * 10000) + 621355968000000000, date: this.formatDate(day), times: timeBlocks });
+      days.push({
+        id: (day.getTime() * 10000) + 621355968000000000,
+        date: this.formatDate(day),
+        times: timeBlocks
+      });
       day.setDate(day.getDate() + 1);
     }
     return days;

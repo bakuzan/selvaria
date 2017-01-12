@@ -13,8 +13,14 @@
     list-style-type: none;
     .category-item {
       display: flex;
+      padding: 0 2px;
       justify-content: flex-start;
-      align-items: flex-start;
+      align-items: center;
+      cursor: pointer;
+      &:hover {
+        background-color: $secondary-colour;
+        color: $secondary-colour-contrast;
+      }
     }
   }
   input, .category-list {
