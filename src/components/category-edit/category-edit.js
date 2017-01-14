@@ -10,6 +10,7 @@ class CategoryEdit extends Component {
     };
   }
   handleCategoryClick(event) {
+    event.stopPropagation();
     const value = event.target.id;
     this.props.handleCategorySelect(value);
   }

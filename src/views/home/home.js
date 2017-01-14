@@ -8,20 +8,29 @@ class Home extends Component {
     super(props);
     this.state = {
       days: Query.getDays()
-    }
+    };
 
-    this.handleDaysEditMode.bind(this);
-    this.handleUpdateDays.bind(this);
+    this.handleDaysEditMode = this.handleDaysEditMode.bind(this);
+    this.handleUpdateDays = this.handleUpdateDays.bind(this);
   }
-  handleDaysEditMode() {
-
+  handleDaysEditMode(dayId, timeId) {
+    const days = this.state.days.slice();
+    const day = days.find(x => x.id === dayId);
+    const time = day.times.find(x => x.id === timeId);
+    time.isEditMode = true;
+    this.setState({ days: days });
   }
-  handleUpdateDays() {
-
+  handleUpdateDays(dayId, timeId, category) {
+    const days = this.state.days.slice();
+    const day = days.find(x => x.id === dayId);
+    const time = day.times.find(x => x.id === timeId);
+    time.isEditMode = false;
+    time.category = category;
+    this.setState({ days: days });
   }
   render() {
     const timeBlocks = Query.getTimeBlocks();
-
+    console.log('days: ', this.state.days);
     return (
       <div className="home">
         <header>

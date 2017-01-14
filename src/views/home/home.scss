@@ -3,6 +3,7 @@
 .timesheet {
   padding: 5px 10px;
   list-style-type: none;
+  overflow: hidden;
   .list-headers {
     border-bottom: 1px solid $primary-colour;
   }
@@ -11,8 +12,10 @@
 .date, .times, .time-title, .time-block {
   display: inline-flex;
   flex-direction: row;
+  justify-content: center;
   min-width: 20px;
   min-height: 20px;
+  cursor: default;
 }
 .date {
   width: 10%;
@@ -25,8 +28,27 @@
   border-bottom: 1px solid $white;
   .times {
     .time-block {
+      cursor: pointer;
       &:hover {
-        border: 1px solid $secondary-colour;
+        border: {
+          left: 1px solid $secondary-colour;
+          right: 1px solid $secondary-colour;
+        }
+        &::after, &::after {
+          border: {
+            left: 1px solid $secondary-colour;
+            right: 1px solid $secondary-colour;
+          }
+        }
+        &::after, &:not(:empty):hover::after, &:focus::after, &:not(:empty):focus::after {
+            content: '';
+            height: 10000px;
+            left: 0;
+            position: absolute;
+            top: -5000px;
+            width: 100%;
+            z-index: -1;
+        }
       }
     }
   }
@@ -40,8 +62,12 @@
   width: 90%;
   height: 100%;
   .time-block {
+    position: relative;
     height: 100%;
-    border: 1px solid $white;
+    border: {
+      left: 1px solid $white;
+      right: 1px solid $white;
+    }
     text-align: center;
   }
 }

@@ -31,3 +31,8 @@ $overflow: auto hidden scroll visible;
 
 //Floats:
 $floats: left right none;
+
+//z-index
+$z-index: (
+  popover: 100
+);
