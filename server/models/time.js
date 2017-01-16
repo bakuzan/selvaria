@@ -13,7 +13,7 @@ const TimeSchema = new Schema({
 TimeSchema.virtual('time').get(() => {
   const hh = this.dateTime.getHours();
   const mh = this.dateTime.getMinutes();
-  return `${('0' + hh).slice(-2)}${mm}`;
+  return `${('0' + hh).slice(-2)}${('0' + mm).slice(-2)}`;
 });
 
 module.exports = mongoose.model('Time', TimeSchema);
