@@ -3,7 +3,11 @@ const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
 
 const DaySchema = new Schema({
-  date: Date,
+  date: {
+    type: Date,
+    unique: true,
+    required: true
+  },
   times: [{
     type: ObjectId,
     ref: Time
