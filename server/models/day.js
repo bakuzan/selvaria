@@ -34,4 +34,23 @@ DaySchema.virtual('year').get(() => {
   return this.date.getFullYear();
 });
 
+// Statics for querying.
+DaySchema.statics.getByYear = (year, callback) => {
+  const params = { '$gte': new Date(year, 0, 1), '$lt': new Date(year, 11, 31)}
+  return this.find({ date: params }, callback);
+};
+
+DaySchema.statics.getByYearAndMonth = (year, month, callback) => {
+  let lessThanYear = year;
+  let nextMonth = Number(month) + 1;
+
+  if (nextMonth > 11) {
+    nextMonth = 0;
+    lessThanYear = Number(year) + 1;
+  }
+
+  const params = { '$gte': new Date(year, month, 1), '$lt': new Date(lessThanYear, nextMonth, 1)}
+  return this.find({ date: params }, callback);
+};
+
 module.exports = mongoose.model('Day', DaySchema);
