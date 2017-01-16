@@ -3,7 +3,11 @@ const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
 
 const TimeSchema = new Schema({
-  dateTime: Date,
+  dateTime: {
+    type: Date,
+    unique: true,
+    require: true
+  },
   category: {
     type: String,
     default: null
