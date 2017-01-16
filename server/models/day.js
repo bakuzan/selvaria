@@ -3,15 +3,15 @@ const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
 
 const DaySchema = new Schema({
-  dateInTicks: Number,
+  date: Date,
   times: [{
     type: ObjectId,
     ref: Time
   }]
 });
 
-DaySchema.virtual('date').get(() => {
-  const date = new Date(this.dateInTicks);
+DaySchema.virtual('dateString').get(() => {
+  const date = this.date;
   const day = date.getDate();
   const monthIndex = date.getMonth();
   const fullYear = date.getFullYear();
@@ -19,18 +19,15 @@ DaySchema.virtual('date').get(() => {
 });
 
 DaySchema.virtual('day').get(() => {
-  const date = new Date(this.dateInTicks);
-  return date.getDate();
+  return this.date.getDate();
 });
 
 DaySchema.virtual('month').get(() => {
-  const date = new Date(this.dateInTicks);
-  return date.getMonth() + 1;
+  return this.date.getMonth() + 1;
 });
 
 DaySchema.virtual('year').get(() => {
-  const date = new Date(this.dateInTicks);
-  return date.getFullYear();
+  return this.date.getFullYear();
 });
 
 module.exports = mongoose.model('Day', DaySchema);
