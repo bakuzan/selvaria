@@ -12,7 +12,7 @@ class DayRow extends Component {
   render() {
     return (
       <li className="day-row center-contents">
-          <div className="date">{ this.props.item.date }</div>
+          <div className="date">{ this.props.item.dateString }</div>
           <div className="times">
             { this.getTimes(this.props.item.times) }
           </div>

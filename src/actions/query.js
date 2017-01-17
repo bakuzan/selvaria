@@ -13,30 +13,29 @@ class Query {
     n += '';
     return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
   }
-  getTimeBlocks(dayId, day) {
+  getTimeBlocks(day = new Date()) {
     let array = [];
-    let dateTime = day;
     for(let i = 0; i < 24; i++) {
+      let dateTime = day;
       dateTime.setHours(i);
       dateTime.setMinutes(0);
-      array.push({ id: this.padNumber(i, 4), dateTime: dateTime, time: `${i}`, category: null, isEditMode: false });
+      array.push({ id: this.padNumber(i, 4), dateTime: new Date(dateTime), time: `${i}`, category: null, isEditMode: false });
       dateTime.setMinutes(30);
-      array.push({ id: this.padNumber(`${i}30`, 4), dateTime: dateTime, time: '', category: null, isEditMode: false });
+      array.push({ id: this.padNumber(`${i}30`, 4), dateTime: new Date(dateTime), time: '', category: null, isEditMode: false });
     }
     return array;
   }
   getDays() {
-    const today = new Date();
+    const today = Date.now();
     let days = [];
-    let day = new Date(2017, 0, 1); // 01/01/2017
+    let day = new Date(2017, 0, 1, 0, 0); // 01/01/2017
 
     while(day < today) {
-      const dayInTicks = (day.getTime() * 10000) + 621355968000000000;
+      const date = new Date(day);
       days.push({
-        id: dayInTicks,
-        date: day,
-        dateString: this.formatDate(day),
-        times: this.getTimeBlocks(dayInTicks, day)
+        date: date,
+        dateString: this.formatDate(date),
+        times: this.getTimeBlocks(new Date(date))
       });
       day.setDate(day.getDate() + 1);
     }

@@ -4,12 +4,12 @@ module.exports = () => {
   return {
     getByYear: (req, res) => {
       Day.getByYear(req.params.year, (err, days) => {
-        res.send(days);
+        res.jsonp(days);
       });
     },
     getByYearAndMonth: (req, res) => {
       Day.getByYearAndMonth(req.params.year, req.params.month, (err, days) => {
-        res.send(days);
+        res.jsonp(days);
       });
     },
     save: (req, res) => {
@@ -20,8 +20,11 @@ module.exports = () => {
         setDefaultsOnInsert: true
       };
 
-      Day.findOneAndUpdate({}, req.body, options, function (err, day) {
+      Day.findOneAndUpdate({}, req.body, options, (err, day) => {
         if (err) {
+          return res.status(400).send({
+            error: err
+          });
           console.error(chalk.red(err));
         } else {
           res.jsonp(day);

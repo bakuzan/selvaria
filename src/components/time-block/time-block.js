@@ -8,10 +8,10 @@ class TimeBlock extends Component {
     this.handleCategorySelect = this.handleCategorySelect.bind(this);
   }
   handleClick() {
-    this.props.handleEditMode(this.props.item.day, this.props.item.id);
+    this.props.handleEditMode(this.props.item.dateTime, this.props.item.id);
   }
   handleCategorySelect(category) {
-    this.props.handleAssignCategory(this.props.item.day, this.props.item.id, category);
+    this.props.handleAssignCategory(this.props.item.dateTime, this.props.item.id, category);
   }
   render() {
     const classColour = this.props.item.category ? ` ${this.props.item.category}` : '';

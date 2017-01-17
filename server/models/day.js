@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Time = require('./time.js');
 const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
 

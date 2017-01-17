@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import DayRow from '../../components/day-row/day-row';
 import Query from '../../actions/query.js';
+import DayQuery from '../../actions/day-query.js';
+import CommonService from '../../actions/common-functions.js';
 import './home.css';
 
 class Home extends Component {
@@ -9,23 +11,24 @@ class Home extends Component {
     this.state = {
       days: Query.getDays()
     };
-
+    console.log('days by year: ', DayQuery.getByYear(2017));
     this.handleDaysEditMode = this.handleDaysEditMode.bind(this);
     this.handleUpdateDays = this.handleUpdateDays.bind(this);
   }
-  handleDaysEditMode(dayId, timeId) {
+  handleDaysEditMode(dateTime, timeId) {
     const days = this.state.days.slice();
-    const day = days.find(x => x.id === dayId);
+    const day = days.find(x => CommonService.areDatesEqual(x.date, dateTime));
     const time = day.times.find(x => x.id === timeId);
     time.isEditMode = true;
     this.setState({ days: days });
   }
-  handleUpdateDays(dayId, timeId, category) {
+  handleUpdateDays(dateTime, timeId, category) {
     const days = this.state.days.slice();
-    const day = days.find(x => x.id === dayId);
+    const day = days.find(x => CommonService.areDatesEqual(x.date, dateTime));
     const time = day.times.find(x => x.id === timeId);
     time.isEditMode = false;
     time.category = category;
+    DayQuery.save(day);
     this.setState({ days: days });
   }
   render() {
