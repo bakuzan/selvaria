@@ -11,8 +11,8 @@ class DayQuery {
       }
     };
   }
-  fetchFromServer: (url) => {
-    const options = this.setOptions();
+  fetchFromServer: (url, method = 'GET', body = null) => {
+    const options = this.setOptions(method, body);
     return fetch(url, options).then((response) => {
       return response.json();
     });
@@ -26,7 +26,8 @@ class DayQuery {
     return this.fetchFromServer(url);
   },
   save(dayObject) {
-
+    const url = path.query.daysSave;
+    return this.fetchFromServer(url, 'POST', dayObject);
   }
 }
 
