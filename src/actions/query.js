@@ -13,11 +13,15 @@ class Query {
     n += '';
     return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
   }
-  getTimeBlocks(dayId) {
+  getTimeBlocks(dayId, day) {
     let array = [];
+    let dateTime = day;
     for(let i = 0; i < 24; i++) {
-      array.push({ id: this.padNumber(i, 4), day: dayId, time: `${i}`, category: null, isEditMode: false });
-      array.push({ id: this.padNumber(`${i}30`, 4), day: dayId, time: '', category: null, isEditMode: false });
+      dateTime.setHours(i);
+      dateTime.setMinutes(0);
+      array.push({ id: this.padNumber(i, 4), dateTime: dateTime, time: `${i}`, category: null, isEditMode: false });
+      dateTime.setMinutes(30);
+      array.push({ id: this.padNumber(`${i}30`, 4), dateTime: dateTime, time: '', category: null, isEditMode: false });
     }
     return array;
   }
@@ -30,8 +34,9 @@ class Query {
       const dayInTicks = (day.getTime() * 10000) + 621355968000000000;
       days.push({
         id: dayInTicks,
-        date: this.formatDate(day),
-        times: this.getTimeBlocks(dayInTicks)
+        date: day,
+        dateString: this.formatDate(day),
+        times: this.getTimeBlocks(dayInTicks, day)
       });
       day.setDate(day.getDate() + 1);
     }
