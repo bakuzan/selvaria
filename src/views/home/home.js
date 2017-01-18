@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import DayRow from '../../components/day-row/day-row';
 import Query from '../../actions/query.js';
 import DayQuery from '../../actions/day-query.js';
+import TimeQuery from '../../actions/time-query.js';
 import CommonService from '../../actions/common-functions.js';
 import './home.css';
 
@@ -12,6 +13,7 @@ class Home extends Component {
       days: Query.getDays()
     };
     console.log('days by year: ', DayQuery.getByYear(2017));
+    console.log('times by day: ', TimeQuery.getByDay(new Date(2017, 0, 1)));
     this.handleDaysEditMode = this.handleDaysEditMode.bind(this);
     this.handleUpdateDays = this.handleUpdateDays.bind(this);
   }
@@ -28,7 +30,7 @@ class Home extends Component {
     const time = day.times.find(x => x.id === timeId);
     time.isEditMode = false;
     time.category = category;
-    DayQuery.save(day);
+    TimeQuery.save(time);
     this.setState({ days: days });
   }
   render() {
@@ -57,7 +59,7 @@ class Home extends Component {
             </li>
              {
                this.state.days.map((item) => {
-                  return (<DayRow key={item.id} item={item}
+                  return (<DayRow key={item.dateString} item={item}
                                   handleEditMode={this.handleDaysEditMode}
                                   handleAssignTimeBlockCategory={this.handleUpdateDays} />);
                })

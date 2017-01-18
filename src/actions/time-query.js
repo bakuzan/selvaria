@@ -1,6 +1,6 @@
 import { paths } from '../constants/paths.js';
 
-class DayQuery {
+class TimeQuery {
   setOptions(method, body) {
     return {
       method: method,
@@ -17,19 +17,16 @@ class DayQuery {
       return response.json();
     });
   }
-  getByYear(year) {
-    const url = paths.build(paths.query.daysByYear, { year });
+  getByDay(date) {
+    const day = date.toISOString();
+    const url = paths.build(paths.query.timeByDay, { day });
     return this.fetchFromServer(url);
   }
-  getByYearAndMonth(year, month) {
-    const url = paths.build(paths.query.daysByYearAndMonth, { year, month });
-    return this.fetchFromServer(url);
-  }
-  save(dayObject) {
-    console.log('saving: ', dayObject);
-    const url = paths.query.daysSave;
-    return this.fetchFromServer(url, 'POST', dayObject);
+  save(timeObject) {
+    console.log('saving: ', timeObject);
+    const url = paths.query.timeSave;
+    return this.fetchFromServer(url, 'POST', timeObject);
   }
 }
 
-export default new DayQuery();
+export default new TimeQuery();

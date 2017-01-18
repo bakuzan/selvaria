@@ -7,6 +7,7 @@ const db = mongoose.connect('mongodb://localhost/selvaria', (err) => {
 	}
 });
 const day = require('./controllers/day-controller.js')();
+const time = require('./controllers/time-controller.js')();
 
 const router = express.Router();
 
@@ -16,9 +17,13 @@ router.use((req, res, next) => {
 	next(); // pass to next handler.
 });
 
-//Add routes to endpoints here...
-router.post('/api/days', day.save);
+//Add routes from Day.
+router.post('/api/day', day.save);
 router.get('/api/days/:year', day.getByYear);
 router.get('/api/days/:year/:month', day.getByYearAndMonth);
+
+//Add routes for Time.
+router.post('/api/time', time.save);
+router.get('/api/times/:day', time.getByDay);
 
 module.exports = router;

@@ -12,6 +12,8 @@ export const paths = {
   query: {
     daysByYear: '/api/days/:year',
     daysByYearAndMonth: '/api/days/:year/:month',
-    daysSave: '/api/days'
+    daysSave: '/api/day',
+    timeByDay: '/api/times/:day',
+    timeSave: '/api/time'
   }
 };
