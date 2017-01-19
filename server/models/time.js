@@ -6,7 +6,10 @@ const TimeSchema = new Schema({
   dateTime: {
     type: Date,
     unique: true,
-    require: true
+    require: true,
+    get: () => {
+      return new Date(this.dateTime);
+    }
   },
   category: {
     type: String,
@@ -14,7 +17,7 @@ const TimeSchema = new Schema({
   }
 });
 
-TimeSchema.virtual('time').get(() => {
+TimeSchema.virtual('time').get(function() {
   const hh = this.dateTime.getHours();
   const mh = this.dateTime.getMinutes();
   return `${('0' + hh).slice(-2)}${('0' + mm).slice(-2)}`;

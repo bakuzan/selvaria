@@ -4,7 +4,7 @@ class TimeQuery {
   setOptions(method, body) {
     return {
       method: method,
-      body: body,
+      body: body ? JSON.stringify(body) : body,
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'

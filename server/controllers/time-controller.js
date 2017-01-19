@@ -8,7 +8,7 @@ module.exports = () => {
       });
     },
     save: (req, res) => {
-    	delete req.body._id;
+      console.log('save this', req.body, 'OR', new Time(req.body));
       const options = {
         new: true,
         upsert: true,
