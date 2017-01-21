@@ -13,9 +13,18 @@ const DaySchema = new Schema({
     type: ObjectId,
     ref: Time
   }]
+}, {
+  toObject: {
+    virtuals: true,
+    getters: true
+  },
+  toJSON: {
+    virtuals: true,
+    getters: true
+  }
 });
 
-DaySchema.virtual('dateString').get(() => {
+DaySchema.virtual('dateString').get(function() {
   const date = this.date;
   const day = date.getDate();
   const monthIndex = date.getMonth();
@@ -23,15 +32,15 @@ DaySchema.virtual('dateString').get(() => {
   return `${('0' + day).slice(-2)} ${monthIndex + 1} ${fullYear}`;
 });
 
-DaySchema.virtual('day').get(() => {
+DaySchema.virtual('day').get(function() {
   return this.date.getDate();
 });
 
-DaySchema.virtual('month').get(() => {
+DaySchema.virtual('month').get(function() {
   return this.date.getMonth() + 1;
 });
 
-DaySchema.virtual('year').get(() => {
+DaySchema.virtual('year').get(function() {
   return this.date.getFullYear();
 });
 

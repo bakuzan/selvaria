@@ -7,19 +7,30 @@ const TimeSchema = new Schema({
     type: Date,
     unique: true,
     require: true,
-    get: () => {
-      return new Date(this.dateTime);
+    get: (value) => {
+      return new Date(value);
     }
   },
   category: {
     type: String,
     default: null
   }
+}, {
+  toObject: {
+    virtuals: true,
+    getters: true
+  },
+  toJSON: {
+    virtuals: true,
+    getters: true
+  }
 });
 
 TimeSchema.virtual('time').get(function() {
+  console.log('time get: ', this);
   const hh = this.dateTime.getHours();
-  const mh = this.dateTime.getMinutes();
+  const mm = this.dateTime.getMinutes();
+  console.log(hh, mm);
   return `${('0' + hh).slice(-2)}${('0' + mm).slice(-2)}`;
 });
 

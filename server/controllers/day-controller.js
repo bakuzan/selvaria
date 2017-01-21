@@ -13,18 +13,15 @@ module.exports = () => {
       });
     },
     save: (req, res) => {
-    	delete req.body._id;
       const options = {
         new: true,
         upsert: true,
         setDefaultsOnInsert: true
       };
 
-      Day.findOneAndUpdate({}, req.body, options, (err, day) => {
+      Day.findOneAndUpdate({ _id: req.body._id }, req.body, options, (err, day) => {
         if (err) {
-          return res.status(400).send({
-            error: err
-          });
+          return res.status(400).send({ error: err });
           console.error(chalk.red(err));
         } else {
           res.jsonp(day);

@@ -15,7 +15,7 @@ module.exports = () => {
         setDefaultsOnInsert: true
       };
 
-      Time.findOneAndUpdate({}, req.body, options, (err, time) => {
+      Time.findOneAndUpdate({ _id: req.body._id }, req.body, options, (err, time) => {
         if (err) {
           return res.status(400).send({ error: err });
           console.error(chalk.red(err));
