@@ -4,11 +4,16 @@ module.exports = () => {
   return {
     getByDay: (req, res) => {
       Time.getByDay(req.params.day, (err, times) => {
-        res.jsonp(times);
+        if (err) {
+          console.error(chalk.red(err));
+          return res.status(400).send({ error: err });
+        } else {
+          res.jsonp(times);
+        }
       });
     },
     save: (req, res) => {
-      console.log('save this', req.body, 'OR', new Time(req.body));
+      console.log('save this', req.body);
       const options = {
         new: true,
         upsert: true,

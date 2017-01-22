@@ -47,7 +47,7 @@ DaySchema.virtual('year').get(function() {
 // Statics for querying.
 DaySchema.statics.getByYear = function(year, callback) {
   year = Number(year);
-  const params = { '$gte': new Date(year, 0, 1), '$lt': new Date(year, 11, 31)}
+  const params = { '$gte': new Date(year, 0, 1), '$lt': new Date(year, 11, 31) };
   return this.find({ date: params }, callback);
 };
 
@@ -60,7 +60,7 @@ DaySchema.statics.getByYearAndMonth = function(year, month, callback) {
     lessThanYear = Number(year) + 1;
   }
 
-  const params = { '$gte': new Date(year, month, 1), '$lt': new Date(lessThanYear, nextMonth, 1)}
+  const params = { '$gte': new Date(year, month, 1), '$lt': new Date(lessThanYear, nextMonth, 1) };
   return this.find({ date: params }, callback);
 };
 

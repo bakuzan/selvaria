@@ -30,9 +30,12 @@ class Home extends Component {
     const time = day.times.find(x => x.id === timeId);
     time.isEditMode = false;
     time.category = category;
-    TimeQuery.save(time).then(response => {
-      console.log('saved time: ', response);
+    DayQuery.save(day).then(response => {
+      console.log('saved day: ', response);
     });
+    // TimeQuery.save(time).then(response => {
+    //   console.log('saved time: ', response);
+    // });
     this.setState({ days: days });
   }
   render() {
