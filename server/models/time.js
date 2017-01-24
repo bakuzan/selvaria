@@ -7,10 +7,10 @@ const TimeSchema = new Schema({
     type: Date,
     unique: true,
     require: true,
-    default: Date.now
-    // get: (value) => {
-    //   return new Date(value);
-    // }
+    default: Date.now,
+    get: (value) => {
+      return new Date(value);
+    }
   },
   category: {
     type: String,
@@ -36,13 +36,13 @@ TimeSchema.virtual('time').get(function() {
 });
 
 // Statics for querying.
-TimeSchema.statics.getByDay = function getByDay(dateString, callback) {
+TimeSchema.statics.getByDay = function(dateString, callback) {
   const date = new Date(dateString);
   const year = date.getFullYear();
   const month = date.getMonth();
   const day = date.getDate();
-  const params = { '$gte': new Date(year, month, day, 0, 0, 0), '$lt': new Date(year, month, day, 23, 59, 59) };
-  console.log('is this error? ', params);
+  const params = { $gte: new Date(year, month, day, 0, 0), $lt: new Date(year, month, day, 23, 59) };
+  console.log('is this error? ', this, params);
   return this.find({ dateTime: params }, callback);
 };
 
