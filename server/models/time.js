@@ -7,6 +7,7 @@ const TimeSchema = new Schema({
     type: Date,
     unique: true,
     require: true,
+    default: Date.now
     // get: (value) => {
     //   return new Date(value);
     // }
