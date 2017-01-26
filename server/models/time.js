@@ -7,10 +7,10 @@ const TimeSchema = new Schema({
     type: Date,
     unique: true,
     require: true,
-    default: Date.now,
-    get: (value) => {
-      return new Date(value);
-    }
+    // default: Date.now,
+    // get: (value) => {
+    //   return new Date(value);
+    // }
   },
   category: {
     type: String,
@@ -28,10 +28,9 @@ const TimeSchema = new Schema({
 });
 
 TimeSchema.virtual('time').get(function() {
-  console.log('time get: ', this);
-  const hh = this.dateTime.getHours();
-  const mm = this.dateTime.getMinutes();
-  console.log(hh, mm);
+  const date = new Date(this.dateTime);
+  const hh = date.getHours();
+  const mm = date.getMinutes();
   return `${('0' + hh).slice(-2)}${('0' + mm).slice(-2)}`;
 });
 
@@ -42,7 +41,6 @@ TimeSchema.statics.getByDay = function(dateString, callback) {
   const month = date.getMonth();
   const day = date.getDate();
   const params = { $gte: new Date(year, month, day, 0, 0), $lt: new Date(year, month, day, 23, 59) };
-  console.log('is this error? ', this, params);
   return this.find({ dateTime: params }, callback);
 };
 

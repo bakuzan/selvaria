@@ -25,7 +25,7 @@ const DaySchema = new Schema({
 });
 
 DaySchema.virtual('dateString').get(function() {
-  const date = this.date;
+  const date = new Date(this.date);
   const day = date.getDate();
   const monthIndex = date.getMonth();
   const fullYear = date.getFullYear();
@@ -33,15 +33,18 @@ DaySchema.virtual('dateString').get(function() {
 });
 
 DaySchema.virtual('day').get(function() {
-  return this.date.getDate();
+  const date = new Date(this.date);
+  return date.getDate();
 });
 
 DaySchema.virtual('month').get(function() {
-  return this.date.getMonth() + 1;
+  const date = new Date(this.date);
+  return date.getMonth() + 1;
 });
 
 DaySchema.virtual('year').get(function() {
-  return this.date.getFullYear();
+  const date = new Date(this.date);
+  return date.getFullYear();
 });
 
 // Statics for querying.
