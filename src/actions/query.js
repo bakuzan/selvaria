@@ -27,14 +27,11 @@ class Query {
     }
     return array;
   }
-  getDays() {
-    DayQuery.getByYear(2017).then(response => {
-      console.log('day query res: ', response);
-      const latest = response[response.length - 1];
+  getDays(latestDate) {
+    return new Promise(resolve => {
       const today = Date.now();
-      console.log('latest', latest);
       let days = [];
-      let day = latest ? new Date(latest.date) : new Date(2017, 0, 1, 0, 0); // 01/01/2017
+      let day = latestDate ? new Date(latestDate) : new Date(2017, 0, 1, 0, 0); // 01/01/2017
 
       while(day < today) {
         const date = new Date(day);
@@ -51,7 +48,7 @@ class Query {
         });
         day.setDate(day.getDate() + 1);
       }
-      return latest ? latest.concat(days) : days;
+      resolve(days);
     });
   }
 }
