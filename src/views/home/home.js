@@ -17,7 +17,15 @@ class Home extends Component {
     this.handleUpdateDays = this.handleUpdateDays.bind(this);
   }
   componentDidMount() {
-    this.setState({ days: Query.getDays() });
+    DayQuery.getByYear(2017).then(response => {
+      console.log('day query res: ', response);
+      if (response) this.setState({ days: response });
+      return Query.getDays();
+    }).then(newDays => {
+      this.setState(prevState => {
+        return { days: prevState.days.concat(newDays) };
+      });
+    });
   }
   handleDaysEditMode(dateTime, timeId) {
     const days = this.state.days.slice();
