@@ -1,4 +1,5 @@
 import DayQuery from './day-query';
+import TimeQuery from './time-query';
 
 class Query {
   constructor() {
@@ -15,17 +16,26 @@ class Query {
     n += '';
     return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
   }
+  createTimeBlock(id, array) {
+    const timeBlock = { id: this.padNumber(id, 4), dateTime: new Date(dateTime), time: id, category: null, isEditMode: false };
+    TimeQuery.save(timeBlock).then(savedTime => {
+      console.log('created time block: ', savedTime);
+      array.push(savedTime);
+    });
+  }
   getTimeBlocks(day = new Date()) {
-    let array = [];
-    for(let i = 0; i < 24; i++) {
-      let dateTime = day;
-      dateTime.setHours(i);
-      dateTime.setMinutes(0);
-      array.push({ id: this.padNumber(i, 4), dateTime: new Date(dateTime), time: `${i}`, category: null, isEditMode: false });
-      dateTime.setMinutes(30);
-      array.push({ id: this.padNumber(`${i}30`, 4), dateTime: new Date(dateTime), time: '', category: null, isEditMode: false });
-    }
-    return array;
+    return new Promise(resolve => {
+      let array = [];
+      for(let i = 0; i < 24; i++) {
+        let dateTime = day;
+        dateTime.setHours(i);
+        dateTime.setMinutes(0);
+        this.createTimeBlock(i, array);
+        dateTime.setMinutes(30);
+        this.createTimeBlock(`${i}30`, array);
+      }
+      resolve(array);
+    });
   }
   getDays(latestDate) {
     return new Promise(resolve => {
@@ -35,18 +45,19 @@ class Query {
 
       while(day < today) {
         const date = new Date(day);
-        const dayObj = {
-          date: date,
-          dateString: this.formatDate(date),
-          times: []
-        };
+        this.getTimeBlocks(new Date(date)).then(timeBlocks => {
+          const dayObj = {
+            date: date,
+            dateString: this.formatDate(date),
+            times: timeBlocks
+          };
 
-        DayQuery.save(dayObj).then(response => {
-          console.log('saved day: ', response);
-          response.times = this.getTimeBlocks(new Date(date));
-          days.push(response);
+          DayQuery.save(dayObj).then(response => {
+            console.log('saved day: ', response);
+            days.push(response);
+          });
+          day.setDate(day.getDate() + 1);
         });
-        day.setDate(day.getDate() + 1);
       }
       resolve(days);
     });
