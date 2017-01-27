@@ -20,7 +20,9 @@ class Home extends Component {
     DayQuery.getByYear(2017).then(response => {
       console.log('day query res: ', response);
       if (response) this.setState({ days: response });
-      return Query.getDays();
+      
+      const latestDay = response.slice(-1)[0];
+      return Query.getDays(latestDay.date);
     }).then(newDays => {
       this.setState(prevState => {
         return { days: prevState.days.concat(newDays) };
