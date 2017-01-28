@@ -1,5 +1,17 @@
 @import "../../styles/partials/_colours";
 
+#home {
+  header {
+    display: flex;
+    justify-content: space-between;
+    .header-actions {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+    }
+  }
+}
+
 .timesheet {
   padding: 5px 10px;
   list-style-type: none;

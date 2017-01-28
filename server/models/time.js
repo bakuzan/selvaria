@@ -6,11 +6,7 @@ const TimeSchema = new Schema({
   dateTime: {
     type: Date,
     unique: true,
-    require: true,
-    // default: Date.now,
-    // get: (value) => {
-    //   return new Date(value);
-    // }
+    require: true
   },
   category: {
     type: String,

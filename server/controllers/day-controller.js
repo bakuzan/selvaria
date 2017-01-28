@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const Day = require('../models/day.js');
 
 module.exports = () => {
@@ -29,8 +30,9 @@ module.exports = () => {
         upsert: true,
         setDefaultsOnInsert: true
       };
+      const query = { _id: req.body._id || new mongoose.mongo.ObjectID() };
 
-      Day.findOneAndUpdate({ _id: req.body._id }, req.body, options, (err, day) => {
+      Day.findOneAndUpdate(query, req.body, options, (err, day) => {
         if (err) {
           return res.status(400).send({ error: err });
           console.error(chalk.red(err));

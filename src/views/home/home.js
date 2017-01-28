@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import DayRow from '../../components/day-row/day-row';
 import Query from '../../actions/query.js';
+import DayQuery from '../../actions/day-query.js';
 import TimeQuery from '../../actions/time-query.js';
 import CommonService from '../../actions/common-functions.js';
 import './home.css';
@@ -12,7 +13,7 @@ class Home extends Component {
       days: [],
     };
     console.log('times by day: ', TimeQuery.getByDay(new Date(2017, 0, 1)));
-    
+
     this.handleDaysEditMode = this.handleDaysEditMode.bind(this);
     this.handleUpdateDays = this.handleUpdateDays.bind(this);
   }
@@ -20,12 +21,16 @@ class Home extends Component {
     DayQuery.getByYear(2017).then(response => {
       console.log('day query res: ', response);
       if (response) this.setState({ days: response });
-      
-      const latestDay = response.slice(-1)[0];
-      return Query.getDays(latestDay.date);
-    }).then(newDays => {
+
+      this.handleNextDayRequest();
+    });
+  }
+  handleNextDayRequest() {
+    const latestDay = this.state.days.slice(-1)[0] || {};
+    console.log('handleNextDayRequest: ', latestDay);
+    Query.getDays(latestDay.date).then(newDay => {
       this.setState(prevState => {
-        return { days: prevState.days.concat(newDays) };
+        return { days: prevState.days.concat(newDay) };
       });
     });
   }
@@ -50,12 +55,17 @@ class Home extends Component {
     });
   }
   render() {
-    const timeBlocks = Query.getTimeBlocks();
+    const timesheetHeader = Query.getTimeSheetHeader();
     console.log('days: ', this.state.days);
     return (
-      <div className="home">
+      <div id="home">
         <header>
           <h2>Timesheet {new Date().getFullYear()}</h2>
+          <div className="header-actions">
+            <button onClick={ () => this.handleNextDayRequest() }>
+              Add next day
+            </button>
+          </div>
         </header>
         <div>
           <ol className="timesheet">
@@ -63,10 +73,12 @@ class Home extends Component {
               <div className="date">Date</div>
               <div className="times">
                 {
-                  timeBlocks.map((item) => {
+                  timesheetHeader.map((item, index) => {
+                    const header = item.time.toString().length < 3 ? item.time : '';
+
                     return (
-                      <div key={item.id} className="time-title">
-                        { item.time }
+                      <div key={index} className="time-title">
+                        { header }
                       </div>
                     );
                   })

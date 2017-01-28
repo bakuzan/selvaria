@@ -29,7 +29,7 @@ DaySchema.virtual('dateString').get(function() {
   const day = date.getDate();
   const monthIndex = date.getMonth();
   const fullYear = date.getFullYear();
-  return `${('0' + day).slice(-2)} ${monthIndex + 1} ${fullYear}`;
+  return `${(`0${day}`).slice(-2)} ${monthIndex + 1} ${fullYear}`;
 });
 
 DaySchema.virtual('day').get(function() {
@@ -51,7 +51,7 @@ DaySchema.virtual('year').get(function() {
 DaySchema.statics.getByYear = function(year, callback) {
   year = Number(year);
   const params = { '$gte': new Date(year, 0, 1), '$lt': new Date(year, 11, 31) };
-  return this.find({ date: params }, callback);
+  return this.find({ date: params }, callback).populate('times');
 };
 
 DaySchema.statics.getByYearAndMonth = function(year, month, callback) {
@@ -64,7 +64,7 @@ DaySchema.statics.getByYearAndMonth = function(year, month, callback) {
   }
 
   const params = { $gte: new Date(year, month, 1), $lt: new Date(lessThanYear, nextMonth, 1) };
-  return this.find({ date: params }, callback);
+  return this.find({ date: params }, callback).populate('times');
 };
 
 module.exports = mongoose.model('Day', DaySchema);
