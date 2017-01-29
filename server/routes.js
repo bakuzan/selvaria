@@ -14,7 +14,6 @@ const router = express.Router();
 // middleware to use for all requests
 router.use((req, res, next) => {
 	console.log('Query fired! : ', req.url);
-	console.info(req.body);
 	next(); // pass to next handler.
 });
 

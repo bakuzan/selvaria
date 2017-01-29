@@ -50,7 +50,7 @@ DaySchema.virtual('year').get(function() {
 // Statics for querying.
 DaySchema.statics.getByYear = function(year, callback) {
   year = Number(year);
-  const params = { '$gte': new Date(year, 0, 1), '$lt': new Date(year, 11, 31) };
+  const params = { $gte: new Date(year, 11, 31), $lt: new Date(year, 11, 31) };
   return this.find({ date: params }, callback).populate('times');
 };
 

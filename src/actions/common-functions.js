@@ -8,6 +8,10 @@ class CommonService {
     d2.setMinutes(0);
     return d1.getTime() === d2.getTime();
   }
+  handleErrorResponse(error) {
+    // TODO Implement proper handling via toaster type notification.
+    console.error(error);
+  }
 }
 
 export default new CommonService();

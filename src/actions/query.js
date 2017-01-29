@@ -1,3 +1,4 @@
+import CommonService from './common-functions';
 import DayQuery from './day-query';
 import TimeQuery from './time-query';
 
@@ -35,9 +36,8 @@ class Query {
   createTimeBlock(id, dateTime, array) {
     const timeBlock = this.getTimeBlockModel(id, dateTime);
     TimeQuery.save(timeBlock).then(savedTime => {
-      console.log('created time block: ', savedTime);
       array.push(savedTime);
-    });
+    }).catch(error => CommonService.handleErrorResponse(error));
   }
   getTimeBlocks(day = new Date()) {
     return new Promise(resolve => {
@@ -67,7 +67,7 @@ class Query {
         DayQuery.save(dayObj).then(response => {
           console.log('saved day: ', response);
           days.push(response);
-        });
+        }).catch(error => CommonService.handleErrorResponse(error));
       });
 
       resolve(days);
