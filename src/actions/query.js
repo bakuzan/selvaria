@@ -6,16 +6,21 @@ class Query {
   constructor() {
     this.monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   }
-  formatDate(date) {
-    const day = date.getDate();
-    const monthIndex = date.getMonth();
-    const fullYear = date.getFullYear();
-    return `${this.padNumber(day, 2)} ${this.monthNames[monthIndex]} ${fullYear}`;
+  setOptions(method, body) {
+    return {
+      method: method,
+      body: body ? JSON.stringify(body) : body,
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    };
   }
-  padNumber(n, width, z) {
-    z = z || '0';
-    n += '';
-    return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
+  fetchFromServer(url, method = 'GET', body = null) {
+    const options = this.setOptions(method, body);
+    return fetch(url, options).then((response) => {
+      return response.json();
+    });
   }
   getTimeBlockModel(id, dateTime) {
     return { dateTime: new Date(dateTime), time: id, category: null, isEditMode: false };
@@ -59,6 +64,7 @@ class Query {
       const day = latestDate ? new Date(latestDate) : new Date(2017, 0, 1, 0, 0); // 01/01/2017
 
       this.getTimeBlocks(day).then(timeBlocks => {
+        console.log('saving time blocks: ', timeBlocks);
         const dayObj = {
           date: day,
           times: timeBlocks

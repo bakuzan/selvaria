@@ -8,6 +8,17 @@ class CommonService {
     d2.setMinutes(0);
     return d1.getTime() === d2.getTime();
   }
+  formatDate(date) {
+    const day = date.getDate();
+    const monthIndex = date.getMonth();
+    const fullYear = date.getFullYear();
+    return `${this.padNumber(day, 2)} ${this.monthNames[monthIndex]} ${fullYear}`;
+  }
+  padNumber(n, width, z) {
+    z = z || '0';
+    n += '';
+    return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
+  }
   handleErrorResponse(error) {
     // TODO Implement proper handling via toaster type notification.
     console.error(error);

@@ -29,7 +29,7 @@ DaySchema.virtual('dateString').get(function() {
   const day = date.getDate();
   const monthIndex = date.getMonth();
   const fullYear = date.getFullYear();
-  return `${(`0${day}`).slice(-2)} ${monthIndex + 1} ${fullYear}`;
+  return `${(`0${day}`).slice(-2)} ${(`0${monthIndex + 1}`).slice(-2)} ${fullYear}`;
 });
 
 DaySchema.virtual('day').get(function() {
@@ -49,8 +49,11 @@ DaySchema.virtual('year').get(function() {
 
 // Statics for querying.
 DaySchema.statics.getByYear = function(year, callback) {
-  year = Number(year);
-  const params = { $gte: new Date(year, 11, 31), $lt: new Date(year, 11, 31) };
+  const firstDay = new Date(year, 0, 1);
+  const nextYear = new Date(firstDay);
+  nextYear.setYear(nextYear.getFullYear() + 1);
+  
+  const params = { $gte: firstDay, $lt: nextYear };
   return this.find({ date: params }, callback).populate('times');
 };
 

@@ -1,13 +1,14 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const day = require('./controllers/day-controller.js')();
+const time = require('./controllers/time-controller.js')();
+
 const db = mongoose.connect(`mongodb://localhost/selvaria-${process.env.NODE_ENV}`, (err) => {
 	if (err) {
 		console.error(chalk.red('Could not connect to MongoDB!'));
 		console.log(chalk.red(err));
 	}
 });
-const day = require('./controllers/day-controller.js')();
-const time = require('./controllers/time-controller.js')();
 
 const router = express.Router();
 
