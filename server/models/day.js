@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const Time = require('./time.js');
 const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
 
@@ -11,7 +10,7 @@ const DaySchema = new Schema({
   },
   times: [{
     type: ObjectId,
-    ref: Time
+    ref: 'Time'
   }]
 }, {
   toObject: {
@@ -52,7 +51,7 @@ DaySchema.statics.getByYear = function(year, callback) {
   const firstDay = new Date(year, 0, 1);
   const nextYear = new Date(firstDay);
   nextYear.setYear(nextYear.getFullYear() + 1);
-  
+
   const params = { $gte: firstDay, $lt: nextYear };
   return this.find({ date: params }, callback).populate('times');
 };

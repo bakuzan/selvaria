@@ -48,7 +48,7 @@ class Query {
     return new Promise(resolve => {
       let array = [];
       for(let i = 0; i < 24; i++) {
-        let dateTime = day;
+        let dateTime = new Date(day);
         dateTime.setHours(i);
         dateTime.setMinutes(0);
         this.createTimeBlock(i, dateTime, array);
@@ -61,7 +61,11 @@ class Query {
   getDays(latestDate) {
     return new Promise(resolve => {
       let days = [];
-      const day = latestDate ? new Date(latestDate) : new Date(2017, 0, 1, 0, 0); // 01/01/2017
+      let day = new Date(2017, 0, 1, 0, 0);
+      if (latestDate && latestDate.getTime() < new Date().getTime()) {
+        day = new Date(latestDate);
+        day.setDate(day.getDate() + 1);
+      }
 
       this.getTimeBlocks(day).then(timeBlocks => {
         console.log('saving time blocks: ', timeBlocks);
