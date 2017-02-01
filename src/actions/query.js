@@ -62,9 +62,12 @@ class Query {
     return new Promise(resolve => {
       let days = [];
       let day = new Date(2017, 0, 1, 0, 0);
-      if (latestDate && latestDate.getTime() < new Date().getTime()) {
-        day = new Date(latestDate);
-        day.setDate(day.getDate() + 1);
+      if (latestDate) {
+        const latest = new Date(latestDate);
+        if (latest.getTime() < new Date().getTime()) {
+          day = latest;
+          day.setDate(day.getDate() + 1);
+        }
       }
 
       this.getTimeBlocks(day).then(timeBlocks => {
@@ -76,11 +79,11 @@ class Query {
 
         DayQuery.save(dayObj).then(response => {
           console.log('saved day: ', response);
+          response.times = timeBlocks;
           days.push(response);
+          resolve(days);
         }).catch(error => CommonService.handleErrorResponse(error));
       });
-
-      resolve(days);
     });
   }
 }

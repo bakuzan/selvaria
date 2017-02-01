@@ -53,7 +53,7 @@ DaySchema.statics.getByYear = function(year, callback) {
   nextYear.setYear(nextYear.getFullYear() + 1);
 
   const params = { $gte: firstDay, $lt: nextYear };
-  return this.find({ date: params }, callback).populate('times');
+  return this.find({ date: params }).populate({ path: 'times', model: 'Time' }).exec(callback);
 };
 
 DaySchema.statics.getByYearAndMonth = function(year, month, callback) {
@@ -66,7 +66,7 @@ DaySchema.statics.getByYearAndMonth = function(year, month, callback) {
   }
 
   const params = { $gte: new Date(year, month, 1), $lt: new Date(lessThanYear, nextMonth, 1) };
-  return this.find({ date: params }, callback).populate('times');
+  return this.find({ date: params }).populate({ path: 'times', model: 'Time' }).exec(callback);
 };
 
 module.exports = mongoose.model('Day', DaySchema);
