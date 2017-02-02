@@ -1,3 +1,5 @@
+import Constants from '../constants/values';
+
 class CommonService {
   areDatesEqual(dateOne, dateTwo) {
     const d1 = new Date(dateOne);
@@ -12,7 +14,7 @@ class CommonService {
     const day = date.getDate();
     const monthIndex = date.getMonth();
     const fullYear = date.getFullYear();
-    return `${this.padNumber(day, 2)} ${this.monthNames[monthIndex]} ${fullYear}`;
+    return `${this.padNumber(day, 2)} ${Constants.monthNames[monthIndex]} ${fullYear}`;
   }
   padNumber(n, width, z) {
     z = z || '0';
