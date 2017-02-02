@@ -28,7 +28,7 @@ class Home extends Component {
   handleNextDayRequest() {
     const latestDay = this.state.days.slice(-1)[0] || {};
     console.log('handleNextDayRequest: ', latestDay);
-    Query.getDays(latestDay.date).then(newDay => {
+    Query.getNextDay(latestDay.date).then(newDay => {
       this.setState(prevState => {
         return { days: prevState.days.concat(newDay) };
       });
