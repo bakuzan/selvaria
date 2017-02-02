@@ -1,10 +1,11 @@
 import CommonService from './common-functions';
 import DayQuery from './day-query';
 import TimeQuery from './time-query';
+import Constants from '../contants/values';
 
 class Query {
   constructor() {
-    this.monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    this.monthNames = Constants.monthNames;
   }
   setOptions(method, body) {
     return {
@@ -40,25 +41,21 @@ class Query {
   }
   createTimeBlock(id, dateTime, array) {
     const timeBlock = this.getTimeBlockModel(id, dateTime);
-    TimeQuery.save(timeBlock).then(savedTime => {
-      array.push(savedTime);
-    }).catch(error => CommonService.handleErrorResponse(error));
+    return TimeQuery.save(timeBlock);
   }
   getTimeBlocks(day = new Date()) {
-    return new Promise(resolve => {
-      let array = [];
-      for(let i = 0; i < 24; i++) {
-        let dateTime = new Date(day);
-        dateTime.setHours(i);
-        dateTime.setMinutes(0);
-        this.createTimeBlock(i, dateTime, array);
-        dateTime.setMinutes(30);
-        this.createTimeBlock(`${i}30`, dateTime, array);
-      }
-      resolve(array);
-    });
+    let array = [];
+    for(let i = 0; i < 24; i++) {
+      let dateTime = new Date(day);
+      dateTime.setHours(i);
+      dateTime.setMinutes(0);
+      array.push(this.createTimeBlock(i, dateTime));
+      dateTime.setMinutes(30);
+      array.push(this.createTimeBlock(`${i}30`, dateTime));
+    }
+    return Promise.all(array);
   }
-  getDays(latestDate) {
+  getNextDay(latestDate) {
     return new Promise(resolve => {
       let days = [];
       let day = new Date(2017, 0, 1, 0, 0);
@@ -79,7 +76,7 @@ class Query {
 
         DayQuery.save(dayObj).then(response => {
           console.log('saved day: ', response);
-          response.times = timeBlocks;
+          //response.times = timeBlocks;
           days.push(response);
           resolve(days);
         }).catch(error => CommonService.handleErrorResponse(error));
