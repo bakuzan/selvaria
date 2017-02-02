@@ -1,3 +1,4 @@
+const Constants = require('../constants');
 const mongoose = require('mongoose');
 const Day = require('../models/day.js');
 
@@ -37,7 +38,9 @@ module.exports = () => {
           return res.status(400).send({ error: err });
           console.error(chalk.red(err));
         } else {
-          res.jsonp(day);
+          Day.populate(day, Constants.childPopulateObject, function (err, day) {
+            res.jsonp(day);
+          });
         }
       });
     }

@@ -1,3 +1,4 @@
+const Constants = require('../constants');
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
@@ -28,7 +29,7 @@ DaySchema.virtual('dateString').get(function() {
   const day = date.getDate();
   const monthIndex = date.getMonth();
   const fullYear = date.getFullYear();
-  return `${(`0${day}`).slice(-2)} ${(`0${monthIndex + 1}`).slice(-2)} ${fullYear}`;
+  return `${(`0${day}`).slice(-2)} ${Constants.monthNames[monthIndex]} ${fullYear}`;
 });
 
 DaySchema.virtual('day').get(function() {
@@ -46,6 +47,13 @@ DaySchema.virtual('year').get(function() {
   return date.getFullYear();
 });
 
+DaySchema.virtual('daysSinceRecordsBegan').get(function() {
+  const start = new Date(2017, 0, 1);
+  const date = new Date(this.date);
+  const diff = date.getTime() - start.getTime();
+  return diff / (24*60*60*1000);
+});
+
 // Statics for querying.
 DaySchema.statics.getByYear = function(year, callback) {
   const firstDay = new Date(year, 0, 1);
@@ -53,7 +61,7 @@ DaySchema.statics.getByYear = function(year, callback) {
   nextYear.setYear(nextYear.getFullYear() + 1);
 
   const params = { $gte: firstDay, $lt: nextYear };
-  return this.find({ date: params }).populate({ path: 'times', model: 'Time' }).exec(callback);
+  return this.find({ date: params }).populate(Constants.childPopulateObject).exec(callback);
 };
 
 DaySchema.statics.getByYearAndMonth = function(year, month, callback) {
@@ -66,7 +74,7 @@ DaySchema.statics.getByYearAndMonth = function(year, month, callback) {
   }
 
   const params = { $gte: new Date(year, month, 1), $lt: new Date(lessThanYear, nextMonth, 1) };
-  return this.find({ date: params }).populate({ path: 'times', model: 'Time' }).exec(callback);
+  return this.find({ date: params }).populate(Constants.childPopulateObject).exec(callback);
 };
 
 module.exports = mongoose.model('Day', DaySchema);
