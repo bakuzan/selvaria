@@ -51,7 +51,7 @@ DaySchema.virtual('daysSinceRecordsBegan').get(function() {
   const start = new Date(2017, 0, 1);
   const date = new Date(this.date);
   const diff = date.getTime() - start.getTime();
-  return diff / (24*60*60*1000);
+  return Math.floor(diff / (24*60*60*1000));
 });
 
 // Statics for querying.
