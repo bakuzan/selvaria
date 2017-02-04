@@ -33,13 +33,13 @@ module.exports = () => {
       };
       const query = { _id: req.body._id || new mongoose.mongo.ObjectID() };
 
-      Day.findOneAndUpdate(query, req.body, options, (err, day) => {
+      Day.findOneAndUpdate(query, req.body, options, (err, savedDay) => {
         if (err) {
           return res.status(400).send({ error: err });
           console.error(chalk.red(err));
         } else {
-          Day.populate(day, Constants.childPopulateObject, function (err, day) {
-            res.jsonp(day);
+          Day.populate(savedDay, Constants.childPopulateObject, function (err, result) {
+            res.jsonp(savedDay);
           });
         }
       });

@@ -8,7 +8,9 @@ class TimeBlock extends Component {
     this.handleCategorySelect = this.handleCategorySelect.bind(this);
   }
   handleClick() {
-    this.props.handleEditMode(this.props.item.dateTime, this.props.item.id);
+    if (this.props.handleEditMode) {
+      this.props.handleEditMode(this.props.item.dateTime, this.props.item.id);
+    }
   }
   handleCategorySelect(category) {
     this.props.handleAssignCategory(this.props.item.dateTime, this.props.item.id, category);

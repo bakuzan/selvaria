@@ -1,0 +1,10 @@
+@import "../../styles/partials/_colours";
+
+.timesheet {
+  padding: 5px 10px;
+  list-style-type: none;
+  overflow: hidden;
+  .timesheet-headers {
+    border-bottom: 1px solid $primary-colour;
+  }
+}

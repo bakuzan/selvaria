@@ -57,7 +57,6 @@ class Query {
   }
   getNextDay(latestDate) {
     return new Promise(resolve => {
-      let days = [];
       let day = new Date(2017, 0, 1, 0, 0);
       if (latestDate) {
         const latest = new Date(latestDate);
@@ -76,9 +75,7 @@ class Query {
 
         DayQuery.save(dayObj).then(response => {
           console.log('saved day: ', response);
-          //response.times = timeBlocks;
-          days.push(response);
-          resolve(days);
+          resolve([response]);
         }).catch(error => CommonService.handleErrorResponse(error));
       });
     });

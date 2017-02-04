@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import DayRow from '../../components/day-row/day-row';
+import Timesheet from '../../components/timesheet/timesheet';
 import Query from '../../actions/query.js';
 import DayQuery from '../../actions/day-query.js';
 import TimeQuery from '../../actions/time-query.js';
@@ -12,7 +12,6 @@ class Home extends Component {
     this.state = {
       days: [],
     };
-    console.log('times by day: ', TimeQuery.getByDay(new Date(2017, 0, 1)));
 
     this.handleDaysEditMode = this.handleDaysEditMode.bind(this);
     this.handleUpdateDays = this.handleUpdateDays.bind(this);
@@ -20,17 +19,19 @@ class Home extends Component {
   componentDidMount() {
     DayQuery.getByYear(2017).then(response => {
       console.log('day query res: ', response);
-      if (response) this.setState({ days: response });
-
-      this.handleNextDayRequest();
+      if (response) {
+        this.setState({ days: response.reverse() });
+      }
     });
   }
   handleNextDayRequest() {
-    const latestDay = this.state.days.slice(-1)[0] || {};
+    const latestDay = this.state.days.slice()[0] || {};
     console.log('handleNextDayRequest: ', latestDay);
-    Query.getNextDay(latestDay.date).then(newDay => {
+    if (!latestDay.date) return alert('No date selected!');
+    
+    Query.getNextDay(latestDay.date).then(newDayArray => {
       this.setState(prevState => {
-        return { days: prevState.days.concat(newDay) };
+        return { days: newDayArray.concat(prevState.days) };
       });
     });
   }
@@ -55,8 +56,8 @@ class Home extends Component {
     });
   }
   render() {
-    const timesheetHeader = Query.getTimeSheetHeader();
     console.log('days: ', this.state.days);
+
     return (
       <div id="home">
         <header>
@@ -68,31 +69,9 @@ class Home extends Component {
           </div>
         </header>
         <div>
-          <ol className="timesheet">
-            <li className="list-headers">
-              <div className="date">Date</div>
-              <div className="times">
-                {
-                  timesheetHeader.map((item, index) => {
-                    const header = item.time.toString().length < 3 ? item.time : '';
-
-                    return (
-                      <div key={index} className="time-title">
-                        { header }
-                      </div>
-                    );
-                  })
-                }
-              </div>
-            </li>
-             {
-               this.state.days.map((item) => {
-                  return (<DayRow key={item.dateString} item={item}
-                                  handleEditMode={this.handleDaysEditMode}
-                                  handleAssignTimeBlockCategory={this.handleUpdateDays} />);
-               })
-             }
-          </ol>
+          <Timesheet days={this.state.days}
+                     handleDayEdit={this.handleDaysEditMode}
+                     handleUpdateDays={this.handleUpdateDays} />
         </div>
       </div>
     );

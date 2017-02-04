@@ -12,15 +12,6 @@
   }
 }
 
-.timesheet {
-  padding: 5px 10px;
-  list-style-type: none;
-  overflow: hidden;
-  .list-headers {
-    border-bottom: 1px solid $primary-colour;
-  }
-}
-
 .date, .times, .time-title, .time-block {
   display: inline-flex;
   flex-direction: row;
