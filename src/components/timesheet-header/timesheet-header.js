@@ -2,6 +2,11 @@ import React, { Component } from 'react';
 import Query from '../../actions/query.js';
 
 class TimesheetHeader extends Component {
+  constructor() {
+    super();
+
+    this.timesheetHeader = Query.getTimeSheetHeader();
+  }
   renderTimesheetHeader(array) {
     return array.map((item, index) => {
       const header = item.time.toString().length < 3 ? item.time : '';
@@ -9,13 +14,11 @@ class TimesheetHeader extends Component {
     });
   }
   render() {
-    const timesheetHeader = Query.getTimeSheetHeader();
-
     return (
       <li className="timesheet-headers">
         <div className="date">Date</div>
         <div className="times">
-          { this.renderTimesheetHeader(timesheetHeader) }
+          { this.renderTimesheetHeader(this.timesheetHeader) }
         </div>
       </li>
     );

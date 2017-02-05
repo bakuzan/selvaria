@@ -13,7 +13,6 @@ class Home extends Component {
       days: [],
     };
 
-    this.handleDaysEditMode = this.handleDaysEditMode.bind(this);
     this.handleUpdateDays = this.handleUpdateDays.bind(this);
   }
   componentDidMount() {
@@ -28,31 +27,23 @@ class Home extends Component {
     const latestDay = this.state.days.slice()[0] || {};
     console.log('handleNextDayRequest: ', latestDay);
     if (!latestDay.date) return alert('No date selected!');
-    
+
     Query.getNextDay(latestDay.date).then(newDayArray => {
       this.setState(prevState => {
         return { days: newDayArray.concat(prevState.days) };
       });
     });
   }
-  handleDaysEditMode(dateTime, timeId) {
-    const days = this.state.days.slice();
-    const day = days.find(x => CommonService.areDatesEqual(x.date, dateTime));
-    const time = day.times.find(x => x.id === timeId);
-    time.isEditMode = true;
-    this.setState({ days: days });
-  }
   handleUpdateDays(dateTime, timeId, category) {
     const days = this.state.days.slice();
     const day = days.find(x => CommonService.areDatesEqual(x.date, dateTime));
     let time = day.times.find(x => x.id === timeId);
-    time.isEditMode = false;
     time.category = category;
 
     TimeQuery.save(time).then(response => {
       console.log('saved time: ', response);
       time = response;
-      this.setState({ days: days });
+      this.setState({ days: days, itemInEditMode: null });
     });
   }
   render() {
@@ -70,7 +61,6 @@ class Home extends Component {
         </header>
         <div>
           <Timesheet days={this.state.days}
-                     handleDayEdit={this.handleDaysEditMode}
                      handleUpdateDays={this.handleUpdateDays} />
         </div>
       </div>

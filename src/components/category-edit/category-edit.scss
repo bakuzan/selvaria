@@ -3,9 +3,12 @@
 
 .category-edit {
   position: absolute;
+  top: 50%;
+  left: 50%;
   background-color: $primary-background;
   color: $primary-colour-contrast;
   padding: 2px;
+  transform: translateY(-50%) translateX(-50%);
   z-index: map-get($z-index, popover);
   input {
     height: 25px;

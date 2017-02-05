@@ -5,8 +5,7 @@ class DayRow extends Component {
   getTimes(array) {
     return array.map((item) => {
       return <TimeBlock key={item.id} item={item}
-                        handleEditMode={this.props.handleEditMode}
-                        handleAssignCategory={this.props.handleAssignTimeBlockCategory} />
+                        handleEditMode={this.props.handleEditMode} />
     });
   }
   render() {

@@ -7,4 +7,9 @@
   .timesheet-headers {
     border-bottom: 1px solid $primary-colour;
   }
+  .timesheet-body {
+    padding: 0;
+    list-style-type: none;
+    overflow: hidden;
+  }
 }
