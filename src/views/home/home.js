@@ -43,7 +43,7 @@ class Home extends Component {
     TimeQuery.save(time).then(response => {
       console.log('saved time: ', response);
       time = response;
-      this.setState({ days: days, itemInEditMode: null });
+      this.setState({ days: days });
     });
   }
   render() {
