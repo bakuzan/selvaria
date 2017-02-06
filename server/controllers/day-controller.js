@@ -1,5 +1,6 @@
 const Constants = require('../constants');
 const mongoose = require('mongoose');
+mongoose.Promise = global.Promise; // mongoose mpromise is deprecated...so use native.
 const Day = require('../models/day.js');
 
 module.exports = () => {

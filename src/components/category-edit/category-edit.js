@@ -8,6 +8,8 @@ class CategoryEdit extends Component {
     this.state = {
       categoryString: ''
     };
+
+    this.categoryList = CategoryService.getCategoryList();
   }
   handleCategoryClick(event) {
     event.stopPropagation();
@@ -28,18 +30,19 @@ class CategoryEdit extends Component {
     );
   }
   render() {
-    const categoryList = CategoryService.getCategoryList();
-    const categoryItems = categoryList.filter(item => {
+    const categoryItems = this.categoryList.filter(item => {
       return item.name.indexOf(this.state.categoryString) > -1;
     }).map(item => this.renderCategoryItem(item));
 
     return (
-      <div className="category-edit">
-        <input type="text" placeholder="category..." autoComplete="false"
-               onChange={(e) => this.handleUserInput(e)} />
-        <ul className="category-list">
-          { categoryItems }
-        </ul>
+      <div className="backdrop" onClick={() => this.props.handleCancelEdit()}>
+        <div className="category-edit" onClick={(e) => { e.stopPropagation(); } }>
+          <input type="text" placeholder="category..." autoComplete="false"
+                 onChange={(e) => this.handleUserInput(e)} />
+          <ul className="category-list">
+            { categoryItems }
+          </ul>
+        </div>
       </div>
     );
   }

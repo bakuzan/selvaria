@@ -11,24 +11,29 @@ class Timesheet extends Component {
       itemInEditMode: null,
     };
 
+    this.handleEditClose = this.handleEditClose.bind(this);
     this.handleDayEditMode = this.handleDayEditMode.bind(this);
     this.handleCategorySelect = this.handleCategorySelect.bind(this);
   }
+  handleEditClose() {
+    this.setState({ itemInEditMode: null });
+  }
   handleCategorySelect(category) {
     this.props.handleUpdateDays(this.state.itemInEditMode.dateTime, this.state.itemInEditMode.timeId, category);
+    this.handleEditClose();
   }
   handleDayEditMode(dateTime, timeId) {
-    this.setState({
-      itemInEditMode: { timeId, dateTime }
-    });
+    const itemForEdit = { timeId, dateTime };
+    this.setState({ itemInEditMode: itemForEdit });
   }
   render() {
+    console.log('timesheet render');
     return (
       <ol className="timesheet">
         {
-          this.state.itemInEditMode && (
-            <CategoryEdit handleCategorySelect={this.handleCategorySelect} />
-          )
+          this.state.itemInEditMode &&
+          (<CategoryEdit handleCategorySelect={this.handleCategorySelect}
+                         handleCancelEdit={this.handleEditClose} />)
         }
         <TimesheetHeader />
         <TimesheetBody rows={this.props.days}

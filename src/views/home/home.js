@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import update from 'immutability-helper';
 import Timesheet from '../../components/timesheet/timesheet';
 import Query from '../../actions/query.js';
 import DayQuery from '../../actions/day-query.js';
@@ -24,7 +25,7 @@ class Home extends Component {
     });
   }
   handleNextDayRequest() {
-    const latestDay = this.state.days.slice()[0] || {};
+    const latestDay = this.state.days.slice(0)[0] || {};
     console.log('handleNextDayRequest: ', latestDay);
     if (!latestDay.date) return alert('No date selected!');
 
@@ -36,14 +37,16 @@ class Home extends Component {
   }
   handleUpdateDays(dateTime, timeId, category) {
     const days = this.state.days.slice();
-    const day = days.find(x => CommonService.areDatesEqual(x.date, dateTime));
-    let time = day.times.find(x => x.id === timeId);
-    time.category = category;
+    const dayIndex = days.findIndex(x => CommonService.areDatesEqual(x.date, dateTime));
+    const day = days[dayIndex];
+    const timeIndex = day.times.findIndex(x => x.id === timeId);
+    const time = day.times[timeIndex];
+    const updatedTime = update(time, { category: { $set: category } });
 
-    TimeQuery.save(time).then(response => {
+    TimeQuery.save(updatedTime).then(response => {
       console.log('saved time: ', response);
-      time = response;
-      this.setState({ days: days });
+      const updatedDays = update(days, { [dayIndex]: { times: { [timeIndex]: { $set: response } } } })
+      this.setState({ days: updatedDays });
     });
   }
   render() {
@@ -54,7 +57,7 @@ class Home extends Component {
         <header>
           <h2>Timesheet {new Date().getFullYear()}</h2>
           <div className="header-actions">
-            <button onClick={ () => this.handleNextDayRequest() }>
+            <button className="button primary ripple" onClick={ () => this.handleNextDayRequest() }>
               Add next day
             </button>
           </div>
