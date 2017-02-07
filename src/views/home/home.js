@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import update from 'immutability-helper';
+import LoadingSpinner from '../../components/loading-spinner/loading-spinner';
 import Timesheet from '../../components/timesheet/timesheet';
 import Query from '../../actions/query.js';
 import DayQuery from '../../actions/day-query.js';
@@ -12,6 +13,7 @@ class Home extends Component {
     super(props);
     this.state = {
       days: [],
+      loading: true,
     };
 
     this.handleUpdateDays = this.handleUpdateDays.bind(this);
@@ -20,7 +22,7 @@ class Home extends Component {
     DayQuery.getByYear(2017).then(response => {
       console.log('day query res: ', response);
       if (response) {
-        this.setState({ days: response.reverse() });
+        this.setState({ days: response.reverse(), loading: false });
       }
     });
   }
@@ -54,18 +56,27 @@ class Home extends Component {
 
     return (
       <div id="home">
-        <header>
-          <h2>Timesheet {new Date().getFullYear()}</h2>
-          <div className="header-actions">
-            <button className="button primary ripple" onClick={ () => this.handleNextDayRequest() }>
-              Add next day
-            </button>
-          </div>
-        </header>
+      {
+        this.state.loading &&
+        <LoadingSpinner size="fullscreen" />
+      }
+      {
+        !this.state.loading &&
         <div>
-          <Timesheet days={this.state.days}
-                     handleUpdateDays={this.handleUpdateDays} />
+          <header>
+            <h2>Timesheet {new Date().getFullYear()}</h2>
+            <div className="header-actions">
+              <button className="button primary ripple" onClick={ () => this.handleNextDayRequest() }>
+                Add next day
+              </button>
+            </div>
+          </header>
+          <div>
+            <Timesheet days={this.state.days}
+                       handleUpdateDays={this.handleUpdateDays} />
+          </div>
         </div>
+      }
       </div>
     );
   }
