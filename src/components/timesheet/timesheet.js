@@ -24,6 +24,7 @@ class Timesheet extends Component {
   }
   handleDayEditMode(dateTime, timeId) {
     const itemForEdit = { timeId, dateTime };
+    console.log('debug slow category edit render', itemForEdit);
     this.setState({ itemInEditMode: itemForEdit });
   }
   render() {
