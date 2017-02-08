@@ -32,7 +32,7 @@ class Timesheet extends Component {
     return (
       <ol className="timesheet">
         {
-          this.state.itemInEditMode &&
+          !!this.state.itemInEditMode &&
           (<CategoryEdit handleCategorySelect={this.handleCategorySelect}
                          handleCancelEdit={this.handleEditClose} />)
         }
