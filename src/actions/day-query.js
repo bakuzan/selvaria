@@ -2,12 +2,18 @@ import { paths } from '../constants/paths.js';
 import Query from './query';
 
 class DayQuery {
-  getByYear(year) {
+  getByYear({ year }) {
+    console.log('days by year: ', year);
     const url = paths.build(paths.query.daysByYear, { year });
     return Query.fetchFromServer(url);
   }
-  getByYearAndMonth(year, month) {
+  getByYearAndMonth({ year, month }) {
+    console.log('days by year and month: ', year, month);
     const url = paths.build(paths.query.daysByYearAndMonth, { year, month });
+    return Query.fetchFromServer(url);
+  }
+  getCurrentPeriod() {
+    const url = paths.query.daysByCurrentPeriod;
     return Query.fetchFromServer(url);
   }
   save(dayObject) {

@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 
 class TimeBlock extends Component {
+  shouldComponentUpdate(nextProps, nextState) {
+    return !(nextProps.item.category === this.props.item.category);
+  }
   handleClick() {
     if (this.props.handleEditMode) {
       this.props.handleEditMode(this.props.item.dateTime, this.props.item.id);

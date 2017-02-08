@@ -6,6 +6,7 @@ import Query from '../../actions/query.js';
 import DayQuery from '../../actions/day-query.js';
 import TimeQuery from '../../actions/time-query.js';
 import CommonService from '../../actions/common-functions.js';
+import Constants from '../../constants/values';
 import './home.css';
 
 class Home extends Component {
@@ -14,17 +15,37 @@ class Home extends Component {
     this.state = {
       days: [],
       loading: true,
+      query: {
+        type: Constants.queryTypes.year,
+        year: 2017,
+        month: '',
+        period: null
+      }
     };
 
     this.handleUpdateDays = this.handleUpdateDays.bind(this);
   }
   componentDidMount() {
-    DayQuery.getByYear(2017).then(response => {
-      console.log('day query res: ', response);
-      if (response) {
-        this.setState({ days: response.reverse(), loading: false });
-      }
+    this.query(this.state.query);
+  }
+  query(queryValues) {
+    DayQuery[this.state.query.type](queryValues).then(response => this.updateTimesheetState(response));
+  }
+  updateTimesheetState(days) {
+    console.log('day query res: ', days);
+    if (days && days.length) {
+      this.setState({ days: days.reverse(), loading: false });
+    }
+  }
+  updateSelectBox(event) {
+    const { id, value } = event.target;
+    const query = this.state.query;
+    const newType = (id === 'month' && value) || (id !== 'month' && query.month) ? 'month' : 'year';
+    const updatedQuery = update(query, {
+      [id]: { $set: value },
+      type: { $set: Constants.queryTypes[newType] }
     });
+    this.setState({ query: updatedQuery })
   }
   handleNextDayRequest() {
     const latestDay = this.state.days.slice(0)[0] || {};
@@ -52,7 +73,7 @@ class Home extends Component {
     });
   }
   render() {
-    console.log('days: ', this.state.days);
+    console.log('home render: ', this.state);
 
     return (
       <div id="home">
@@ -66,9 +87,19 @@ class Home extends Component {
           <header>
             <h2>Timesheet {new Date().getFullYear()}</h2>
             <div className="header-actions">
-              <button className="button primary ripple" onClick={ () => this.handleNextDayRequest() }>
-                Add next day
-              </button>
+              <form>
+                <select id="year" value={this.state.query.year} onChange={(e) => this.updateSelectBox(e)}>
+                  <option value="2017">2017</option>
+                </select>
+                <select id="month" value={this.state.query.month} onChange={(e) => this.updateSelectBox(e)}>
+                  <option value="">ALL</option>
+                  <option value="0">JAN</option>
+                  <option value="1">FEB</option>
+                </select>
+                <button className="button primary ripple" type="button" onClick={ () => this.handleNextDayRequest() }>
+                  Add next day
+                </button>
+              </form>
             </div>
           </header>
           <div>

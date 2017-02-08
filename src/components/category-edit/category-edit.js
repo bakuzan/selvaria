@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import CategoryService from '../../constants/category-service';
+import categoryService from '../../constants/category-service';
 import './category-edit.css';
 
 class CategoryEdit extends Component {
@@ -9,7 +9,7 @@ class CategoryEdit extends Component {
       categoryString: ''
     };
 
-    this.categoryList = CategoryService.getCategoryList();
+    this.categoryList = categoryService.getCategoryList();
   }
   handleCategoryClick(event) {
     event.stopPropagation();
