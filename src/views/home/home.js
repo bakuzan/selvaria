@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import update from 'immutability-helper';
 import LoadingSpinner from '../../components/loading-spinner/loading-spinner';
+import ActionBar from '../../components/action-bar/action-bar';
 import Timesheet from '../../components/timesheet/timesheet';
 import Query from '../../actions/query.js';
 import DayQuery from '../../actions/day-query.js';
@@ -86,21 +87,7 @@ class Home extends Component {
         <div>
           <header>
             <h2>Timesheet {new Date().getFullYear()}</h2>
-            <div className="header-actions">
-              <form>
-                <select id="year" value={this.state.query.year} onChange={(e) => this.updateSelectBox(e)}>
-                  <option value="2017">2017</option>
-                </select>
-                <select id="month" value={this.state.query.month} onChange={(e) => this.updateSelectBox(e)}>
-                  <option value="">ALL</option>
-                  <option value="0">JAN</option>
-                  <option value="1">FEB</option>
-                </select>
-                <button className="button primary ripple" type="button" onClick={ () => this.handleNextDayRequest() }>
-                  Add next day
-                </button>
-              </form>
-            </div>
+            <ActionBar />
           </header>
           <div>
             <Timesheet days={this.state.days}
