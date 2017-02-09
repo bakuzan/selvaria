@@ -1,0 +1,15 @@
+.action-bar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 50%;
+  form {
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+    * {
+      display: inline-flex;
+      align-items: flex-end;
+    }
+  }
+}

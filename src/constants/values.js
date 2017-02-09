@@ -6,6 +6,16 @@ const queryTypes = {
   period: 'getCurrentPeriod'
 };
 
-const Constants = { monthNames, queryTypes };
+const strings = {
+  year: 'year',
+  month: 'month'
+};
+
+const Constants = {
+  monthNames,
+  queryTypes,
+  strings,
+  yearZero: 2017
+};
 
 export default Constants

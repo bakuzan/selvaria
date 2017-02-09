@@ -25,11 +25,16 @@ class Home extends Component {
     };
 
     this.handleUpdateDays = this.handleUpdateDays.bind(this);
+    this.query = this.query.bind(this);
+    this.handleNextDayRequest = this.handleNextDayRequest.bind(this);
+    this.updateSelectBox = this.updateSelectBox.bind(this);
   }
   componentDidMount() {
-    this.query(this.state.query);
+    this.query();
   }
-  query(queryValues) {
+  query() {
+    if (!this.state.loading) this.setState({ loading: true });
+    const queryValues = this.state.query;
     DayQuery[this.state.query.type](queryValues).then(response => this.updateTimesheetState(response));
   }
   updateTimesheetState(days) {
@@ -41,7 +46,8 @@ class Home extends Component {
   updateSelectBox(event) {
     const { id, value } = event.target;
     const query = this.state.query;
-    const newType = (id === 'month' && value) || (id !== 'month' && query.month) ? 'month' : 'year';
+    const MONTH = Constants.strings.month;
+    const newType = (id === MONTH && value) || (id !== MONTH && query.month) ? MONTH : Constants.strings.year;
     const updatedQuery = update(query, {
       [id]: { $set: value },
       type: { $set: Constants.queryTypes[newType] }
@@ -86,8 +92,10 @@ class Home extends Component {
         !this.state.loading &&
         <div>
           <header>
-            <h2>Timesheet {new Date().getFullYear()}</h2>
-            <ActionBar />
+            <h2>Timesheet</h2>
+            <ActionBar {...this.state.query} query={this.query}
+                                             updateSelectBox={this.updateSelectBox}
+                                             handleNextDayRequest={this.handleNextDayRequest} />
           </header>
           <div>
             <Timesheet days={this.state.days}
