@@ -58,7 +58,7 @@ class Home extends Component {
     const latestDay = this.state.days.slice(0)[0] || {};
     console.log('handleNextDayRequest: ', latestDay);
     if (!latestDay.date) return alert('No date selected!');
-
+    if (!CommonService.canGetNextDay(latestDay.date, this.state.query)) return alert('End of date period reached.');
     Query.getNextDay(latestDay.date).then(newDayArray => {
       this.setState(prevState => {
         return { days: newDayArray.concat(prevState.days) };
