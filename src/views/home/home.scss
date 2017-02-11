@@ -20,36 +20,6 @@
   text-align: center;
 }
 
-.day-row {
-  height: 25px;
-  .times {
-    .time-block {
-      cursor: pointer;
-      &:hover {
-        &::after, &::after {
-          border: {
-            left: 1px solid $secondary-colour;
-            right: 1px solid $secondary-colour;
-          }
-        }
-        &::after, &:not(:empty):hover::after, &:focus::after, &:not(:empty):focus::after {
-            content: '';
-            height: 10000px;
-            // left: 0;
-            position: absolute;
-            top: -5000px;
-            width: 100%;
-            z-index: -1;
-        }
-      }
-    }
-  }
-  &:hover {
-    border-top: 1px solid $secondary-colour;
-    border-bottom: 1px solid $secondary-colour;
-  }
-}
-
 .times {
   width: 90%;
   height: 100%;
