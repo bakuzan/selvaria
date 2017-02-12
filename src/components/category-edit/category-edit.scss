@@ -20,26 +20,29 @@
   input {
     height: 25px;
   }
-  .category-list {
-    padding: 5px;
-    list-style-type: none;
-    .category-item {
-      display: flex;
-      padding: 0 2px;
-      justify-content: flex-start;
-      align-items: center;
-      cursor: pointer;
-      &:hover {
-        background-color: $secondary-colour;
-        color: $secondary-colour-contrast;
-      }
-      span {
-        pointer-events: none;
-      }
-    }
-  }
   input, .category-list {
     width: 120px;
+  }
+  .category-item {
+    cursor: pointer;
+    &:hover {
+      background-color: $secondary-colour;
+      color: $secondary-colour-contrast;
+    }
+  }
+}
+
+.category-list {
+  padding: 5px;
+  list-style-type: none;
+  .category-item {
+    display: flex;
+    padding: 0 2px;
+    justify-content: flex-start;
+    align-items: center;
+    span {
+      pointer-events: none;
+    }
   }
 }
 

@@ -19,7 +19,6 @@
         &::after, &:not(:empty):hover::after, &:focus::after, &:not(:empty):focus::after {
             content: '';
             height: 10000px;
-            // left: 0;
             position: absolute;
             top: -5000px;
             width: 100%;
@@ -30,7 +29,14 @@
   }
   &:hover {
     border-top: 1px solid $secondary-colour;
-    border-bottom: 1px solid $secondary-colour;
+    &:not(.is-expanded) {
+      border-bottom: 1px solid $secondary-colour;
+    }
+    &.is-expanded {
+      .times, .date {
+        border-bottom: 1px solid $secondary-colour;
+      }
+    }
   }
 }
 

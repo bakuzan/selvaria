@@ -7,6 +7,7 @@ import Query from '../../actions/query.js';
 import DayQuery from '../../actions/day-query.js';
 import TimeQuery from '../../actions/time-query.js';
 import CommonService from '../../actions/common-functions.js';
+import DataService from '../../actions/data-service.js';
 import Constants from '../../constants/values';
 import './home.css';
 
@@ -17,9 +18,9 @@ class Home extends Component {
       days: [],
       loading: true,
       query: {
-        type: Constants.queryTypes.year,
-        year: 2017,
-        month: '',
+        type: Constants.queryTypes.month,
+        year: new Date().getFullYear(),
+        month: new Date().getMonth(),
         period: null
       }
     };
@@ -39,7 +40,7 @@ class Home extends Component {
   }
   updateTimesheetState(days) {
     console.log('day query res: ', days);
-    if (days && days.length) {
+    if (days) {
       this.setState({ days: days.reverse(), loading: false });
     }
   }
@@ -57,9 +58,9 @@ class Home extends Component {
   handleNextDayRequest() {
     const latestDay = this.state.days.slice(0)[0] || {};
     console.log('handleNextDayRequest: ', latestDay);
-    if (!latestDay.date) return alert('No date selected!');
-    if (!CommonService.canGetNextDay(latestDay.date, this.state.query)) return alert('End of date period reached.');
-    Query.getNextDay(latestDay.date).then(newDayArray => {
+    const date = latestDay.date || DataService.getQueryStartDate(this.state.query);
+    if (!DataService.canGetNextDay(date, this.state.query)) return alert('End of date period reached.');
+    Query.getNextDay(date).then(newDayArray => {
       this.setState(prevState => {
         return { days: newDayArray.concat(prevState.days) };
       });

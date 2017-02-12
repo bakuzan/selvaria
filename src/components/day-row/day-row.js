@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import TimeBlock from '../../components/time-block/time-block';
+import BreakdownService from '../../actions/statistics/breakdown-service';
 import './day-row.css';
 
 class DayRow extends Component {
@@ -11,14 +12,11 @@ class DayRow extends Component {
     };
 
   }
-  generateDetail(times, detail) {
-    
-  }
   toggleRowDetail() {
     this.setState(prevState => {
       let detail = prevState.detail;
-      if (!prevState.isExpanded && detail.length === 0) {
-        detail = this.generateDetail(this.props.item.times, detail);
+      if (!prevState.isExpanded) {
+        detail = BreakdownService.generateDayRowDetail(this.props.item.times);
       }
       return { isExpanded: !prevState.isExpanded, detail: detail };
     });
@@ -42,7 +40,9 @@ class DayRow extends Component {
           {
             this.state.isExpanded &&
             <div className="day-row-detail">
-              OUTPUT LIST OF COUNTS BY TIME (I.E 1H, 3.5H ETC.) OF EACH CATEGORY FOR THAT DAY
+              <ul className="category-list">
+                { this.state.detail }
+              </ul>
             </div>
           }
       </li>

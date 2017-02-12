@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 const day = require('./controllers/day-controller.js')();
 const time = require('./controllers/time-controller.js')();
 
-const db = mongoose.connect(`mongodb://localhost/selvaria-${process.env.NODE_ENV}`, (err) => {
+const environment = process.env.NODE_ENV || 'development';
+const db = mongoose.connect(`mongodb://localhost/selvaria-${environment}`, (err) => {
 	if (err) {
 		console.error(chalk.red('Could not connect to MongoDB!'));
 		console.log(chalk.red(err));
