@@ -25,6 +25,16 @@ module.exports = () => {
         }
       });
     },
+    getByGivenPeriod: (req, res) => {
+      Day.getByGivenPeriod(req.params.date, (err, days) => {
+        if (err) {
+          return res.status(400).send({ error: err });
+          console.error(chalk.red(err));
+        } else {
+          res.jsonp(days);
+        }
+      });
+    },
     save: (req, res) => {
       console.log('save this day', req.body);
       const options = {

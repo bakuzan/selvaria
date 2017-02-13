@@ -35,6 +35,8 @@ class ActionBar extends Component {
           <select id="month" className="select-box" value={this.props.month} onChange={(e) => this.props.updateSelectBox(e)}>
             { months }
           </select>
+          <input id="date" type="date" placeholder="date"
+                 value={this.props.date} onChange={(e) => this.props.updateSelectBox(e)} />
           <button className="button ripple" type="button" onClick={ () => this.props.handleNextDayRequest() }>
             Add next day
           </button>

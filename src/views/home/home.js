@@ -21,7 +21,7 @@ class Home extends Component {
         type: Constants.queryTypes.month,
         year: new Date().getFullYear(),
         month: new Date().getMonth(),
-        period: null
+        date: ''
       }
     };
 
@@ -41,18 +41,23 @@ class Home extends Component {
   updateTimesheetState(days) {
     console.log('day query res: ', days);
     if (days) {
-      this.setState({ days: days.reverse(), loading: false });
+      const newDays = days instanceof Array ? days.reverse() : [];
+      this.setState({ days: newDays, loading: false });
     }
   }
   updateSelectBox(event) {
     const { id, value } = event.target;
     const query = this.state.query;
     const MONTH = Constants.strings.month;
-    const newType = (id === MONTH && value) || (id !== MONTH && query.month) ? MONTH : Constants.strings.year;
+    const PERIOD = Constants.strings.period;
+    const newType = (id === PERIOD && value) || (id !== PERIOD && query.date) ? PERIOD :
+                    (id === MONTH && value) || (id !== MONTH && query.month) ? MONTH :
+                                                               Constants.strings.year;
     const updatedQuery = update(query, {
       [id]: { $set: value },
       type: { $set: Constants.queryTypes[newType] }
     });
+    console.log('update: ', id, value, newType, updatedQuery);
     this.setState({ query: updatedQuery })
   }
   handleNextDayRequest() {

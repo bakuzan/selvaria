@@ -3,12 +3,13 @@ const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep
 const queryTypes = {
   year: 'getByYear',
   month: 'getByYearAndMonth',
-  period: 'getCurrentPeriod'
+  date: 'getByGivenPeriod'
 };
 
 const strings = {
   year: 'year',
-  month: 'month'
+  month: 'month',
+  period: 'date'
 };
 
 const Constants = {

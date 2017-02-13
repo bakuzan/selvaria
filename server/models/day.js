@@ -1,4 +1,5 @@
 const Constants = require('../constants');
+const Common = require('../controllers/common-controller.js')();
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
@@ -74,6 +75,16 @@ DaySchema.statics.getByYearAndMonth = function(year, month, callback) {
   }
 
   const params = { $gte: new Date(year, month, 1), $lt: new Date(lessThanYear, nextMonth, 1) };
+  return this.find({ date: params }).populate(Constants.childPopulateObject).exec(callback);
+};
+
+DaySchema.statics.getByGivenPeriod = function(dateString, callback) {
+  const date = new Date(dateString);
+  const comingSunday = Common.getSunday(date);
+  const mondayLastWeek = new Date(comingSunday);
+  mondayLastWeek.setDate(mondayLastWeek.getDate() - 13);
+
+  const params = { $gte: mondayLastWeek, $lte: comingSunday };
   return this.find({ date: params }).populate(Constants.childPopulateObject).exec(callback);
 };
 

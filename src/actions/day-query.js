@@ -12,8 +12,9 @@ class DayQuery {
     const url = paths.build(paths.query.daysByYearAndMonth, { year, month });
     return Query.fetchFromServer(url);
   }
-  getCurrentPeriod() {
-    const url = paths.query.daysByCurrentPeriod;
+  getByGivenPeriod({ date }) {
+    const dateString = `${date}T00:00:00.000Z`;
+    const url = paths.build(paths.query.daysByGivenPeriod, { date: dateString });
     return Query.fetchFromServer(url);
   }
   save(dayObject) {
