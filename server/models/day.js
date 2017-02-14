@@ -78,12 +78,12 @@ DaySchema.statics.getByYearAndMonth = function(year, month, callback) {
   return this.find({ date: params }).populate(Constants.childPopulateObject).exec(callback);
 };
 
-DaySchema.statics.getByGivenPeriod = function(dateString, callback) {
-  const date = new Date(dateString);
+DaySchema.statics.getByGivenPeriod = function(year, month, day, callback) {
+  const date = new Date(year, Number(month) - 1, day);
   const comingSunday = Common.getSunday(date);
   const mondayLastWeek = new Date(comingSunday);
   mondayLastWeek.setDate(mondayLastWeek.getDate() - 13);
-
+  
   const params = { $gte: mondayLastWeek, $lte: comingSunday };
   return this.find({ date: params }).populate(Constants.childPopulateObject).exec(callback);
 };

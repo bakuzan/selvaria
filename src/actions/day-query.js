@@ -13,8 +13,8 @@ class DayQuery {
     return Query.fetchFromServer(url);
   }
   getByGivenPeriod({ date }) {
-    const dateString = `${date}T00:00:00.000Z`;
-    const url = paths.build(paths.query.daysByGivenPeriod, { date: dateString });
+    const dateParts = date.split('-');
+    const url = paths.build(paths.query.daysByGivenPeriod, { year: dateParts[0], month: dateParts[1], day: dateParts[2] });
     return Query.fetchFromServer(url);
   }
   save(dayObject) {

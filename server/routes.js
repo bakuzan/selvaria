@@ -23,7 +23,7 @@ router.use((req, res, next) => {
 router.post('/api/day', day.save);
 router.get('/api/days/:year', day.getByYear);
 router.get('/api/days/:year/:month', day.getByYearAndMonth);
-router.get('/api/days/based-on/:date', day.getByGivenPeriod);
+router.get('/api/days/:year/:month/:day', day.getByGivenPeriod);
 
 //Add routes for Time.
 router.post('/api/time', time.save);

@@ -11,5 +11,10 @@
       display: inline-flex;
       align-items: flex-end;
     }
+    input[type="date"] {
+      height: 25px;
+      border: none;
+      font-family: calibri, sans-serif, monospace;
+    }
   }
 }

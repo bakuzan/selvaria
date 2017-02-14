@@ -7,7 +7,7 @@ class DataService {
       month: query.month ? query.month + 1 : 0,
       year: query.month ? query.year : query.year + 1,
     };
-    const lastDateOfQuery = new Date(lastDay.year, lastDay.month, 0);
+    const lastDateOfQuery = new Date(lastDay.year, lastDay.month, 0, 23, 59, 59);
     return latestDate.getTime() < lastDateOfQuery.getTime();
   }
   getQueryStartDate(query) {

@@ -26,7 +26,7 @@ module.exports = () => {
       });
     },
     getByGivenPeriod: (req, res) => {
-      Day.getByGivenPeriod(req.params.date, (err, days) => {
+      Day.getByGivenPeriod(req.params.year, req.params.month, req.params.day, (err, days) => {
         if (err) {
           return res.status(400).send({ error: err });
           console.error(chalk.red(err));
