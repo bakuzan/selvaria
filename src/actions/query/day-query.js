@@ -1,4 +1,4 @@
-import { paths } from '../constants/paths.js';
+import { paths } from '../../constants/paths.js';
 import Query from './query';
 
 class DayQuery {

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Query from '../../actions/query.js';
+import Query from '../../actions/query/query.js';
 
 class TimesheetHeader extends Component {
   constructor() {

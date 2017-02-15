@@ -1,7 +1,7 @@
-import CommonService from './common-functions';
+import CommonService from '../common-functions';
 import DayQuery from './day-query';
 import TimeQuery from './time-query';
-import Constants from '../constants/values';
+import Constants from '../../constants/values';
 
 class Query {
   constructor() {
