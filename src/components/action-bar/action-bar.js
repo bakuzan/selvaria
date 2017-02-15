@@ -22,6 +22,7 @@ class ActionBar extends Component {
   render() {
     const years = this.populateYears();
     const months = this.populateMonths();
+    const usingCurrentPeriod = this.props.date !== '';
     console.log('render action bar: ', this.props, years, months);
     return (
       <div className="action-bar">
@@ -29,10 +30,12 @@ class ActionBar extends Component {
           <button className="button primary ripple bold" type="button" onClick={ () => this.props.query() }>
             Query
           </button>
-          <select id="year" className="select-box" value={this.props.year} onChange={(e) => this.props.updateSelectBox(e)}>
+          <select id="year" className="select-box" disabled={ usingCurrentPeriod }
+                  value={this.props.year} onChange={(e) => this.props.updateSelectBox(e)}>
             { years }
           </select>
-          <select id="month" className="select-box" value={this.props.month} onChange={(e) => this.props.updateSelectBox(e)}>
+          <select id="month" className="select-box" disabled={ usingCurrentPeriod }
+                  value={this.props.month} onChange={(e) => this.props.updateSelectBox(e)}>
             { months }
           </select>
           <input id="date" type="date" placeholder="date"
