@@ -48,12 +48,7 @@ class Home extends Component {
   updateSelectBox(event) {
     const { id, value } = event.target;
     const query = this.state.query;
-    let updatedQuery = update(query, {
-      [id]: { $set: value }
-    });
-    updatedQuery = update(updatedQuery, {
-      date: { $set: updatedQuery.month ? updatedQuery.date : '' }
-    });
+    const updatedQuery = DataService.updateQueryValues(query, id, value);
     console.log('update: ', id, value, newType, updatedQuery);
     this.setState({ query: updatedQuery })
   }
