@@ -1,3 +1,6 @@
+import update from 'immutability-helper';
+import Constants from '../constants/values';
+
 class DataService {
   canGetNextDay(date, query) {
     const latestDate = new Date(date);
@@ -13,6 +16,19 @@ class DataService {
   getQueryStartDate(query) {
     const month = query.month || 0;
     return new Date(query.year, month, 0);
+  }
+  getQueryTypeFromValues({ year, month, date }) {
+    if (date && month) return Constants.strings.date;
+    if (!date && month) return Constants.strings.month;
+    if (!date && !month) return Constants.strings.year;
+  }
+  updateQueryValues(queryValues, property, newValue) {
+    let updatedQuery = update(queryValues, {
+      [property]: { $set: newValue }
+    });
+    return update(updatedQuery, {
+      date: { $set: updatedQuery.month ? updatedQuery.date : '' }
+    });
   }
 }
 
