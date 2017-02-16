@@ -9,7 +9,7 @@ const queryTypes = {
 const strings = {
   year: 'year',
   month: 'month',
-  period: 'date'
+  date: 'date'
 };
 
 const Constants = {
