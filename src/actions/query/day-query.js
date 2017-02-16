@@ -12,9 +12,8 @@ class DayQuery {
     const url = paths.build(paths.query.daysByYearAndMonth, { year, month });
     return Query.fetchFromServer(url);
   }
-  getByGivenPeriod({ date }) {
-    const dateParts = date.split('-');
-    const url = paths.build(paths.query.daysByGivenPeriod, { year: dateParts[0], month: dateParts[1], day: dateParts[2] });
+  getByGivenPeriod({ year, month, date }) {
+    const url = paths.build(paths.query.daysByGivenPeriod, { year, month, day });
     return Query.fetchFromServer(url);
   }
   save(dayObject) {
