@@ -14,6 +14,9 @@ class CommonService {
     const fullYear = date.getFullYear();
     return `${this.padNumber(day, 2)} ${Constants.monthNames[monthIndex]} ${fullYear}`;
   }
+  daysInMonth(year, month) {
+    return new Date(year, month, 0).getDate();
+  }
   padNumber(n, width, z) {
     z = z || '0';
     n += '';
