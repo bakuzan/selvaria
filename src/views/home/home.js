@@ -18,7 +18,6 @@ class Home extends Component {
       days: [],
       loading: true,
       query: {
-        type: Constants.queryTypes.month,
         year: new Date().getFullYear(),
         month: new Date().getMonth(),
         date: ''
@@ -36,7 +35,8 @@ class Home extends Component {
   query() {
     if (!this.state.loading) this.setState({ loading: true });
     const queryValues = this.state.query;
-    DayQuery[this.state.query.type](queryValues).then(response => this.updateTimesheetState(response));
+    const queryType = DataService.getQueryTypeFromValues(queryValues);
+    DayQuery[queryType](queryValues).then(response => this.updateTimesheetState(response));
   }
   updateTimesheetState(days) {
     console.log('day query res: ', days);
@@ -48,14 +48,11 @@ class Home extends Component {
   updateSelectBox(event) {
     const { id, value } = event.target;
     const query = this.state.query;
-    const MONTH = Constants.strings.month;
-    const DATE = Constants.strings.date;
-    const newType = (id === DATE && value) || (id !== DATE && query.date) ? DATE :
-                    (id === MONTH && value) || (id !== MONTH && query.month) ? MONTH :
-                                                               Constants.strings.year;
-    const updatedQuery = update(query, {
-      [id]: { $set: value },
-      type: { $set: Constants.queryTypes[newType] }
+    let updatedQuery = update(query, {
+      [id]: { $set: value }
+    });
+    updatedQuery = update(updatedQuery, {
+      date: { $set: updatedQuery.month ? updatedQuery.date : '' }
     });
     console.log('update: ', id, value, newType, updatedQuery);
     this.setState({ query: updatedQuery })
