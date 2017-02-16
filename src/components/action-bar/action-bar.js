@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import HelpBox from '../help-box/help-box';
+import CommonService from '../../actions/common-functions';
 import Constants from '../../constants/values';
 import './action-bar.css';
 
@@ -21,7 +22,13 @@ class ActionBar extends Component {
     return [<option key="default" value="">ALL</option>].concat(months);
   }
   populateDates() {
-    
+    if (!this.props.month) return null;
+    const daysInMonth = CommonService.daysInMonth(this.props.year, this.props.month);
+    const days = Array(daysInMonth).fill(null).map((item, index) => {
+       const date = index + 1;
+       return (<option key={index} value={date}>{ date }</option>);
+    });
+    return [<option key="default" value="">ALL</option>].concat(days);
   }
   render() {
     const years = this.populateYears();
@@ -55,7 +62,7 @@ class ActionBar extends Component {
           </div>
           <div className="action-container">
             <label>date</label>
-            <select id="date" className="select-box"
+            <select id="date" className="select-box" disabled={ dates === null }
                     value={this.props.date} onChange={(e) => this.props.updateSelectBox(e)}>
               { dates }
             </select>
