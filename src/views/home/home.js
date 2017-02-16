@@ -49,8 +49,8 @@ class Home extends Component {
     const { id, value } = event.target;
     const query = this.state.query;
     const MONTH = Constants.strings.month;
-    const PERIOD = Constants.strings.period;
-    const newType = (id === PERIOD && value) || (id !== PERIOD && query.date) ? PERIOD :
+    const DATE = Constants.strings.date;
+    const newType = (id === DATE && value) || (id !== DATE && query.date) ? DATE :
                     (id === MONTH && value) || (id !== MONTH && query.month) ? MONTH :
                                                                Constants.strings.year;
     const updatedQuery = update(query, {
