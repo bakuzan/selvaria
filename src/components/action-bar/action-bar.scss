@@ -1,5 +1,4 @@
 @import "../../styles/partials/_colours";
-@import "../../styles/partials/_variables";
 
 .action-bar {
   position: relative;
@@ -29,54 +28,5 @@
     position: absolute;
     top: -1em;
     color: $secondary-colour;
-  }
-}
-
-.help-box {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 100%;
-  height: 100%;
-  .help-icon {
-    position: absolute;
-    top: 1px;
-    right: 1px;
-    background-color: $primary-background;
-    color: $primary-colour-contrast;
-    border: none;
-    border-radius: 100%;
-    cursor: pointer;
-    appearance: none;
-    font-weight: bold;
-    .help-content {
-      position: absolute;
-      top: 0;
-      right: 0;
-      background-color: $white;
-      width: 100%;
-      height: auto;
-      border: {
-        width: 1px;
-        style: dotted;
-        color: $secondary-colour;
-      };
-      font-weight: normal;
-      white-space: nowrap;
-      opacity: 0;
-      pointer-events: none;
-      p {
-        margin: 0.5em;
-        text-align: left;
-      }
-    }
-    &:focus, &:active {
-      width: 100%;
-      height: 100%;
-      .help-content {
-        opacity: 1;
-        z-index: map-get($z-index, popover);
-      }
-    }
   }
 }
