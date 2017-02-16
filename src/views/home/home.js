@@ -8,7 +8,6 @@ import DayQuery from '../../actions/query/day-query.js';
 import TimeQuery from '../../actions/query/time-query.js';
 import CommonService from '../../actions/common-functions.js';
 import DataService from '../../actions/data-service.js';
-import Constants from '../../constants/values';
 import './home.css';
 
 class Home extends Component {
@@ -36,6 +35,7 @@ class Home extends Component {
     if (!this.state.loading) this.setState({ loading: true });
     const queryValues = this.state.query;
     const queryType = DataService.getQueryTypeFromValues(queryValues);
+    console.log(queryType, queryValues);
     DayQuery[queryType](queryValues).then(response => this.updateTimesheetState(response));
   }
   updateTimesheetState(days) {
@@ -49,7 +49,7 @@ class Home extends Component {
     const { id, value } = event.target;
     const query = this.state.query;
     const updatedQuery = DataService.updateQueryValues(query, id, value);
-    console.log('update: ', id, value, newType, updatedQuery);
+    console.log('update: ', id, value, updatedQuery);
     this.setState({ query: updatedQuery })
   }
   handleNextDayRequest() {
@@ -71,10 +71,11 @@ class Home extends Component {
     const time = day.times[timeIndex];
     const updatedTime = update(time, { category: { $set: category } });
 
+    if (!this.state.loading) this.setState({ loading: true });
     TimeQuery.save(updatedTime).then(response => {
       console.log('saved time: ', response);
       const updatedDays = update(days, { [dayIndex]: { times: { [timeIndex]: { $set: response } } } })
-      this.setState({ days: updatedDays });
+      this.setState({ days: updatedDays, loading: false });
     });
   }
   render() {

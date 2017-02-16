@@ -13,7 +13,7 @@ class DayQuery {
     return Query.fetchFromServer(url);
   }
   getByGivenPeriod({ year, month, date }) {
-    const url = paths.build(paths.query.daysByGivenPeriod, { year, month, day });
+    const url = paths.build(paths.query.daysByGivenPeriod, { year, month, date });
     return Query.fetchFromServer(url);
   }
   save(dayObject) {

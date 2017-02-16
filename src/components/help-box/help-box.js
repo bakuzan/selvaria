@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './help-box.css';
 
 class HelpBox extends Component {
   render() {

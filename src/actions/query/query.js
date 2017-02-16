@@ -57,15 +57,11 @@ class Query {
   }
   getNextDay(latestDate) {
     return new Promise(resolve => {
-      let day = new Date(2017, 0, 1, 0, 0);
-      if (latestDate) {
-        const latest = new Date(latestDate);
-        if (latest.getTime() < new Date().getTime()) {
-          day = latest;
-          day.setDate(day.getDate() + 1);
-        }
-      }
+      if (!latestDate) return null;
 
+      const day = new Date(latestDate);
+      day.setDate(day.getDate() + 1);
+      
       this.getTimeBlocks(day).then(timeBlocks => {
         console.log('saving time blocks: ', timeBlocks);
         const dayObj = {

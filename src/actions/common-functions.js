@@ -17,6 +17,12 @@ class CommonService {
   daysInMonth(year, month) {
     return new Date(year, month + 1, 0).getDate();
   }
+  getSunday(d) {
+    d = new Date(d);
+    const day = d.getDay();
+    const diff = d.getDate() - day + (day === 0 ? 0 : 7);
+    return new Date(d.setDate(diff));
+  }
   padNumber(n, width, z) {
     z = z || '0';
     n += '';

@@ -1,4 +1,5 @@
 import update from 'immutability-helper';
+import CommonService from './common-functions';
 import Constants from '../constants/values';
 
 class DataService {
@@ -6,11 +7,18 @@ class DataService {
     const latestDate = new Date(date);
     latestDate.setHours(0,0,0,0);
     latestDate.setDate(latestDate.getDate() + 1);
-    const lastDay = {
-      month: query.month ? query.month + 1 : 0,
-      year: query.month ? query.year : query.year + 1,
-    };
-    const lastDateOfQuery = new Date(lastDay.year, lastDay.month, 0, 23, 59, 59);
+
+    let lastDayDate = 0;
+    let lastDayMonth = query.month ? query.month + 1 : 0;
+    let lastDayYear = query.month ? query.year : query.year + 1;
+    if (query.date) {
+      const theDate = CommonService.getSunday(new Date(query.year, query.month, query.date));
+      lastDayDate = theDate.getDate();
+      lastDayMonth = theDate.getMonth();
+      lastDayYear = theDate.getFullYear();
+    }
+
+    const lastDateOfQuery = new Date(lastDayYear, lastDayMonth, lastDayDate, 23, 59, 59);
     return latestDate.getTime() < lastDateOfQuery.getTime();
   }
   getQueryStartDate(query) {
@@ -18,9 +26,9 @@ class DataService {
     return new Date(query.year, month, 0);
   }
   getQueryTypeFromValues({ year, month, date }) {
-    if (date && month) return Constants.strings.date;
-    if (!date && month) return Constants.strings.month;
-    if (!date && !month) return Constants.strings.year;
+    if (date && month) return Constants.queryTypes.date;
+    if (!date && month) return Constants.queryTypes.month;
+    if (!date && !month) return Constants.queryTypes.year;
   }
   updateQueryValues(queryValues, property, newValue) {
     let updatedQuery = update(queryValues, {

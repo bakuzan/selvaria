@@ -68,7 +68,8 @@ class ActionBar extends Component {
               { dates }
             </select>
           </div>
-          <button className="button ripple" type="button" onClick={ () => this.props.handleNextDayRequest() }>
+          <button className="button ripple" type="button"
+                  onClick={ () => this.props.handleNextDayRequest() }>
             Add next day
           </button>
         </form>

@@ -12,7 +12,7 @@ export const paths = {
   query: {
     daysByYear: '/api/days/:year',
     daysByYearAndMonth: '/api/days/:year/:month',
-    daysByGivenPeriod: '/api/days/:year/:month/:day',
+    daysByGivenPeriod: '/api/days/:year/:month/:date',
     daysSave: '/api/day',
     timeByDay: '/api/times/:day',
     timeSave: '/api/time'
