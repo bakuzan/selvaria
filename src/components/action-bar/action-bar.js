@@ -20,10 +20,13 @@ class ActionBar extends Component {
     });
     return [<option key="default" value="">ALL</option>].concat(months);
   }
+  populateDates() {
+    
+  }
   render() {
     const years = this.populateYears();
     const months = this.populateMonths();
-    const usingCurrentPeriod = this.props.date !== '';
+    const dates = this.populateDates();
     console.log('render action bar: ', this.props, years, months);
     return (
       <div className="action-bar">
@@ -38,22 +41,24 @@ class ActionBar extends Component {
           </button>
           <div className="action-container">
             <label>year</label>
-            <select id="year" className="select-box" disabled={ usingCurrentPeriod }
+            <select id="year" className="select-box"
                     value={this.props.year} onChange={(e) => this.props.updateSelectBox(e)}>
               { years }
             </select>
           </div>
           <div className="action-container">
             <label>month</label>
-            <select id="month" className="select-box" disabled={ usingCurrentPeriod }
+            <select id="month" className="select-box"
                     value={this.props.month} onChange={(e) => this.props.updateSelectBox(e)}>
               { months }
             </select>
           </div>
           <div className="action-container">
-            <label>period</label>
-            <input id="date" type="date" placeholder="date"
-                   value={this.props.date} onChange={(e) => this.props.updateSelectBox(e)} />
+            <label>date</label>
+            <select id="date" className="select-box"
+                    value={this.props.date} onChange={(e) => this.props.updateSelectBox(e)}>
+              { dates }
+            </select>
           </div>
           <button className="button ripple" type="button" onClick={ () => this.props.handleNextDayRequest() }>
             Add next day
