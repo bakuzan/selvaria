@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import HelpBox from '../help-box/help-box';
 import Constants from '../../constants/values';
 import './action-bar.css';
 
@@ -26,16 +27,11 @@ class ActionBar extends Component {
     console.log('render action bar: ', this.props, years, months);
     return (
       <div className="action-bar">
-        <div className="help-box">
-          <button type="button" className="help-icon">
-          ?
-          <div className="help-content">
-            <p><i>year</i> Query by year.</p>
-            <p><i>month</i> Query by month.</p>
-            <p><i>period</i> Query returns week of the date and last week. Ignores year and month.</p>
-          </div>
-          </button>
-        </div>
+        <HelpBox>
+          <p><i>year</i> Query by year.</p>
+          <p><i>month</i> Query by month.</p>
+          <p><i>period</i> Query returns week of the date and last week.</p>
+        </HelpBox>
         <form>
           <button className="button primary ripple bold" type="button" onClick={ () => this.props.query() }>
             Query
