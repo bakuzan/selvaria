@@ -31,6 +31,10 @@ class ActionBar extends Component {
     });
     return defaultOption.concat(days);
   }
+  handleSubmit(event) {
+    event.preventDefault();
+    this.props.query();
+  }
   render() {
     const years = this.populateYears();
     const months = this.populateMonths();
@@ -43,8 +47,8 @@ class ActionBar extends Component {
           <p><i>month</i> Query by month.</p>
           <p><i>period</i> Query returns week of the date and last week.</p>
         </HelpBox>
-        <form>
-          <button className="button primary ripple bold" type="button" onClick={ () => this.props.query() }>
+        <form onSubmit={(event) => this.handleSubmit(event)}>
+          <button className="button primary ripple bold" type="submit">
             Query
           </button>
           <div className="action-container">
@@ -68,11 +72,11 @@ class ActionBar extends Component {
               { dates }
             </select>
           </div>
-          <button className="button ripple" type="button"
-                  onClick={ () => this.props.handleNextDayRequest() }>
-            Add next day
-          </button>
         </form>
+        <button className="button ripple" type="button"
+                onClick={ () => this.props.handleNextDayRequest() }>
+          Add next day
+        </button>
       </div>
     );
   }
