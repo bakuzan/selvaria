@@ -31,6 +31,10 @@ class ActionBar extends Component {
     });
     return defaultOption.concat(days);
   }
+  handleSelectBox(event) {
+    const { name, value } = event.target;
+    this.props.updateSelectBox(name, value);
+  }
   handleSubmit(event) {
     event.preventDefault();
     this.props.query();
@@ -43,8 +47,8 @@ class ActionBar extends Component {
     return (
       <div className="action-bar">
         <HelpBox>
-          <p><i>year</i> Query by year.</p>
-          <p><i>month</i> Query by month.</p>
+          <p><i>year</i>   Query by year.</p>
+          <p><i>month</i>  Query by month.</p>
           <p><i>period</i> Query returns week of the date and last week.</p>
         </HelpBox>
         <form onSubmit={(event) => this.handleSubmit(event)}>
@@ -52,23 +56,24 @@ class ActionBar extends Component {
             Query
           </button>
           <div className="action-container">
-            <label>year</label>
-            <select id="year" className="select-box"
-                    value={this.props.year} onChange={(e) => this.props.updateSelectBox(e)}>
+            <label for="year">year</label>
+            <select id="year" className="select-box" name="year"
+                    value={this.props.year} onChange={(e) => this.handleSelectBox(e)}>
               { years }
             </select>
           </div>
           <div className="action-container">
-            <label>month</label>
-            <select id="month" className="select-box"
-                    value={this.props.month} onChange={(e) => this.props.updateSelectBox(e)}>
+            <label for="month">month</label>
+            <select id="month" className="select-box" name="month"
+                    value={this.props.month} onChange={(e) => this.handleSelectBox(e)}>
               { months }
             </select>
           </div>
           <div className="action-container">
-            <label>date</label>
-            <select id="date" className="select-box" disabled={ dates.length === 1 }
-                    value={this.props.date} onChange={(e) => this.props.updateSelectBox(e)}>
+            <label for="date">date</label>
+            <select id="date" className="select-box" name="date"
+                    disabled={ dates.length === 1 }
+                    value={this.props.date} onChange={(e) => this.handleSelectBox(e)}>
               { dates }
             </select>
           </div>
