@@ -4,7 +4,8 @@ import DayRow from '../day-row/day-row';
 class TimesheetBody extends Component {
   renderRows() {
     return this.props.rows.map((item) => {
-       return (<DayRow key={item.id} item={item}
+       return (<DayRow key={item.id}
+                       item={item}
                        handleEditMode={this.props.handleDayEditMode} />);
     });
   }

@@ -56,21 +56,21 @@ class ActionBar extends Component {
             Query
           </button>
           <div className="action-container">
-            <label for="year">year</label>
+            <label htmlFor="year">year</label>
             <select id="year" className="select-box" name="year"
                     value={this.props.year} onChange={(e) => this.handleSelectBox(e)}>
               { years }
             </select>
           </div>
           <div className="action-container">
-            <label for="month">month</label>
+            <label htmlFor="month">month</label>
             <select id="month" className="select-box" name="month"
                     value={this.props.month} onChange={(e) => this.handleSelectBox(e)}>
               { months }
             </select>
           </div>
           <div className="action-container">
-            <label for="date">date</label>
+            <label htmlFor="date">date</label>
             <select id="date" className="select-box" name="date"
                     disabled={ dates.length === 1 }
                     value={this.props.date} onChange={(e) => this.handleSelectBox(e)}>
@@ -81,6 +81,10 @@ class ActionBar extends Component {
         <button className="button ripple" type="button"
                 onClick={ () => this.props.handleNextDayRequest() }>
           Add next day
+        </button>
+        <button className="button ripple" type="button"
+                onClick={ () => this.props.enableMultiSelect() }>
+          Perform bulk edit
         </button>
       </div>
     );

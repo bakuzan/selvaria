@@ -23,16 +23,19 @@ class DayRow extends Component {
   }
   getTimes(array) {
     return array.map((item) => {
-      return <TimeBlock key={item.id} item={item}
+      return <TimeBlock key={item.id}
+                        item={item}
                         handleEditMode={this.props.handleEditMode} />
     });
   }
   render() {
-    const classes = `day-row${this.state.isExpanded ? ' is-expanded ' : ' ' }center-contents`
+    const classes = `day-row${this.state.isExpanded ? ' is-expanded ' : ' ' }center-contents`;
     return (
       <li className={classes}>
           <div className="date">
-            <button type="button" className="button ripple" onClick={() => this.toggleRowDetail()}>{ this.props.item.dateString }</button>
+            <button type="button" className="button ripple" onClick={() => this.toggleRowDetail()}>
+              { this.props.item.dateString }
+            </button>
           </div>
           <div className="times">
             { this.getTimes(this.props.item.times) }

@@ -2,6 +2,10 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const path = require('path');
+const dotenv = require('dotenv');
+
+//loads .env file into process.env
+dotenv.config();
 
 const app = express();
 
