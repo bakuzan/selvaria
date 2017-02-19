@@ -82,10 +82,6 @@ class ActionBar extends Component {
                 onClick={ () => this.props.handleNextDayRequest() }>
           Add next day
         </button>
-        <button className="button ripple" type="button"
-                onClick={ () => this.props.enableMultiSelect() }>
-          Perform bulk edit
-        </button>
       </div>
     );
   }

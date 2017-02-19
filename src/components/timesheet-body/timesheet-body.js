@@ -6,6 +6,7 @@ class TimesheetBody extends Component {
     return this.props.rows.map((item) => {
        return (<DayRow key={item.id}
                        item={item}
+                       handleMirror={this.props.handleMirrorDay}
                        handleEditMode={this.props.handleDayEditMode} />);
     });
   }

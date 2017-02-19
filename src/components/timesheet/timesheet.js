@@ -38,6 +38,7 @@ class Timesheet extends Component {
         }
         <TimesheetHeader />
         <TimesheetBody rows={this.props.days}
+                       handleMirrorDay={this.props.handleMirrorDay}
                        handleDayEditMode={this.handleDayEditMode} />
       </ol>
     );

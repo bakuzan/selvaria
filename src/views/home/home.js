@@ -20,16 +20,14 @@ class Home extends Component {
         year: new Date().getFullYear(),
         month: new Date().getMonth(),
         date: ''
-      },
-      isMultiSelect: false
+      }
     };
 
     this.handleUpdateDays = this.handleUpdateDays.bind(this);
     this.query = this.query.bind(this);
     this.handleNextDayRequest = this.handleNextDayRequest.bind(this);
     this.updateSelectBox = this.updateSelectBox.bind(this);
-    this.handleMultiSelect = this.handleMultiSelect.bind(this);
-    this.handleBulkEdit = this.handleBulkEdit.bind(this);
+    this.handleMirrorDay = this.handleMirrorDay.bind(this);
   }
   componentDidMount() {
     this.query();
@@ -65,11 +63,8 @@ class Home extends Component {
       });
     });
   }
-  handleMultiSelect() {
-    this.setState({ isMultiSelect: true });
-  }
-  handleBulkEdit() {
-
+  handleMirrorDay(dayId, dateToMirror) {
+    console.log('cloning day : ');
   }
   handleUpdateDays(dateTime, timeId, category) {
     const days = this.state.days.slice();
@@ -88,6 +83,8 @@ class Home extends Component {
   }
   render() {
     console.log('home render: ', this.state);
+    const query = this.state.query;
+    const queryString = `${query.year} ${query.month} ${query.date}`;
 
     return (
       <div id="home">
@@ -100,15 +97,17 @@ class Home extends Component {
         <div>
           <header>
             <h2>Timesheet</h2>
-            <ActionBar {...this.state.query} query={this.query}
-                                             updateSelectBox={this.updateSelectBox}
-                                             enableMultiSelect={this.handleMultiSelect}
-                                             handleNextDayRequest={this.handleNextDayRequest} />
+            <p className="subtitle">
+              Showing data for { queryString }
+            </p>
+            <ActionBar {...this.state.query}
+                       query={this.query}
+                       updateSelectBox={this.updateSelectBox}
+                       handleNextDayRequest={this.handleNextDayRequest} />
           </header>
           <div>
             <Timesheet days={this.state.days}
-                       isMultiSelect={this.state.isMultiSelect}
-                       handleBulkEdit={this.handleBulkEdit}
+                       handleMirrorDay={this.handleMirrorDay}
                        handleUpdateDays={this.handleUpdateDays} />
           </div>
         </div>

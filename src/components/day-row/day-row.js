@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import TimeBlock from '../../components/time-block/time-block';
+import ActionMenu from '../../components/action-menu/action-menu';
 import BreakdownService from '../../actions/statistics/breakdown-service';
 import './day-row.css';
 
@@ -11,6 +12,16 @@ class DayRow extends Component {
       detail: []
     };
 
+    this.actions = [
+      { text: 'Mirror yesterday', action: () => this.handleMirrorOption(1) },
+      { text: 'Mirror last week', action: () => this.handleMirrorOption(7) }
+    ];
+  }
+  handleMirrorOption(mirrorDaysAgo) {
+    const { id, date } = this.props.item;
+    const dateToMirror = new Date(date);
+    dateToMirror.setDate(dateToMirror.getDate() - mirrorDaysAgo);
+    this.props.handleMirror(id, dateToMirror);
   }
   toggleRowDetail() {
     this.setState(prevState => {
@@ -40,6 +51,10 @@ class DayRow extends Component {
           <div className="times">
             { this.getTimes(this.props.item.times) }
           </div>
+          {
+            !!this.props.handleMirrorOption &&
+            <ActionMenu actions={this.actions} />
+          }
           {
             this.state.isExpanded &&
             <div className="day-row-detail">
