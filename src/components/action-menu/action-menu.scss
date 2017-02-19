@@ -1,0 +1,41 @@
+@import "../../styles/partials/_colours";
+@import "../../styles/partials/_variables";
+
+.action-menu {
+  position: relative;
+  display: flex;
+  width: 20px;
+  height: 20px;
+  > button {
+    &:after {
+      width: 100%;
+      height: 100%;
+      content: "\22EE";
+    }
+  }
+}
+
+.menu-list {
+  position: absolute;
+  top: 0;
+  right: 100%;
+  display: none;
+  flex-direction: column;
+  background-color: $white;
+  padding: 5px;
+  border: {
+    width: 2px;
+    color: $secondary-colour;
+    style: solid;
+  };
+  list-style-type: none;
+  z-index: map-get($z-index, popover);
+  &.visible {
+    display: flex;
+  }
+}
+
+button.menu-button {
+  width: 20px;
+  min-width: 20px;
+}

@@ -40,7 +40,7 @@ class DayRow extends Component {
     });
   }
   render() {
-    const classes = `day-row${this.state.isExpanded ? ' is-expanded ' : ' ' }center-contents`;
+    const classes = `day-row${this.state.isExpanded ? ' is-expanded ' : ' ' }start-center-contents`;
     return (
       <li className={classes}>
           <div className="date">
@@ -52,8 +52,9 @@ class DayRow extends Component {
             { this.getTimes(this.props.item.times) }
           </div>
           {
-            !!this.props.handleMirrorOption &&
-            <ActionMenu actions={this.actions} />
+            !!this.props.handleMirror &&
+            <ActionMenu className="margin-left-auto"
+                        actions={this.actions} />
           }
           {
             this.state.isExpanded &&

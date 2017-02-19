@@ -8,6 +8,7 @@ import DayQuery from '../../actions/query/day-query.js';
 import TimeQuery from '../../actions/query/time-query.js';
 import CommonService from '../../actions/common-functions.js';
 import DataService from '../../actions/data-service.js';
+import Constants from '../../constants/values';
 import './home.css';
 
 class Home extends Component {
@@ -64,7 +65,7 @@ class Home extends Component {
     });
   }
   handleMirrorDay(dayId, dateToMirror) {
-    console.log('cloning day : ');
+    console.log('cloning day : ', dayId, dateToMirror);
   }
   handleUpdateDays(dateTime, timeId, category) {
     const days = this.state.days.slice();
@@ -83,8 +84,9 @@ class Home extends Component {
   }
   render() {
     console.log('home render: ', this.state);
-    const query = this.state.query;
-    const queryString = `${query.year} ${query.month} ${query.date}`;
+    const { year, month, date } = this.state.query;
+    const monthName = Constants.monthNames[month];
+    const queryString = `${year}${month ? ` ${monthName}` : ''}${date ? ` ${date}` : ''}`;
 
     return (
       <div id="home">
@@ -95,16 +97,22 @@ class Home extends Component {
       {
         !this.state.loading &&
         <div>
-          <header>
-            <h2>Timesheet</h2>
-            <p className="subtitle">
-              Showing data for { queryString }
-            </p>
-            <ActionBar {...this.state.query}
-                       query={this.query}
-                       updateSelectBox={this.updateSelectBox}
-                       handleNextDayRequest={this.handleNextDayRequest} />
-          </header>
+          <div className="flex-row">
+            <header className="flex-column">
+              <h2 className="margin-0">
+                Timesheet
+              </h2>
+              <p className="subtitle">
+                Showing data for { queryString }
+              </p>
+            </header>
+            <div className="width-75 margin-left-auto">
+              <ActionBar {...this.state.query}
+                         query={this.query}
+                         updateSelectBox={this.updateSelectBox}
+                         handleNextDayRequest={this.handleNextDayRequest} />
+            </div>
+          </div>
           <div>
             <Timesheet days={this.state.days}
                        handleMirrorDay={this.handleMirrorDay}
