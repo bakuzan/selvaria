@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import SelvariaSvg from '../selvaria-svg/selvaria-svg.js';
+import SvgLogo from '../svg-logo/svg-logo.js';
 import { Link } from 'react-router';
 import { paths } from '../../constants/paths';
 import './header.css';
@@ -11,7 +11,7 @@ class Header extends Component {
     return (
       <nav className="application-header center-contents">
         <Link className="ripple" id="logo-svg" to={paths.base}>
-          <SelvariaSvg />
+          <SvgLogo text="Selvaria" />
         </Link>
         <h1>SELVARIA</h1>
         <div id="navigation-links">
