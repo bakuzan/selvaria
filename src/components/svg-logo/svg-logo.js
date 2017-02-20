@@ -55,3 +55,5 @@ class SvgLogo extends Component {
     );
   }
 }
+
+export default SvgLogo;
