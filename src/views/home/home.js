@@ -66,9 +66,20 @@ class Home extends Component {
   }
   handleMirrorDay(dayId, dateToMirror) {
     console.log('cloning day : ', dayId, dateToMirror);
+    if (!this.state.loading) this.setState({ loading: true });
+    const days = this.state.days.slice(0);
+    const dayIndex = days.findIndex(x => x.id === dayId);
+    const day = days[dayIndex];
+    const dayToMirror = days.find(x => CommonService.areDatesEqual(x.date, dateToMirror));
+
+    DataService.mirrorDayCategories(day, dayToMirror).then(reflectedDay => {
+      console.log('reflect: ', reflectedDay);
+      const updatedDays = update(days, { [dayIndex]: { $set: reflectedDay } });
+      this.setState({ days: updatedDays, loading: false });
+    });
   }
   handleUpdateDays(dateTime, timeId, category) {
-    const days = this.state.days.slice();
+    const days = this.state.days.slice(0);
     const dayIndex = days.findIndex(x => CommonService.areDatesEqual(x.date, dateTime));
     const day = days[dayIndex];
     const timeIndex = day.times.findIndex(x => x.id === timeId);
@@ -78,7 +89,7 @@ class Home extends Component {
     if (!this.state.loading) this.setState({ loading: true });
     TimeQuery.save(updatedTime).then(response => {
       console.log('saved time: ', response);
-      const updatedDays = update(days, { [dayIndex]: { times: { [timeIndex]: { $set: response } } } })
+      const updatedDays = update(days, { [dayIndex]: { times: { [timeIndex]: { $set: response } } } });
       this.setState({ days: updatedDays, loading: false });
     });
   }

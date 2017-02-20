@@ -1,4 +1,5 @@
 import update from 'immutability-helper';
+import TimeQuery from './query/time-query';
 import CommonService from './common-functions';
 import Constants from '../constants/values';
 
@@ -36,6 +37,18 @@ class DataService {
     });
     return update(updatedQuery, {
       date: { $set: updatedQuery.month ? updatedQuery.date : '' }
+    });
+  }
+  mirrorDayCategories(day, dayToMirror) {
+    return new Promise((resolve, reject) => {
+      const updatedTimes = day.times.map((item, index) => {
+        const reflectedTime = update(item, { category: { $set: dayToMirror.times[index].category } });
+        return TimeQuery.save(reflectedTime).then(response => {
+          console.log(response);
+          return response;
+        });
+      });
+      resolve(update(day, { times: { $set: updatedTimes } }));
     });
   }
 }

@@ -12,8 +12,8 @@ class ActionMenu extends Component {
     menuAction();
     this.setState({ isExpanded: false });
   }
-  handleMenuOpen() {
-    this.setState({ isExpanded: true });
+  handleMenuToggle() {
+    this.setState({ isExpanded: !this.state.isExpanded });
   }
   renderActions() {
     return this.props.actions.map((item, index) => {
@@ -35,7 +35,7 @@ class ActionMenu extends Component {
       <div className={ menuClasses } aria-label="action menu">
         <button type="button"
                 className="button primary menu-button"
-                onClick={() => this.handleMenuOpen() }></button>
+                onClick={() => this.handleMenuToggle() }></button>
         <ul className={ listClasses } role="menu">
           { actions }
         </ul>
