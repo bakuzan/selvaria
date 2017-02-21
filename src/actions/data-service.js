@@ -40,15 +40,15 @@ class DataService {
     });
   }
   mirrorDayCategories(day, dayToMirror) {
-    return new Promise((resolve, reject) => {
-      const updatedTimes = day.times.map((item, index) => {
-        const reflectedTime = update(item, { category: { $set: dayToMirror.times[index].category } });
-        return TimeQuery.save(reflectedTime).then(response => {
-          console.log(response);
-          return response;
-        });
+    const updatedTimes = day.times.map((item, index) => {
+      const reflectedTime = update(item, { category: { $set: dayToMirror.times[index].category } });
+      return TimeQuery.save(reflectedTime).then(response => {
+        console.log(response);
+        return response;
       });
-      resolve(update(day, { times: { $set: updatedTimes } }));
+    });
+    Promise.all(updatedTimes).then(times => {
+      return update(day, { times: { $set: updatedTimes } }));
     });
   }
 }
