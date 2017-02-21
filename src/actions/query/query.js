@@ -1,4 +1,4 @@
-import CommonService from '../common-functions';
+import CommonService from '../common-service';
 import DayQuery from './day-query';
 import TimeQuery from './time-query';
 import Constants from '../../constants/values';
@@ -21,7 +21,7 @@ class Query {
     const options = this.setOptions(method, body);
     return fetch(url, options).then((response) => {
       return response.json();
-    });
+    }).catch(error => CommonService.handleErrorResponse(error));
   }
   getTimeBlockModel(id, dateTime) {
     return { dateTime: new Date(dateTime), time: id, category: null, isEditMode: false };
@@ -61,7 +61,7 @@ class Query {
 
       const day = new Date(latestDate);
       day.setDate(day.getDate() + 1);
-      
+
       this.getTimeBlocks(day).then(timeBlocks => {
         console.log('saving time blocks: ', timeBlocks);
         const dayObj = {

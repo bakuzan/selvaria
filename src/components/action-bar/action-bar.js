@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import HelpBox from '../help-box/help-box';
-import CommonService from '../../actions/common-functions';
+import CommonService from '../../actions/common-service';
 import Constants from '../../constants/values';
 import './action-bar.css';
 

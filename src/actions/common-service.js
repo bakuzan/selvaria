@@ -32,6 +32,20 @@ class CommonService {
     // TODO Implement proper handling via toaster type notification.
     console.error(error);
   }
+  constructQueryText({ year, month, date }) {
+    let dateText = '';
+    const monthName = Constants.monthNames[month];
+
+    if (date) {
+      const sunday = this.getSunday(new Date(year, month, date));
+      const rangeStart = new Date(sunday);
+      rangeStart.setDate(rangeStart.getDate() - 13);
+
+      dateText = `${this.formatDate(rangeStart)} - ${this.formatDate(sunday)}`;
+    }
+
+    return dateText || `${year}${month ? ` ${monthName}` : ''}`;
+  }
 }
 
 export default new CommonService();

@@ -6,9 +6,8 @@ import Timesheet from '../../components/timesheet/timesheet';
 import Query from '../../actions/query/query.js';
 import DayQuery from '../../actions/query/day-query.js';
 import TimeQuery from '../../actions/query/time-query.js';
-import CommonService from '../../actions/common-functions.js';
+import CommonService from '../../actions/common-service.js';
 import DataService from '../../actions/data-service.js';
-import Constants from '../../constants/values';
 import './home.css';
 
 class Home extends Component {
@@ -73,7 +72,6 @@ class Home extends Component {
     const dayToMirror = days.find(x => CommonService.areDatesEqual(x.date, dateToMirror));
 
     DataService.mirrorDayCategories(day, dayToMirror).then(reflectedDay => {
-      console.log('reflect: ', reflectedDay);
       const updatedDays = update(days, { [dayIndex]: { $set: reflectedDay } });
       this.setState({ days: updatedDays, loading: false });
     });
@@ -95,9 +93,7 @@ class Home extends Component {
   }
   render() {
     console.log('home render: ', this.state);
-    const { year, month, date } = this.state.query;
-    const monthName = Constants.monthNames[month];
-    const queryString = `${year}${month ? ` ${monthName}` : ''}${date ? ` ${date}` : ''}`;
+    const queryString = CommonService.constructQueryText(this.state.query);
 
     return (
       <div id="home">
