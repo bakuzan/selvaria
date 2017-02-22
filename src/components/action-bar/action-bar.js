@@ -47,9 +47,9 @@ class ActionBar extends Component {
     return (
       <div className="action-bar">
         <HelpBox>
-          <p><i>year</i>   Query by year.</p>
-          <p><i>month</i>  Query by month.</p>
-          <p><i>period</i> Query returns week of the date and last week.</p>
+          <p><i>year &nbsp;&nbsp;</i>Query by year.</p>
+          <p><i>month</i>Query by month.</p>
+          <p><i>date &nbsp;&nbsp;</i>Query returns week of the date and last week.</p>
         </HelpBox>
         <form onSubmit={(event) => this.handleSubmit(event)}>
           <button className="button primary ripple bold" type="submit">

@@ -44,7 +44,7 @@ class CommonService {
       dateText = `${this.formatDate(rangeStart)} - ${this.formatDate(sunday)}`;
     }
 
-    return dateText || `${year}${month ? ` ${monthName}` : ''}`;
+    return dateText || `${month ? `${monthName} ` : ''}${year}`;
   }
 }
 

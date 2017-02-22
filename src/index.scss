@@ -3,7 +3,7 @@
 }
 
 body {
-  font-family: "Lucida Console", Courier, monospace;
+  font-family: "Roboto mono", monospace; //"Lucida Console", Courier, monospace;
   margin: 0;
   padding: 0;
 }
@@ -15,4 +15,7 @@ body {
 .subtitle {
   margin: 2px 5px;
   font-size: small;
+}
+.keep-line-breaks {
+  white-space: pre-line;
 }

@@ -109,8 +109,11 @@ class Home extends Component {
               <h2 className="margin-0">
                 Timesheet
               </h2>
-              <p className="subtitle">
-                Showing data for { queryString }
+              <p className="subtitle keep-line-breaks">
+              {
+                `Query data for
+                ${queryString}`
+              }
               </p>
             </header>
             <div className="width-75 margin-left-auto">
