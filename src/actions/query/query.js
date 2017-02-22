@@ -1,12 +1,8 @@
 import CommonService from '../common-service';
 import DayQuery from './day-query';
 import TimeQuery from './time-query';
-import Constants from '../../constants/values';
 
 class Query {
-  constructor() {
-    this.monthNames = Constants.monthNames;
-  }
   setOptions(method, body) {
     return {
       method: method,
