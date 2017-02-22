@@ -15,7 +15,7 @@ class ActionBar extends Component {
     return years;
   }
   populateMonths() {
-    const monthNames = Constants.monthNames.slice(0);
+    const monthNames = Constants.monthNames.short.slice(0);
     const months = monthNames.map((item, index) => {
       return (<option key={index} value={index}>{ item.toUpperCase() }</option>);
     });
