@@ -12,7 +12,7 @@ class CommonService {
     const day = date.getDate();
     const monthIndex = date.getMonth();
     const fullYear = date.getFullYear();
-    return `${this.padNumber(day, 2)} ${Constants.monthNames[monthIndex]} ${fullYear}`;
+    return `${this.padNumber(day, 2)} ${Constants.monthNames.short[monthIndex]} ${fullYear}`;
   }
   daysInMonth(year, month) {
     return new Date(year, month + 1, 0).getDate();
@@ -34,7 +34,7 @@ class CommonService {
   }
   constructQueryText({ year, month, date }) {
     let dateText = '';
-    const monthName = Constants.monthNames[month];
+    const monthName = Constants.monthNames.long[month];
 
     if (date) {
       const sunday = this.getSunday(new Date(year, month, date));
