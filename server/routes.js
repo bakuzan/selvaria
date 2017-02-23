@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const day = require('./controllers/day-controller.js')();
 const time = require('./controllers/time-controller.js')();
+const statistics = require('./controllers/statistics-controller.js')();
 
 const environment = process.env.NODE_ENV || 'development';
 const db = mongoose.connect(`mongodb://localhost/selvaria-${environment}`, (err) => {
@@ -28,5 +29,8 @@ router.get('/api/days/:year/:month/:date', day.getByGivenPeriod);
 //Add routes for Time.
 router.post('/api/time', time.save);
 router.get('/api/times/:day', time.getByDay);
+
+//Add routes for Statistics
+router.get('/api/statistics/breakdown/:year/:month/:date', statistics.getBreakdownData);
 
 module.exports = router;

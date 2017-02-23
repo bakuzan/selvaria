@@ -1,8 +1,9 @@
 const Constants = require('../constants');
-const Common = require('../controllers/common-controller.js')();
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
+
+const Common = require('../controllers/common-controller.js')();
 
 const DaySchema = new Schema({
   date: {

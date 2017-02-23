@@ -16,6 +16,9 @@ class Header extends Component {
         <h1>SELVARIA</h1>
         <div id="navigation-links">
           <div className="flex-right center-vertically">
+            <Link className="ripple" to={`${paths.base}${paths.statistics}`}>
+              Statistics
+            </Link>
             <Link className="ripple" to={`${paths.base}${paths.about}`}>
               About
             </Link>

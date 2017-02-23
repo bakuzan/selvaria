@@ -40,6 +40,7 @@ class ActionBar extends Component {
     this.props.query();
   }
   render() {
+    const showAddNextDayButton = !!this.props.handleNextDayRequest;
     const years = this.populateYears();
     const months = this.populateMonths();
     const dates = this.populateDates();
@@ -78,10 +79,13 @@ class ActionBar extends Component {
             </select>
           </div>
         </form>
-        <button className="button ripple" type="button"
-                onClick={ () => this.props.handleNextDayRequest() }>
-          Add next day
-        </button>
+        {
+          showAddNextDayButton &&
+          <button className="button ripple" type="button"
+                  onClick={ () => this.props.handleNextDayRequest() }>
+            Add next day
+          </button>
+        }
       </div>
     );
   }
