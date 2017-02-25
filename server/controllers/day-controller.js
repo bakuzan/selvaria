@@ -2,7 +2,7 @@ const Constants = require('../constants');
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise; // mongoose mpromise is deprecated...so use native.
 
-const Common = require('../controllers/common-controller.js')();
+const Common = require('./common-controller.js')();
 const Day = require('../models/day.js');
 
 module.exports = () => {
@@ -35,14 +35,10 @@ module.exports = () => {
       const query = { _id: req.body._id || new mongoose.mongo.ObjectID() };
 
       Day.findOneAndUpdate(query, req.body, options, (err, savedDay) => {
-        if (err) {
-          return res.status(400).send({ error: err });
-          console.error(chalk.red(err));
-        } else {
-          Day.populate(savedDay, Constants.childPopulateObject, function (err, result) {
-            res.jsonp(savedDay);
-          });
-        }
+        if (err) return Common.handleErrorResponse(err, res);
+        Day.populate(savedDay, Constants.childPopulateObject, function (err, result) {
+          res.jsonp(savedDay);
+        });
       });
     }
   };

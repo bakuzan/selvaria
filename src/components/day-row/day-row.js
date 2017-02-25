@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import TimeBlock from '../../components/time-block/time-block';
 import ActionMenu from '../../components/action-menu/action-menu';
+import CommonService from '../../actions/common-service';
 import BreakdownService from '../../actions/statistics/breakdown-service';
 import './day-row.css';
 
@@ -40,16 +41,20 @@ class DayRow extends Component {
     });
   }
   render() {
-    const classes = `day-row${this.state.isExpanded ? ' is-expanded ' : ' ' }start-center-contents`;
+    const dayRow = this.props.item;
+    const isExpandedClass = this.state.isExpanded ? ' is-expanded' : ' ';
+    const isWeekendClass = CommonService.isWeekend(dayRow.dayOfTheWeek) ? 'weekend ' : '';
+    const classes = `day-row${isExpandedClass} ${isWeekendClass}start-center-contents`;
+
     return (
       <li className={classes}>
           <div className="date">
             <button type="button" className="button ripple" onClick={() => this.toggleRowDetail()}>
-              { this.props.item.dateString }
+              { dayRow.dateString }
             </button>
           </div>
           <div className="times">
-            { this.getTimes(this.props.item.times) }
+            { this.getTimes(dayRow.times) }
           </div>
           {
             !!this.props.handleMirror &&

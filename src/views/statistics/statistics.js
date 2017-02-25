@@ -39,6 +39,7 @@ class Statistics extends Component {
   }
   render() {
     const queryString = CommonService.constructQueryText(this.state.query);
+    console.log('statistics render : ', this.state);
 
     return (
       <div id="statistics">

@@ -56,36 +56,23 @@ DaySchema.virtual('daysSinceRecordsBegan').get(function() {
   return Math.floor(diff / (24*60*60*1000));
 });
 
+DaySchema.virtual('dayOfTheWeek').get(function() {
+  return Common.getDayOfWeek(this.date);
+});
+
 // Statics for querying.
 DaySchema.statics.getByYear = function(year, callback) {
-  const firstDay = new Date(year, 0, 1);
-  const nextYear = new Date(firstDay);
-  nextYear.setYear(nextYear.getFullYear() + 1);
-
-  const params = { $gte: firstDay, $lt: nextYear };
+  const params = Common.buildYearQuery({ year });
   return this.find({ date: params }).populate(Constants.childPopulateObject).exec(callback);
 };
 
 DaySchema.statics.getByYearAndMonth = function(year, month, callback) {
-  let lessThanYear = Number(year);
-  let nextMonth = Number(month) + 1;
-
-  if (nextMonth > 11) {
-    nextMonth = 0;
-    lessThanYear = Number(year) + 1;
-  }
-
-  const params = { $gte: new Date(year, month, 1), $lt: new Date(lessThanYear, nextMonth, 1) };
+  const params = Common.buildMonthQuery({ year, month });
   return this.find({ date: params }).populate(Constants.childPopulateObject).exec(callback);
 };
 
 DaySchema.statics.getByGivenPeriod = function(year, month, date, callback) {
-  const day = new Date(year, month, date);
-  const comingSunday = Common.getSunday(day);
-  const mondayLastWeek = new Date(comingSunday);
-  mondayLastWeek.setDate(mondayLastWeek.getDate() - 13);
-
-  const params = { $gte: mondayLastWeek, $lte: comingSunday };
+  const params = Common.buildTwoWeekPeriodQuery({ year, month, date });
   return this.find({ date: params }).populate(Constants.childPopulateObject).exec(callback);
 };
 

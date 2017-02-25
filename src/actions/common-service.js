@@ -17,6 +17,9 @@ class CommonService {
   daysInMonth(year, month) {
     return new Date(year, month + 1, 0).getDate();
   }
+  isWeekend(dayName) {
+    return dayName === Constants.dayNames[0] || dayName === Constants.dayNames[6];
+  }
   getSunday(d) {
     d = new Date(d);
     const day = d.getDay();
