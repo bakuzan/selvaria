@@ -2,6 +2,7 @@ const Constants = require('../constants');
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise; // mongoose mpromise is deprecated...so use native.
 
+const CategoryStatistic = require('../models/category-statistic.js')();
 const Time = require('../models/time.js');
 const Common = require('./common-controller.js')();
 
@@ -13,28 +14,46 @@ module.exports = () => {
         if (err) return Common.handleErrorResponse(err, res);
         console.log('breakdownData : ', times.length);
 
-        return statisticsController.countCategoriesForQuery(times).then(counts => {
-          console.log('=> counts : ', counts);
-          res.jsonp(counts);
+        statisticsController.countCategoriesForQuery(times).then(queryCounts => {
+          console.log('=> query counts : ', queryCounts);
+          return statisticsController.countCategoriesForDaysOfWeek(times);
+        }).then(dayOfWeekCounts => {
+          console.log('=> day of week counts : ', dayOfWeekCounts);
+          res.jsonp({ queryCounts, dayOfWeekCounts });
         });
+      });
+    },
+    buildCountsBasedOnAttribute: (times, propertyName) => {
+      const total = { category: Constants.propertyNames.total, count: 0 };
+      const counts = [total];
+      for(let i = 0, length = times.length; i < length; i++) {
+        const time = times[i];
+        const category = time[propertyName] || 'uncategorised';
+        total.count++;
+
+        let countGroup = counts.find(x => x[propertyName] === category);
+        if(countGroup === undefined) {
+          countGroup = { category, count: 1 };
+          counts.push(countGroup);
+          continue;
+        }
+        countGroup.count++;
+      }
+      console.log(`${propertyName} counts`);
+      return counts.map(item => {
+        console.log('test log inside map func');
+        return CategoryStatistic.create(item[propertyName], item.count, total.count);
       });
     },
     countCategoriesForQuery: (times) => {
       return new Promise((resolve, reject) => {
-        const counts = [{ category: Constants.propertyNames.total, count: 0 }];
-        for(let i = 0, length = times.length; i < length; i++) {
-          const time = times[i];
-          const category = time.category || 'uncategorised';
-          const total = counts.find(x => x.category === Constants.propertyNames.total);
-          total.count++;
-
-          let countGroup = counts.find(x => x.category === category);
-          if(countGroup === null) {
-            countGroup = { category, count: 1 };
-            continue;
-          }
-          countGroup.count++;
-        }
+        const counts = statisticsController.buildCountsBasedOnAttribute(times, Constants.propertyNames.category);
+        resolve(counts);
+      });
+    },
+    countCategoriesForDaysOfWeek: (times) => {
+      return new Promise((resolve, reject) => {
+        const counts = statisticsController.buildCountsBasedOnAttribute(times, Constants.propertyNames.dayOfWeek);
         resolve(counts);
       });
     }

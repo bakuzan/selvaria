@@ -19,7 +19,6 @@ module.exports = () => {
       if (!date && !month) return { queryType: Constants.queryTypes.getByYear, queryValues: { year } };
     },
     constructQueryRangeFromParams: (params) => {
-      console.log('construct query range : ', commonService, params);
       const { queryType, queryValues } = commonService.getQueryTypeAndValues(params);
       switch(queryType) {
         case Constants.queryTypes.getByGivenPeriod:

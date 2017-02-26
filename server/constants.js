@@ -13,7 +13,9 @@ const queryTypes = {
 };
 
 const propertyNames = {
-  total: 'total'
+  total: 'total',
+  dayOfWeek: 'dayOfTheWeek',
+  category: 'category'
 };
 
 const Constants = {
