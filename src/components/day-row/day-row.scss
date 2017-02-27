@@ -1,4 +1,5 @@
 @import "../../styles/partials/_colours";
+@import "../../styles/partials/_variables";
 
 .day-row {
   height: 25px;
@@ -38,6 +39,9 @@
       }
     }
   }
+  &.weekend {
+    background-color: lighten($secondary-background, $darken-amount);
+  }
 }
 
 .day-row.is-expanded {
@@ -45,13 +49,13 @@
   height: auto;
 }
 
-.day-row-detail {
+.day-row-detail, .category-detail {
   display: flex;
   width: 98%;
   background-color: $white;
   padding: 5px;
   .category-list {
-    width: 150px;
+    min-width: 200px;
   }
   .time-spent {
     margin-left: auto;

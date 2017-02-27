@@ -42,14 +42,14 @@ class DayRow extends Component {
   }
   render() {
     const dayRow = this.props.item;
-    const isExpandedClass = this.state.isExpanded ? ' is-expanded' : ' ';
+    const isExpandedClass = this.state.isExpanded ? ' is-expanded' : '';
     const isWeekendClass = CommonService.isWeekend(dayRow.dayOfTheWeek) ? 'weekend ' : '';
     const classes = `day-row${isExpandedClass} ${isWeekendClass}start-center-contents`;
 
     return (
       <li className={classes}>
           <div className="date">
-            <button type="button" className="button ripple" onClick={() => this.toggleRowDetail()}>
+            <button type="button" className={`button ${isWeekendClass ? 'secondary ' : ''}ripple`} onClick={() => this.toggleRowDetail()}>
               { dayRow.dateString }
             </button>
           </div>

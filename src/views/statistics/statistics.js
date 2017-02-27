@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import LoadingSpinner from '../../components/loading-spinner/loading-spinner';
 import ActionBar from '../../components/action-bar/action-bar';
+import CategoryItem from '../../components/category-item/category-item';
 import CommonService from '../../actions/common-service.js';
 import StatisticsQuery from '../../actions/query/statistics-query';
 import DataService from '../../actions/data-service.js';
@@ -10,7 +11,10 @@ class Statistics extends Component {
     super();
     const newDate = new Date();
     this.state = {
-      statistics: {},
+      statistics: {
+        queryCounts: [],
+        dayOfWeekCounts: []
+      },
       loading: true,
       query: {
         year: newDate.getFullYear(),
@@ -39,6 +43,7 @@ class Statistics extends Component {
   }
   render() {
     const queryString = CommonService.constructQueryText(this.state.query);
+    const showStatisticsDisplay = this.state.statistics.queryCounts.length > 0 || this.state.statistics.dayOfWeekCounts.length > 0;
     console.log('statistics render : ', this.state);
 
     return (
@@ -68,7 +73,38 @@ class Statistics extends Component {
                          updateSelectBox={this.updateSelectBox} />
             </div>
           </div>
-
+          {
+            showStatisticsDisplay &&
+            <div className="category-detail">
+              <ul className="category-list">
+              {
+                this.state.statistics.queryCounts.map((item, index) => {
+                  return (
+                    <CategoryItem key={index} item={item} />
+                  );
+                })
+              }
+              </ul>
+              <ul className="category-list">
+              {
+                this.state.statistics.dayOfWeekCounts.map((item, index) => {
+                  return (
+                    <li key={index}>
+                      <span>{item.dayName}</span>
+                      <ul>
+                      {
+                        item.counts.map((item, index) => {
+                          return (<CategoryItem key={index} item={item} />);
+                        })
+                      }
+                      </ul>
+                    </li>
+                  );
+                })
+              }
+              </ul>
+            </div>
+          }
         </div>
       }
       </div>

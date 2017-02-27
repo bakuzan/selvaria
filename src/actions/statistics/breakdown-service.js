@@ -1,4 +1,5 @@
 import React from 'react';
+import CategoryItem from '../../components/category-item/category-item';
 
 class BreakdownService {
   generateDayRowDetail(times) {
@@ -18,13 +19,10 @@ class BreakdownService {
       if (aCount > bCount) return -1;
       if (aCount < bCount) return 1;
       return 0;
-    }).map(item => {
+    }).map((item, index) => {
+      const categoryItem = { ...item, hours: `${item.count / 2}h` };
       return (
-        <li key={item.category} className="category-item">
-          <span className={`preview-colour ${item.category}`}></span>
-          <span>{item.category || 'uncategorised'}</span>
-          <span className="time-spent">{`${item.count / 2}h`}</span>
-        </li>
+        <CategoryItem key={index} item={categoryItem} />
       );
     });
   }

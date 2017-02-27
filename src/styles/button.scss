@@ -32,3 +32,10 @@
     @include lightenOrDarken("background-color", $primary-background, $darken-amount * 3);
   }
 }
+.button.secondary {
+  background-color: $secondary-background;
+  color: $secondary-colour-contrast;
+  &:hover {
+    @include lightenOrDarken("background-color", $secondary-background, $darken-amount * 3);
+  }
+}

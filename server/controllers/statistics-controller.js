@@ -13,13 +13,14 @@ module.exports = () => {
       Time.getForQueryRange(req.params, (err, times) => {
         if (err) return Common.handleErrorResponse(err, res);
         console.log('breakdownData : ', times.length);
-
+        const result = { queryCounts: [], dayOfWeekCounts: [] };
         statisticsController.countCategoriesForQuery(times).then(queryCounts => {
-          console.log('=> query counts : ', queryCounts);
+          console.log('=> query counts : ', queryCounts.length);
+          result.queryCounts = queryCounts;
           return statisticsController.countCategoriesForDaysOfWeek(times);
         }).then(dayOfWeekCounts => {
-          console.log('=> day of week counts : ', dayOfWeekCounts);
-          res.jsonp({ queryCounts, dayOfWeekCounts });
+          console.log('=> day of week counts : ', dayOfWeekCounts.length);
+          res.jsonp(Object.assign(result, { dayOfWeekCounts }));
         });
       });
     },
@@ -39,11 +40,7 @@ module.exports = () => {
         }
         countGroup.count++;
       }
-      console.log(`${propertyName} counts`);
-      return counts.map(item => {
-        console.log('test log inside map func');
-        return new CategoryStatistic(item, total.count);
-      });
+      return counts.map(item => new CategoryStatistic(item, total.count));
     },
     countCategoriesForQuery: (times) => {
       return new Promise((resolve, reject) => {
@@ -59,7 +56,7 @@ module.exports = () => {
           const timesForDay = times.filter(x => x.dayOfTheWeek === dayName);
           counts.push({
             dayName,
-            counts: statisticsController.buildCountsBasedOnCategory(timesForDay); 
+            counts: statisticsController.buildCountsBasedOnCategory(timesForDay)
           });
         }
         resolve(counts);
