@@ -3,7 +3,6 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const path = require('path');
 const dotenv = require('dotenv');
-require('./array-map-polyfill.js')();
 
 //loads .env file into process.env
 dotenv.config();
