@@ -2,7 +2,7 @@ const Constants = require('../constants');
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise; // mongoose mpromise is deprecated...so use native.
 
-const CategoryStatistic = require('../models/category-statistic.js')();
+const CategoryStatistic = require('../models/category-statistic.js');
 const Time = require('../models/time.js');
 const Common = require('./common-controller.js')();
 
@@ -42,7 +42,7 @@ module.exports = () => {
       console.log(`${propertyName} counts`);
       return counts.map(item => {
         console.log('test log inside map func');
-        return CategoryStatistic.create(item[propertyName], item.count, total.count);
+        return new CategoryStatistic(item, total.count);
       });
     },
     countCategoriesForQuery: (times) => {
