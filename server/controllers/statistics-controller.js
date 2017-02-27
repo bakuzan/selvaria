@@ -23,15 +23,15 @@ module.exports = () => {
         });
       });
     },
-    buildCountsBasedOnAttribute: (times, propertyName) => {
+    buildCountsBasedOnCategory: (times) => {
       const total = { category: Constants.propertyNames.total, count: 0 };
       const counts = [total];
       for(let i = 0, length = times.length; i < length; i++) {
         const time = times[i];
-        const category = time[propertyName] || 'uncategorised';
+        const category = time.category || 'uncategorised';
         total.count++;
 
-        let countGroup = counts.find(x => x[propertyName] === category);
+        let countGroup = counts.find(x => x.category === category);
         if(countGroup === undefined) {
           countGroup = { category, count: 1 };
           counts.push(countGroup);
@@ -47,13 +47,21 @@ module.exports = () => {
     },
     countCategoriesForQuery: (times) => {
       return new Promise((resolve, reject) => {
-        const counts = statisticsController.buildCountsBasedOnAttribute(times, Constants.propertyNames.category);
+        const counts = statisticsController.buildCountsBasedOnCategory(times);
         resolve(counts);
       });
     },
     countCategoriesForDaysOfWeek: (times) => {
       return new Promise((resolve, reject) => {
-        const counts = statisticsController.buildCountsBasedOnAttribute(times, Constants.propertyNames.dayOfWeek);
+        const counts = [];
+        for(let i = 0, length = Constants.dayNames.length; i < length; i++) {
+          const dayName = Constants.dayNames[i];
+          const timesForDay = times.filter(x => x.dayOfTheWeek === dayName);
+          counts.push({
+            dayName,
+            counts: statisticsController.buildCountsBasedOnCategory(timesForDay); 
+          });
+        }
         resolve(counts);
       });
     }
