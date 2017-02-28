@@ -3,7 +3,7 @@ import CategoryItem from '../category-item/category-item';
 
 class CategoryList extends Component {
   renderItems(items) {
-    return items.map((item, index) => {
+    return items.map(item => {
       return (
         <CategoryItem key={item.category} item={item} />
       );
