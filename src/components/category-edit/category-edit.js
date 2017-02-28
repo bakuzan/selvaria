@@ -22,7 +22,10 @@ class CategoryEdit extends Component {
   }
   renderCategoryItem(item) {
     return (
-      <li key={item.name} className="category-item ripple" id={item.name}
+      <li key={item.name} 
+          id={item.name}
+          className="category-item ripple"
+          role="button"
           onClick={(e) => this.handleCategoryClick(e)}>
         <span className={`preview-colour ${item.name}`}></span>
         <span>{item.name}</span>
