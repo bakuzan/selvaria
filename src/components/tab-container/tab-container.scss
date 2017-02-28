@@ -1,0 +1,52 @@
+@import "../../styles/partials/_colours";
+@import "../../styles/partials/_variables";
+
+.tab-container {
+  position: relative;
+  margin: 5px 0;
+  .tabs {
+    position: relative;
+    border-top: 1px solid $primary-colour;
+  }
+}
+
+.tab-controls {
+  display: flex;
+  padding: 0 5px;
+  margin: 0;
+  white-space: nowrap;
+  list-style-type: none;
+  li {
+    display: inline-flex;
+    padding: 2px;
+    margin: 0 1px;
+    border: {
+      width: 1px;
+      style: solid;
+      color: $grey80;
+      bottom-color: $white;
+    };
+    z-index: map-get($z-index, above-siblings);
+  }
+  li.active {
+    border: {
+      color: $primary-colour;
+      bottom-color: $white;
+    };
+    margin-bottom: -1px;
+  }
+}
+
+.tab-view {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  padding: 5px;
+  margin: 0;
+  opacity: 0;
+  transition: all 1s ease-in-out;
+  &.active {
+    opacity: 1;
+  }
+}
