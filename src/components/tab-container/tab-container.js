@@ -59,4 +59,18 @@ class TabContainer extends Component {
   }
 }
 
+TabContainer.propTypes = {
+  children: React.PropTypes.arrayOf(function(propValue, key, componentName, location, propFullName) {
+    console.log('tab container test children: ', propValue, key, componentName, location, propFullName);
+    // TODO add a check here to see if children are of type TabView!!
+    // Is 100% needed? No. Why will I do it? Because practice and saving me from myself if I ever try using something else!
+    if (!/matchme/.test(propValue[key])) {
+      return new Error(
+        'Invalid prop `' + propFullName + '` supplied to' +
+        ' `' + componentName + '`. Validation failed.'
+      );
+    }
+  }).isRequired
+};
+
 export default TabContainer;
