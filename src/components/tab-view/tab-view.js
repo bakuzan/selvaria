@@ -17,7 +17,10 @@ TabView.defaultProps = {
 TabView.propTypes = {
   name: React.PropTypes.string.isRequired,
   isActive: React.PropTypes.bool,
-  children: React.PropTypes.arrayOf(React.PropTypes.element).isRequired
+  children: React.PropTypes.oneOfType([
+    React.PropTypes.element,
+    React.PropTypes.arrayOf(React.PropTypes.element)
+  ]).isRequired
 };
 
 export default TabView;

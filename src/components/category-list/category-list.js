@@ -11,9 +11,9 @@ class CategoryList extends Component {
   }
   render() {
     const categoryItems = this.renderItems(this.props.items);
-    
+
     return (
-      <ul className="category-list>
+      <ul className="category-list">
       { categoryItems }
       </ul>
     );

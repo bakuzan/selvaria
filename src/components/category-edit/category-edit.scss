@@ -33,6 +33,7 @@
 }
 
 .category-list {
+  min-width: 200px;
   padding: 5px;
   list-style-type: none;
   .category-item {
@@ -42,6 +43,9 @@
     align-items: center;
     span {
       pointer-events: none;
+    }
+    .time-spent {
+      margin-left: auto;
     }
   }
 }

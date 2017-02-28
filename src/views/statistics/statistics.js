@@ -2,9 +2,12 @@ import React, { Component } from 'react';
 import LoadingSpinner from '../../components/loading-spinner/loading-spinner';
 import ActionBar from '../../components/action-bar/action-bar';
 import CategoryList from '../../components/category-list/category-list';
+import TabContainer from '../../components/tab-container/tab-container';
+import TabView from '../../components/tab-view/tab-view';
 import CommonService from '../../actions/common-service.js';
 import StatisticsQuery from '../../actions/query/statistics-query';
 import DataService from '../../actions/data-service.js';
+import './statistics.css';
 
 class Statistics extends Component {
   constructor() {
@@ -87,10 +90,16 @@ class Statistics extends Component {
           {
             showStatisticsDisplay &&
             <div className="category-detail">
-              <CategoryList items={this.state.statistics.queryCounts} />
-              <ul className="day-of-week-list">
-              { dayOfWeekCounts }
-              </ul>
+              <TabContainer>
+                <TabView name="total">
+                  <CategoryList items={this.state.statistics.queryCounts} />
+                </TabView>
+                <TabView name="by weekday">
+                  <ul className="day-of-week-list">
+                  { dayOfWeekCounts }
+                  </ul>
+                </TabView>
+              </TabContainer>
             </div>
           }
         </div>

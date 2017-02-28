@@ -1,0 +1,17 @@
+.category-detail {
+  :not(.day-of-week-list) .category-list {
+    width: 33%;
+    min-width: 250px;
+    .percentage {
+      margin-left: 20px;
+    }
+  }
+  .day-of-week-list {
+    display: inline-flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 5px;
+    margin: 0;
+    list-style-type: none;
+  }
+}

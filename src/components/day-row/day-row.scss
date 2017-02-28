@@ -49,15 +49,9 @@
   height: auto;
 }
 
-.day-row-detail, .category-detail {
+.day-row-detail {
   display: flex;
   width: 98%;
   background-color: $white;
   padding: 5px;
-  .category-list {
-    min-width: 200px;
-  }
-  .time-spent {
-    margin-left: auto;
-  }
 }
