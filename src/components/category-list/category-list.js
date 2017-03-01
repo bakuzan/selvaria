@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import CategoryItem from '../category-item/category-item';
+import './category-list.css';
 
 class CategoryList extends Component {
   renderItems(items) {

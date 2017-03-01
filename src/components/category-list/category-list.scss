@@ -1,0 +1,21 @@
+.category-list {
+  min-width: 200px;
+  padding: 5px;
+  list-style-type: none;
+  .category-item {
+    display: flex;
+    padding: 0 2px;
+    justify-content: flex-start;
+    align-items: center;
+    .category-item-data {
+      margin-left: auto;
+      > span {
+        padding: 0 5px;
+      }
+    }
+  }
+}
+
+.time-spent {
+  margin-left: auto;
+}

@@ -26,6 +26,10 @@ class CommonService {
     const diff = d.getDate() - day + (day === 0 ? 0 : 7);
     return new Date(d.setDate(diff));
   }
+  splitAt(indexToSplitAt, itemToSplit) {
+    const splitAt = index => it => [it.slice(0, index), it.slice(index)];
+    return splitAt(indexToSplitAt)(itemToSplit);
+  }
   padNumber(n, width, z) {
     z = z || '0';
     n += '';

@@ -1,10 +1,6 @@
 .category-detail {
-  :not(.day-of-week-list) .category-list {
-    width: 33%;
+  .category-list {
     min-width: 250px;
-    .percentage {
-      margin-left: 20px;
-    }
   }
   .day-of-week-list {
     display: inline-flex;

@@ -21,31 +21,13 @@
     height: 25px;
   }
   input, .category-list {
-    width: 120px;
+    min-width: 120px;
   }
   .category-item {
     cursor: pointer;
     &:hover {
       background-color: $secondary-colour;
       color: $secondary-colour-contrast;
-    }
-  }
-}
-
-.category-list {
-  min-width: 200px;
-  padding: 5px;
-  list-style-type: none;
-  .category-item {
-    display: flex;
-    padding: 0 2px;
-    justify-content: flex-start;
-    align-items: center;
-    span {
-      pointer-events: none;
-    }
-    .time-spent {
-      margin-left: auto;
     }
   }
 }

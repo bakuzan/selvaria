@@ -1,3 +1,5 @@
+@import "./styles/partials/_colours";
+
 * {
   box-sizing: border-box;
 }
@@ -18,4 +20,7 @@ body {
 }
 .keep-line-breaks {
   white-space: pre-line;
+}
+.invisible-text {
+  color: $white;
 }
