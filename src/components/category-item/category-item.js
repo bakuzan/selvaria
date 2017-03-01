@@ -8,11 +8,13 @@ class CategoryItem extends Component {
       <li className="category-item">
         <span className={`preview-colour ${item.category}`}></span>
         <span>{item.category || 'uncategorised'}</span>
-        <span className="time-spent">{ item.hours }</span>
-        {
-          !!item.percentage &&
-          <span className="percentage">{ item.percentage }</span>
-        }
+        <div className="category-item-data">
+          <span className="time-spent">{ item.hours }</span>
+          {
+            !!item.percentage &&
+            <span className="percentage">{ item.percentage }</span>
+          }
+        </div>
       </li>
     );
   }
