@@ -48,7 +48,7 @@ class Statistics extends Component {
     return dayCounts.map(item => {
       return (
         <li key={item.dayName}>
-          <span>{item.dayName}</span>
+          <h4>{item.dayName}</h4>
           <CategoryList items={item.counts} />
         </li>
       );
