@@ -1,3 +1,4 @@
+const chalk = require('chalk');
 const Constants = require('../constants');
 
 module.exports = () => {
@@ -14,12 +15,14 @@ module.exports = () => {
       return new Date(d.setDate(diff));
     },
     getQueryTypeAndValues: ({ year, month, date }) => {
+      console.log('values : ', year, month, date);
       if (date) return { queryType: Constants.queryTypes.getByGivenPeriod, queryValues: { year, month, date } };
       if (!date && month) return { queryType: Constants.queryTypes.getByYearAndMonth, queryValues: { year, month } };
       if (!date && !month) return { queryType: Constants.queryTypes.getByYear, queryValues: { year } };
     },
     constructQueryRangeFromParams: (params) => {
       const { queryType, queryValues } = commonService.getQueryTypeAndValues(params);
+      console.log('constructor: ', queryType, queryValues);
       switch(queryType) {
         case Constants.queryTypes.getByGivenPeriod:
           return commonService.buildTwoWeekPeriodQuery(queryValues);
@@ -33,6 +36,7 @@ module.exports = () => {
       }
     },
     buildTwoWeekPeriodQuery: ({ year, month, date }) => {
+      console.log(`period query: ${year}-${month}-${date}`);
       const day = new Date(year, month, date);
       const comingSunday = commonService.getSunday(day);
       const mondayLastWeek = new Date(comingSunday);
@@ -41,12 +45,14 @@ module.exports = () => {
       return { $gte: mondayLastWeek, $lte: comingSunday };
     },
     buildMonthQuery: ({ year, month }) => {
+      console.log(`month query: ${year}-${month}`);
       const lessThanYear = Number(year);
       const nextMonth = Number(month) + 1;
 
       return { $gte: new Date(year, month, 1), $lt: new Date(year, nextMonth, 1) };
     },
     buildYearQuery: ({ year }) => {
+      console.log(`year query: ${year}`);
       const firstDay = new Date(year, 0, 1);
       const nextYear = new Date(firstDay);
       nextYear.setYear(nextYear.getFullYear() + 1);

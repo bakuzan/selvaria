@@ -5,6 +5,7 @@ mongoose.Promise = global.Promise; // mongoose mpromise is deprecated...so use n
 const CategoryStatistic = require('../models/category-statistic.js');
 const Time = require('../models/time.js');
 const Common = require('./common-controller.js')();
+const BreakdownService = require('./breakdown-service.js')();
 
 module.exports = () => {
   const statisticsController = {
@@ -34,7 +35,7 @@ module.exports = () => {
 
         let countGroup = counts.find(x => x.category === category);
         if(countGroup === undefined) {
-          countGroup = { category, count: 1 };
+          countGroup = { category, count: 1, time };
           counts.push(countGroup);
           continue;
         }
@@ -54,9 +55,15 @@ module.exports = () => {
         for(let i = 0, length = Constants.dayNames.length; i < length; i++) {
           const dayName = Constants.dayNames[i];
           const timesForDay = times.filter(x => x.dayOfTheWeek === dayName);
+          const occurancesOfDay = timesForDay.length / 48;
+          const dayCounts = statisticsController.buildCountsBasedOnCategory(timesForDay);
           counts.push({
             dayName,
-            counts: statisticsController.buildCountsBasedOnCategory(timesForDay)
+            occurancesOfDay,
+            counts: dayCounts,
+            minimum: BreakdownService.calculateMinimumCount(),
+            maximum: BreakdownService.calculateMaximumCount(),
+            average: BreakdownService.calculateAverageCounts(),
           });
         }
         resolve(counts);

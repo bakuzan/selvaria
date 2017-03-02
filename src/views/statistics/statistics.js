@@ -56,7 +56,10 @@ class Statistics extends Component {
   }
   render() {
     const queryString = CommonService.constructQueryText(this.state.query);
-    const showStatisticsDisplay = this.state.statistics.queryCounts.length > 0 || this.state.statistics.dayOfWeekCounts.length > 0;
+    const showStatisticsDisplay = (
+      (this.state.statistics.queryCounts && this.state.statistics.queryCounts.length > 0) ||
+      (this.state.statistics.dayOfWeekCounts && this.state.statistics.dayOfWeekCounts.length > 0)
+    );
     const dayOfWeekCounts = this.renderDayOfWeekList(this.state.statistics.dayOfWeekCounts);
     console.log('statistics render : ', this.state);
 

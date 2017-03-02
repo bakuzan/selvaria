@@ -1,3 +1,4 @@
+const chalk = require('chalk');
 const express = require('express');
 const mongoose = require('mongoose');
 const day = require('./controllers/day-controller.js')();
@@ -31,6 +32,8 @@ router.post('/api/time', time.save);
 router.get('/api/times/:day', time.getByDay);
 
 //Add routes for Statistics
+router.get('/api/statistics/breakdown/:year', statistics.getBreakdownData);
+router.get('/api/statistics/breakdown/:year/:month', statistics.getBreakdownData);
 router.get('/api/statistics/breakdown/:year/:month/:date', statistics.getBreakdownData);
 
 module.exports = router;
