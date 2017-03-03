@@ -4,15 +4,15 @@ mongoose.Promise = global.Promise; // mongoose mpromise is deprecated...so use n
 
 const CategoryStatistic = require('../models/category-statistic.js');
 const Time = require('../models/time.js');
-const Common = require('./common-controller.js')();
-const BreakdownService = require('./breakdown-service.js')();
+const CommonController = require('./common-controller.js')();
+const BreakdownController = require('./breakdown-controller.js')();
 
 module.exports = () => {
   const statisticsController = {
     getBreakdownData: (req, res) => {
       console.log('query for breakdown => ');
       Time.getForQueryRange(req.params, (err, times) => {
-        if (err) return Common.handleErrorResponse(err, res);
+        if (err) return CommonController.handleErrorResponse(err, res);
         console.log('breakdownData : ', times.length);
         const result = { queryCounts: [], dayOfWeekCounts: [] };
         statisticsController.countCategoriesForQuery(times).then(queryCounts => {
@@ -61,9 +61,9 @@ module.exports = () => {
             dayName,
             occurancesOfDay,
             counts: dayCounts,
-            minimum: BreakdownService.calculateMinimumCount(),
-            maximum: BreakdownService.calculateMaximumCount(),
-            average: BreakdownService.calculateAverageCounts(),
+            minimum: BreakdownController.calculateMinimumCount(),
+            maximum: BreakdownController.calculateMaximumCount(),
+            average: BreakdownController.calculateAverageCounts(),
           });
         }
         resolve(counts);
