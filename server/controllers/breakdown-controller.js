@@ -1,7 +1,7 @@
 const Constants = require('../constants');
 
 module.exports = () => {
-  const breakdownService = {
+  const breakdown = {
     calculateMinimumCount: () => {
       return 'placeholder for min';
     },
@@ -13,5 +13,5 @@ module.exports = () => {
     }
   };
 
-  return breakdownService;
+  return breakdown;
 }
