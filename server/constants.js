@@ -1,3 +1,10 @@
+const categories = [
+  { name: 'anime' }, { name: 'develop' }, { name: 'exercise' },
+  { name: 'gaming' }, { name: 'manga' }, { name: 'other' },
+  { name: 'passing' }, { name: 'sleep' }, { name: 'social' },
+  { name: 'wasted' }, { name: 'work' }
+];
+
 const dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
 const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
@@ -19,6 +26,7 @@ const propertyNames = {
 };
 
 const Constants = {
+  categories,
   dayNames,
   monthNames,
   childPopulateObject,
