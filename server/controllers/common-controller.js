@@ -8,6 +8,18 @@ module.exports = () => {
         return mathFunction(prev.count, curr.count) ? prev : curr;
       });
     },
+    findDistinct(array, property) {
+      const unique = {};
+      const distinct = [];
+      array.forEach(x => {
+        const value = x[property];
+        if(!unique[value]) {
+          distinct.push(value);
+          unique[value] = true;
+        }
+      });
+      return distinct;
+    },
     getDayOfWeek: (d) => {
       const date = new Date(d);
       const index = date.getDay();
