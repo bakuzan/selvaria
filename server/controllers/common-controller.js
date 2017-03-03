@@ -3,6 +3,11 @@ const Constants = require('../constants');
 
 module.exports = () => {
   const commonService = {
+    reduceArrayWith(array, mathFunction) {
+      return array.reduce((prev, curr) => {
+        return mathFunction(prev.count, curr.count) ? prev : curr;
+      });
+    },
     getDayOfWeek: (d) => {
       const date = new Date(d);
       const index = date.getDay();
