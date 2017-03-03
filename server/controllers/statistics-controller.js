@@ -46,7 +46,16 @@ module.exports = () => {
     countCategoriesForQuery: (times) => {
       return new Promise((resolve, reject) => {
         const counts = statisticsController.buildCountsBasedOnCategory(times);
-        resolve(counts);
+        const numberOfDays = times.length / 48;
+        const { minimum, maximum, average } = BreakdownController.performFunctionsOnCounts(counts, numberOfDays);
+
+        resolve(Object.assign({}, {
+          numberOfDays,
+          counts,
+          minimum,
+          maximum,
+          average,
+        }));
       });
     },
     countCategoriesForDaysOfWeek: (times) => {
@@ -57,13 +66,14 @@ module.exports = () => {
           const timesForDay = times.filter(x => x.dayOfTheWeek === dayName);
           const occurancesOfDay = timesForDay.length / 48;
           const dayCounts = statisticsController.buildCountsBasedOnCategory(timesForDay);
+          const { minimum, maximum, average } = BreakdownController.performFunctionsOnCounts(counts, occurancesOfDay);
           counts.push({
             dayName,
             occurancesOfDay,
             counts: dayCounts,
-            minimum: BreakdownController.calculateMinimumCount(),
-            maximum: BreakdownController.calculateMaximumCount(),
-            average: BreakdownController.calculateAverageCounts(),
+            minimum,
+            maximum,
+            average,
           });
         }
         resolve(counts);
