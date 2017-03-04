@@ -14,9 +14,9 @@ module.exports = () => {
       Time.getForQueryRange(req.params, (err, times) => {
         if (err) return CommonController.handleErrorResponse(err, res);
         console.log('breakdownData : ', times.length);
-        const result = { queryCounts: [], dayOfWeekCounts: [] };
+        const result = { queryCounts: {}, dayOfWeekCounts: [] };
         statisticsController.countCategoriesForQuery(times).then(queryCounts => {
-          console.log('=> query counts : ', queryCounts.length);
+          console.log('=> query counts : ', queryCounts.counts.length);
           result.queryCounts = queryCounts;
           return statisticsController.countCategoriesForDaysOfWeek(times);
         }).then(dayOfWeekCounts => {
@@ -34,12 +34,12 @@ module.exports = () => {
         total.count++;
 
         let countGroup = counts.find(x => x.category === category);
-        if(countGroup === undefined) {
-          countGroup = { category, count: 1, time };
-          counts.push(countGroup);
+        if(countGroup) {
+          countGroup.count++;
           continue;
         }
-        countGroup.count++;
+        countGroup = Object.assign({}, { category, count: 1, dateTime: time.dateTime });
+        counts.push(countGroup);
       }
       return counts.map(item => new CategoryStatistic(item, total.count));
     },
@@ -47,14 +47,12 @@ module.exports = () => {
       return new Promise((resolve, reject) => {
         const counts = statisticsController.buildCountsBasedOnCategory(times);
         const numberOfDays = times.length / 48;
-        const { minimum, maximum, average } = BreakdownController.performFunctionsOnCounts(counts, numberOfDays);
+        const countsBreakdown = BreakdownController.performFunctionsOnCounts(counts, numberOfDays);
 
         resolve(Object.assign({}, {
           numberOfDays,
           counts,
-          minimum,
-          maximum,
-          average,
+          countsBreakdown
         }));
       });
     },
@@ -66,14 +64,12 @@ module.exports = () => {
           const timesForDay = times.filter(x => x.dayOfTheWeek === dayName);
           const occurancesOfDay = timesForDay.length / 48;
           const dayCounts = statisticsController.buildCountsBasedOnCategory(timesForDay);
-          const { minimum, maximum, average } = BreakdownController.performFunctionsOnCounts(counts, occurancesOfDay);
+          const countsBreakdown = BreakdownController.performFunctionsOnCounts(dayCounts, occurancesOfDay);
           counts.push({
             dayName,
             occurancesOfDay,
             counts: dayCounts,
-            minimum,
-            maximum,
-            average,
+            countsBreakdown
           });
         }
         resolve(counts);

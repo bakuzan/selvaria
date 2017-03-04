@@ -44,7 +44,7 @@ class ActionBar extends Component {
     const years = this.populateYears();
     const months = this.populateMonths();
     const dates = this.populateDates();
-    console.log('render action bar: ', this.props, years, months);
+    // console.log('render action bar: ', this.props, years, months);
     return (
       <div className="action-bar">
         <HelpBox>

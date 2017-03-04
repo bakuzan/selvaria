@@ -4,7 +4,13 @@ import './category-list.css';
 
 class CategoryList extends Component {
   renderItems(items) {
-    return items.map(item => {
+    const sortedItems = items.sort((obj1, obj2) => {
+      if (obj1.count > obj2.count) return -1;
+      if (obj1.count < obj2.count) return 1;
+      return 0;
+    });
+
+    return sortedItems.map(item => {
       return (
         <CategoryItem key={item.category} item={item} />
       );

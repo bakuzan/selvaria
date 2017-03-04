@@ -1,7 +1,9 @@
 class CategoryStatistic {
-  constructor({ category, count }, total) {
+  constructor({ dateTime, category, count }, total) {
     this.category = category;
     this.count = count;
+    console.log('cat stat: ', dateTime);
+    this.date = dateTime.split('T')[0];
 
     this.setHours();
     this.setPercentage(total);

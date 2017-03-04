@@ -15,7 +15,7 @@ class Statistics extends Component {
     const newDate = new Date();
     this.state = {
       statistics: {
-        queryCounts: [],
+        queryCounts: {},
         dayOfWeekCounts: []
       },
       loading: true,
@@ -33,6 +33,7 @@ class Statistics extends Component {
     this.getStatisticsForQuery();
   }
   getStatisticsForQuery() {
+    if (!this.state.loading) this.setState({ loading: true });
     const query = this.state.query;
     StatisticsQuery.getBreakdownData(query).then(response => {
       this.setState({ statistics: response, loading: false });
@@ -57,7 +58,7 @@ class Statistics extends Component {
   render() {
     const queryString = CommonService.constructQueryText(this.state.query);
     const showStatisticsDisplay = (
-      (this.state.statistics.queryCounts && this.state.statistics.queryCounts.length > 0) ||
+      (this.state.statistics.queryCounts && this.state.statistics.queryCounts.counts && this.state.statistics.queryCounts.counts.length > 0) ||
       (this.state.statistics.dayOfWeekCounts && this.state.statistics.dayOfWeekCounts.length > 0)
     );
     const dayOfWeekCounts = this.renderDayOfWeekList(this.state.statistics.dayOfWeekCounts);
@@ -95,7 +96,7 @@ class Statistics extends Component {
             <div className="category-detail">
               <TabContainer>
                 <TabView name="total">
-                  <CategoryList items={this.state.statistics.queryCounts} />
+                  <CategoryList items={this.state.statistics.queryCounts.counts} />
                 </TabView>
                 <TabView name="by weekday">
                   <ul className="day-of-week-list">

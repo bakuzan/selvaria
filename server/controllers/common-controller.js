@@ -33,19 +33,19 @@ module.exports = () => {
     },
     getQueryTypeAndValues: ({ year, month, date }) => {
       console.log('values : ', year, month, date);
-      if (date) return { queryType: Constants.queryTypes.getByGivenPeriod, queryValues: { year, month, date } };
-      if (!date && month) return { queryType: Constants.queryTypes.getByYearAndMonth, queryValues: { year, month } };
-      if (!date && !month) return { queryType: Constants.queryTypes.getByYear, queryValues: { year } };
+      if (date) return { queryType: Constants.queryTypes.date, queryValues: { year, month, date } };
+      if (!date && month) return { queryType: Constants.queryTypes.month, queryValues: { year, month } };
+      if (!date && !month) return { queryType: Constants.queryTypes.year, queryValues: { year } };
     },
     constructQueryRangeFromParams: (params) => {
       const { queryType, queryValues } = commonService.getQueryTypeAndValues(params);
       console.log('constructor: ', queryType, queryValues);
       switch(queryType) {
-        case Constants.queryTypes.getByGivenPeriod:
+        case Constants.queryTypes.date:
           return commonService.buildTwoWeekPeriodQuery(queryValues);
-        case Constants.queryTypes.getByYearAndMonth:
+        case Constants.queryTypes.month:
           return commonService.buildMonthQuery(queryValues);
-        case Constants.queryTypes.getByYear:
+        case Constants.queryTypes.year:
           return commonService.buildYearQuery(queryValues);
         default:
           console.log('no query range found - defaulting to year query.');

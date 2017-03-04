@@ -15,6 +15,7 @@ module.exports = () => {
         const average = breakdown.calculateAverageOccurance(items, total);
         minimumsAndMaximums.push({ min, max, average, category });
       }
+      console.log('min-max-avg : ', minimumsAndMaximums);
       return minimumsAndMaximums;
     },
     getObjectWithMinimum: (array) => {
@@ -26,7 +27,7 @@ module.exports = () => {
     calculateAverageOccurance(array, total) {
       let i = array.length;
       let sum = 0;
-      while (i--) { 
+      while (i--) {
         sum = sum + array[i].count;
       }
       total = total || array.length;
