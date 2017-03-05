@@ -12,7 +12,7 @@ module.exports = () => {
 
         const min = breakdown.getObjectWithMinimum(items);
         const max = breakdown.getObjectWithMaximum(items);
-        const average = breakdown.calculateAverageOccurance(items, total);
+        const average = breakdown.calculateAverageOccurance(items, 'date');
         minimumsAndMaximums.push({ min, max, average, category });
       }
       console.log('min-max-avg : ', minimumsAndMaximums);
@@ -24,13 +24,13 @@ module.exports = () => {
     getObjectWithMaximum: (array) => {
       return CommonController.reduceArrayWith(array, (prev, curr) => prev > curr);
     },
-    calculateAverageOccurance(array, total) {
+    calculateAverageOccurance: (array, property) => {
       let i = array.length;
       let sum = 0;
       while (i--) {
         sum = sum + array[i].count;
       }
-      total = total || array.length;
+      const total = property ? CommonController.findDistinct(array, property).length : array.length;
       return (sum / total).toFixed(2);
     }
   };

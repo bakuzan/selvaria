@@ -1,6 +1,7 @@
 const chalk = require('chalk');
 const express = require('express');
 const mongoose = require('mongoose');
+const category = require('./controllers/category-controller.js')();
 const day = require('./controllers/day-controller.js')();
 const time = require('./controllers/time-controller.js')();
 const statistics = require('./controllers/statistics-controller.js')();
@@ -20,6 +21,9 @@ router.use((req, res, next) => {
 	console.log('Query fired! : ', req.url);
 	next(); // pass to next handler.
 });
+
+//Add route for category list
+router.get('/api/category-list', category.getCategoryList)
 
 //Add routes from Day.
 router.post('/api/day', day.save);

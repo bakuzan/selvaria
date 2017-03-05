@@ -26,7 +26,7 @@ module.exports = () => {
       });
     },
     buildCountsBasedOnCategory: (times) => {
-      const total = { category: Constants.propertyNames.total, count: 0 };
+      const total = { time: null, category: Constants.propertyNames.total, count: 0 };
       const counts = [total];
       for(let i = 0, length = times.length; i < length; i++) {
         const time = times[i];
@@ -38,16 +38,25 @@ module.exports = () => {
           countGroup.count++;
           continue;
         }
-        countGroup = Object.assign({}, { category, count: 1, dateTime: time.dateTime });
+        countGroup = Object.assign({}, { time, category, count: 1 });
         counts.push(countGroup);
       }
+      console.log('build counts ', counts);
       return counts.map(item => new CategoryStatistic(item, total.count));
+    },
+    buildMathsFunctions: (times, breakdownTotal) => {
+      const counts = [];
+      const groupedTimes = CommonController.groupBy(times, item => [ item.date ]);
+      for(let i = 0, length = groupedTimes.length; i < length; i++) {
+        counts.push(...statisticsController.buildCountsBasedOnCategory(groupedTimes[i]));
+      }
+      return BreakdownController.performFunctionsOnCounts(counts, breakdownTotal);
     },
     countCategoriesForQuery: (times) => {
       return new Promise((resolve, reject) => {
         const counts = statisticsController.buildCountsBasedOnCategory(times);
         const numberOfDays = times.length / 48;
-        const countsBreakdown = BreakdownController.performFunctionsOnCounts(counts, numberOfDays);
+        const countsBreakdown = statisticsController.buildMathsFunctions(times, numberOfDays);
 
         resolve(Object.assign({}, {
           numberOfDays,
@@ -64,7 +73,8 @@ module.exports = () => {
           const timesForDay = times.filter(x => x.dayOfTheWeek === dayName);
           const occurancesOfDay = timesForDay.length / 48;
           const dayCounts = statisticsController.buildCountsBasedOnCategory(timesForDay);
-          const countsBreakdown = BreakdownController.performFunctionsOnCounts(dayCounts, occurancesOfDay);
+          const countsBreakdown = statisticsController.buildMathsFunctions(times, occurancesOfDay);
+
           counts.push({
             dayName,
             occurancesOfDay,

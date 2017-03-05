@@ -3,12 +3,12 @@ const Constants = require('../constants');
 
 module.exports = () => {
   const commonService = {
-    reduceArrayWith(array, mathFunction) {
+    reduceArrayWith: (array, mathFunction) => {
       return array.reduce((prev, curr) => {
         return mathFunction(prev.count, curr.count) ? prev : curr;
       });
     },
-    findDistinct(array, property) {
+    findDistinct: (array, property) => {
       const unique = {};
       const distinct = [];
       array.forEach(x => {
@@ -19,6 +19,15 @@ module.exports = () => {
         }
       });
       return distinct;
+    },
+    groupBy: (array, f) => {
+      const groups = {};
+      array.forEach(o => {
+        let group = JSON.stringify(f(o));
+        groups[group] = groups[group] || [];
+        groups[group].push(o);
+      });
+      return Object.keys(groups).map(group => groups[group]);
     },
     getDayOfWeek: (d) => {
       const date = new Date(d);

@@ -1,15 +1,21 @@
 import React, { Component } from 'react';
-import categoryService from '../../constants/category-service';
+import categoryService from '../../actions/category-service';
 import './category-edit.css';
 
 class CategoryEdit extends Component {
   constructor() {
     super();
     this.state = {
-      categoryString: ''
+      categoryString: '',
+      categoryList: []
     };
 
-    this.categoryList = categoryService.getCategoryList();
+  }
+  componentDidMount() {
+    categoryService.getCategoryList().then(list => {
+      console.log('cat list: ', list);
+      this.setState({ categoryList: list });
+    });
   }
   handleCategoryClick(event) {
     event.stopPropagation();
@@ -22,7 +28,7 @@ class CategoryEdit extends Component {
   }
   renderCategoryItem(item) {
     return (
-      <li key={item.name} 
+      <li key={item.name}
           id={item.name}
           className="category-item ripple"
           role="button"
@@ -32,10 +38,12 @@ class CategoryEdit extends Component {
       </li>
     );
   }
+  filterOnSearch(categories) {
+    if (!categories) return [];
+    return categories.filter(item => item.name.indexOf(this.state.categoryString) > -1);
+  }
   render() {
-    const categoryItems = this.categoryList.filter(item => {
-      return item.name.indexOf(this.state.categoryString) > -1;
-    }).map(item => this.renderCategoryItem(item));
+    const categoryItems = this.filterOnSearch(this.state.categoryList).map(item => this.renderCategoryItem(item));
 
     return (
       <div className="backdrop" onClick={() => this.props.handleCancelEdit()}>

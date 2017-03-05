@@ -11,6 +11,7 @@ export const paths = {
   about: 'about',
   statistics: 'statistics',
   query: {
+    categoryList: '/api/category-list',
     daysByYear: '/api/days/:year',
     daysByYearAndMonth: '/api/days/:year/:month',
     daysByGivenPeriod: '/api/days/:year/:month/:date',
