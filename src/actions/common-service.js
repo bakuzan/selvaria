@@ -8,11 +8,21 @@ class CommonService {
     d2.setHours(0,0,0,0);
     return d1.getTime() === d2.getTime();
   }
+  formatDateAndTime(date) {
+    const formattedDate = this.formatDate(date);
+    const formattedTime = this.formatTime(date);
+    return `${formattedDate} ${formattedTime}`;
+  }
   formatDate(date) {
     const day = date.getDate();
     const monthIndex = date.getMonth();
     const fullYear = date.getFullYear();
     return `${this.padNumber(day, 2)} ${Constants.monthNames.short[monthIndex]} ${fullYear}`;
+  }
+  formatTime(date) {
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+    return `${hours}:${minutes}`;
   }
   daysInMonth(year, month) {
     return new Date(year, month + 1, 0).getDate();
