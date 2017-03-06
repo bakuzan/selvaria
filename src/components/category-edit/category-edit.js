@@ -44,10 +44,13 @@ class CategoryEdit extends Component {
   }
   render() {
     const categoryItems = this.filterOnSearch(this.state.categoryList).map(item => this.renderCategoryItem(item));
+    const { dateTime, location: { clientX, clientY } } = this.props.editItem;
+    const positioningStyle = { top: `${clientY}px`, left: `${clientX}px` };
 
     return (
       <div className="backdrop" onClick={() => this.props.handleCancelEdit()}>
-        <div className="category-edit" onClick={(e) => { e.stopPropagation(); } }>
+        <div className="category-edit" style={ positioningStyle } onClick={(e) => { e.stopPropagation(); } }>
+          <h4>Title placeholder</h4>
           <input type="text" placeholder="category..." autoComplete="false"
                  onChange={(e) => this.handleUserInput(e)} />
           <ul className="category-list">
