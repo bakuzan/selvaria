@@ -4,14 +4,20 @@ class TimeBlock extends Component {
   shouldComponentUpdate(nextProps, nextState) {
     return !(nextProps.item.category === this.props.item.category);
   }
-  handleClick() {
+  handleClick(event) {
     if (this.props.handleEditMode) {
-      this.props.handleEditMode(this.props.item.dateTime, this.props.item.id);
+      const { clientX, clientY } = event;
+      const editItem = Object.assign({}, { 
+        dateTime: this.props.item.dateTime, 
+        timeId: this.props.item.id, 
+        location: { clientX, clientY } 
+      });
+      this.props.handleEditMode(editItem);
     }
   }
   render() {
     const classColour = this.props.item.category ? ` ${this.props.item.category}` : '';
-    return (<div className={`time-block${classColour}`} onClick={() => this.handleClick()}></div>);
+    return (<div className={`time-block${classColour}`} onClick={(e) => this.handleClick(e)}></div>);
   }
 }
 
