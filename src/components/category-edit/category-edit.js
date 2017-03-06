@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import commonService from '../../actions/common-service';
 import categoryService from '../../actions/category-service';
 import './category-edit.css';
 
@@ -46,11 +47,12 @@ class CategoryEdit extends Component {
     const categoryItems = this.filterOnSearch(this.state.categoryList).map(item => this.renderCategoryItem(item));
     const { dateTime, location: { clientX, clientY } } = this.props.editItem;
     const positioningStyle = { top: `${clientY}px`, left: `${clientX}px` };
+    const formattedTimeBlockDateTime = commonService.formatDateAndTime(new Date(dateTime));
 
     return (
       <div className="backdrop" onClick={() => this.props.handleCancelEdit()}>
         <div className="category-edit" style={ positioningStyle } onClick={(e) => { e.stopPropagation(); } }>
-          <h4>Title placeholder</h4>
+          <h4>{ formattedTimeBlockDateTime }</h4>
           <input type="text" placeholder="category..." autoComplete="false"
                  onChange={(e) => this.handleUserInput(e)} />
           <ul className="category-list">
