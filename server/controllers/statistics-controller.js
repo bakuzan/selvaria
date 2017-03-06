@@ -41,22 +41,22 @@ module.exports = () => {
         countGroup = Object.assign({}, { time, category, count: 1 });
         counts.push(countGroup);
       }
-      console.log('build counts ', counts);
+      // console.log('build counts ', counts);
       return counts.map(item => new CategoryStatistic(item, total.count));
     },
-    buildMathsFunctions: (times, breakdownTotal) => {
+    buildMathsFunctions: (times) => {
       const counts = [];
-      const groupedTimes = CommonController.groupBy(times, item => [ item.date ]);
+      const groupedTimes = CommonController.groupBy(times, item => [ item.dateTime.toISOString().split('T')[0] ]);
       for(let i = 0, length = groupedTimes.length; i < length; i++) {
         counts.push(...statisticsController.buildCountsBasedOnCategory(groupedTimes[i]));
       }
-      return BreakdownController.performFunctionsOnCounts(counts, breakdownTotal);
+      return BreakdownController.performFunctionsOnCounts(counts);
     },
     countCategoriesForQuery: (times) => {
       return new Promise((resolve, reject) => {
         const counts = statisticsController.buildCountsBasedOnCategory(times);
         const numberOfDays = times.length / 48;
-        const countsBreakdown = statisticsController.buildMathsFunctions(times, numberOfDays);
+        const countsBreakdown = statisticsController.buildMathsFunctions(times);
 
         resolve(Object.assign({}, {
           numberOfDays,
@@ -73,7 +73,7 @@ module.exports = () => {
           const timesForDay = times.filter(x => x.dayOfTheWeek === dayName);
           const occurancesOfDay = timesForDay.length / 48;
           const dayCounts = statisticsController.buildCountsBasedOnCategory(timesForDay);
-          const countsBreakdown = statisticsController.buildMathsFunctions(times, occurancesOfDay);
+          const countsBreakdown = statisticsController.buildMathsFunctions(times);
 
           counts.push({
             dayName,

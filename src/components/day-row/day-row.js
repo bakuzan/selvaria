@@ -43,8 +43,8 @@ class DayRow extends Component {
   render() {
     const dayRow = this.props.item;
     const isExpandedClass = this.state.isExpanded ? ' is-expanded' : '';
-    const isWeekendClass = CommonService.isWeekend(dayRow.dayOfTheWeek) ? 'weekend ' : '';
-    const classes = `day-row${isExpandedClass} ${isWeekendClass}start-center-contents`;
+    const isWeekendClass = CommonService.isWeekend(dayRow.dayOfTheWeek);
+    const classes = `day-row${isExpandedClass} start-center-contents`;
 
     return (
       <li className={classes}>

@@ -83,7 +83,7 @@ class Home extends Component {
     const timeIndex = day.times.findIndex(x => x.id === timeId);
     const time = day.times[timeIndex];
     const updatedTime = update(time, { category: { $set: category } });
-
+    console.log('update time: ', updatedTime, category);
     if (!this.state.loading) this.setState({ loading: true });
     TimeQuery.save(updatedTime).then(response => {
       console.log('saved time: ', response);

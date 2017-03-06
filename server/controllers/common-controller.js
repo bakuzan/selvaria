@@ -41,14 +41,14 @@ module.exports = () => {
       return new Date(d.setDate(diff));
     },
     getQueryTypeAndValues: ({ year, month, date }) => {
-      console.log('values : ', year, month, date);
+      // console.log('values : ', year, month, date);
       if (date) return { queryType: Constants.queryTypes.date, queryValues: { year, month, date } };
       if (!date && month) return { queryType: Constants.queryTypes.month, queryValues: { year, month } };
       if (!date && !month) return { queryType: Constants.queryTypes.year, queryValues: { year } };
     },
     constructQueryRangeFromParams: (params) => {
       const { queryType, queryValues } = commonService.getQueryTypeAndValues(params);
-      console.log('constructor: ', queryType, queryValues);
+      // console.log('constructor: ', queryType, queryValues);
       switch(queryType) {
         case Constants.queryTypes.date:
           return commonService.buildTwoWeekPeriodQuery(queryValues);

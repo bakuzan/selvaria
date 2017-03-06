@@ -3,7 +3,7 @@ const CommonController = require('./common-controller.js')();
 
 module.exports = () => {
   const breakdown = {
-    performFunctionsOnCounts: (categoryCounts, total) => {
+    performFunctionsOnCounts: (categoryCounts) => {
       const minimumsAndMaximums = [];
       for (let i = 0, length = Constants.categories.length; i < length; i++) {
         const category = Constants.categories[i].name;
@@ -15,7 +15,7 @@ module.exports = () => {
         const average = breakdown.calculateAverageOccurance(items, 'date');
         minimumsAndMaximums.push({ min, max, average, category });
       }
-      console.log('min-max-avg : ', minimumsAndMaximums);
+      // console.log('min-max-avg : ', minimumsAndMaximums);
       return minimumsAndMaximums;
     },
     getObjectWithMinimum: (array) => {

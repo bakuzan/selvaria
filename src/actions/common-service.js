@@ -22,7 +22,7 @@ class CommonService {
   formatTime(date) {
     const hours = date.getHours();
     const minutes = date.getMinutes();
-    return `${hours}:${minutes}`;
+    return `${this.padNumber(hours, 2)}:${this.padNumber(minutes, 2)}`;
   }
   daysInMonth(year, month) {
     return new Date(year, month + 1, 0).getDate();

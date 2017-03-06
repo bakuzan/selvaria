@@ -18,10 +18,9 @@ class CategoryEdit extends Component {
       this.setState({ categoryList: list });
     });
   }
-  handleCategoryClick(event) {
+  handleCategoryClick(event, categoryName) {
     event.stopPropagation();
-    const value = event.target.id;
-    this.props.handleCategorySelect(value);
+    this.props.handleCategorySelect(categoryName);
   }
   handleUserInput(event) {
     const value = event.target.value;
@@ -33,7 +32,7 @@ class CategoryEdit extends Component {
           id={item.name}
           className="category-item ripple"
           role="button"
-          onClick={(e) => this.handleCategoryClick(e)}>
+          onClick={(e) => this.handleCategoryClick(e, item.name)}>
         <span className={`preview-colour ${item.name}`}></span>
         <span>{item.name}</span>
       </li>
@@ -46,13 +45,13 @@ class CategoryEdit extends Component {
   render() {
     const categoryItems = this.filterOnSearch(this.state.categoryList).map(item => this.renderCategoryItem(item));
     const { dateTime, location: { clientX, clientY } } = this.props.editItem;
-    const positioningStyle = { top: `${clientY}px`, left: `${clientX}px` };
+    const positioningStyle = Object.assign({}, { top: `${clientY}px`, left: `${clientX}px` });
     const formattedTimeBlockDateTime = commonService.formatDateAndTime(new Date(dateTime));
 
     return (
       <div className="backdrop" onClick={() => this.props.handleCancelEdit()}>
         <div className="category-edit" style={ positioningStyle } onClick={(e) => { e.stopPropagation(); } }>
-          <h4>{ formattedTimeBlockDateTime }</h4>
+          <h4 className="category-edit-title">{ formattedTimeBlockDateTime }</h4>
           <input type="text" placeholder="category..." autoComplete="false"
                  onChange={(e) => this.handleUserInput(e)} />
           <ul className="category-list">
