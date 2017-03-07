@@ -20,9 +20,17 @@ class CategoryList extends Component {
     const categoryItems = this.renderItems(this.props.items);
 
     return (
-      <ul className="category-list">
-      { categoryItems }
-      </ul>
+      <div>
+        {
+          !!this.props.title &&
+          <h4 className="category-list-title">
+            { this.props.title }
+          </h4>
+        }
+        <ul className="category-list">
+        { categoryItems }
+        </ul>
+      </div>
     );
   }
 }
