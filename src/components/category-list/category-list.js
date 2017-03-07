@@ -10,24 +10,25 @@ class CategoryList extends Component {
       return 0;
     });
 
-    return sortedItems.map(item => {
+    return sortedItems.map((item, index) => {
       return (
-        <CategoryItem key={item.category} item={item} />
+        <CategoryItem key={index} item={item} />
       );
     });
   }
   render() {
+    const listClasses = `category-list${!!this.props.isHorizontal ? ' row' : ''}`;
     const categoryItems = this.renderItems(this.props.items);
 
     return (
-      <div>
+      <div className="category-list-container">
         {
           !!this.props.title &&
           <h4 className="category-list-title">
             { this.props.title }
           </h4>
         }
-        <ul className="category-list">
+        <ul className={ listClasses }>
         { categoryItems }
         </ul>
       </div>

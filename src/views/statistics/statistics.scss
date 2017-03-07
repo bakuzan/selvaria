@@ -1,13 +1,24 @@
 .category-detail {
   .category-list {
+    display: flex;
+    flex-direction: column;
     min-width: 250px;
+    &.row {
+      flex-direction: row;
+      > li {
+        flex: 1 1 50%;
+      }
+    }
   }
-  .day-of-week-list {
+  .day-of-week-list, .breakdown-list {
     display: inline-flex;
     flex-wrap: wrap;
     justify-content: space-between;
     padding: 5px;
     margin: 0;
     list-style-type: none;
+    li.hide {
+      display: none;
+    }
   }
 }

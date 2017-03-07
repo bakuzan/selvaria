@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
+import update from 'immutability-helper';
 import LoadingSpinner from '../../components/loading-spinner/loading-spinner';
 import ActionBar from '../../components/action-bar/action-bar';
 import CategoryList from '../../components/category-list/category-list';
+import BreakdownList from '../../components/breakdown-list/breakdown-list';
 import TabContainer from '../../components/tab-container/tab-container';
 import TabView from '../../components/tab-view/tab-view';
 import CommonService from '../../actions/common-service.js';
@@ -45,12 +47,33 @@ class Statistics extends Component {
     console.log('update: ', name, value, updatedQuery);
     this.setState({ query: updatedQuery })
   }
+  toggleBreakdownForDay(dayName) {
+    const state = this.state;
+    const updatedState = update(state, {
+      showDayOfWeekBreakdown: { $set: state.showDayOfWeekBreakdown === dayName ? null : dayName }
+    });
+    this.setState(updatedState);
+  }
   renderDayOfWeekList(dayCounts) {
     return dayCounts.map(item => {
+      const daySelected = this.state.showDayOfWeekBreakdown === item.dayName;
+      const showHideClass = !this.state.showDayOfWeekBreakdown || daySelected;
+
       return (
-        <li key={item.dayName}>
-          <h4>{item.dayName}</h4>
+        <li key={item.dayName} className={ `${showHideClass ? '' : 'hide'}` }>
+          <h4>
+            <button type="button"
+                    className="button-link"
+                    onClick={() => this.toggleBreakdownForDay(item.dayName)}>
+              { item.dayName }
+            </button>
+          </h4>
           <CategoryList items={item.counts} />
+          {
+            daySelected &&
+            <BreakdownList title={`${item.dayName} breakdown`}
+                           items={item.countsBreakdown} />
+          }
         </li>
       );
     })
@@ -96,7 +119,10 @@ class Statistics extends Component {
             <div className="category-detail">
               <TabContainer>
                 <TabView name="total">
-                  <CategoryList items={this.state.statistics.queryCounts.counts} />
+                  <CategoryList title="Totals"
+                                items={this.state.statistics.queryCounts.counts} />
+                  <BreakdownList title="Breakdown"
+                                 items={this.state.statistics.queryCounts.countsBreakdown} />
                 </TabView>
                 <TabView name="by weekday">
                   <ul className="day-of-week-list">
