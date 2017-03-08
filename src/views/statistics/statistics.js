@@ -61,19 +61,23 @@ class Statistics extends Component {
 
       return (
         <li key={item.dayName} className={ `${showHideClass ? '' : 'hide'}` }>
-          <h4>
-            <button type="button"
-                    className="button-link"
-                    onClick={() => this.toggleBreakdownForDay(item.dayName)}>
-              { item.dayName }
-            </button>
-          </h4>
-          <CategoryList items={item.counts} />
-          {
-            daySelected &&
-            <BreakdownList title={`${item.dayName} breakdown`}
-                           items={item.countsBreakdown} />
-          }
+          <div className="row">
+            <div>
+              <h4>
+                <button type="button"
+                        className="button-link"
+                        onClick={() => this.toggleBreakdownForDay(item.dayName)}>
+                  { item.dayName }
+                </button>
+              </h4>
+              <CategoryList items={item.counts} />
+            </div>
+            {
+              daySelected &&
+              <BreakdownList title={`${item.dayName} breakdown`}
+                             items={item.countsBreakdown} />
+            }
+          </div>
         </li>
       );
     })

@@ -24,3 +24,13 @@ body {
 .invisible-text {
   color: $white;
 }
+
+.row {
+  display: inline-flex;
+  flex-direction: row;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+}
