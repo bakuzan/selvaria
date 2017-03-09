@@ -1,14 +1,18 @@
 import React, { Component } from 'react';
+import { PieChart, Pie, Cell, BarChart, XAxis, YAxis, Tooltip, Legend, Bar } from 'recharts';
 import update from 'immutability-helper';
 import LoadingSpinner from '../../components/loading-spinner/loading-spinner';
 import ActionBar from '../../components/action-bar/action-bar';
 import CategoryList from '../../components/category-list/category-list';
 import BreakdownList from '../../components/breakdown-list/breakdown-list';
+import DayOfWeekItem from '../../components/day-of-week-item/day-of-week-item';
 import TabContainer from '../../components/tab-container/tab-container';
 import TabView from '../../components/tab-view/tab-view';
 import CommonService from '../../actions/common-service.js';
+import ChartService from '../../actions/chart-service.js';
 import StatisticsQuery from '../../actions/query/statistics-query';
 import DataService from '../../actions/data-service.js';
+import Constants from '../../constants/values';
 import './statistics.css';
 
 class Statistics extends Component {
@@ -16,6 +20,7 @@ class Statistics extends Component {
     super();
     const newDate = new Date();
     this.state = {
+      activePieSectorIndex: 0,
       statistics: {
         queryCounts: {},
         dayOfWeekCounts: []
@@ -28,8 +33,10 @@ class Statistics extends Component {
       }
     };
 
+    this.onPieEnter = this.onPieEnter.bind(this);
     this.updateSelectBox = this.updateSelectBox.bind(this);
     this.getStatisticsForQuery = this.getStatisticsForQuery.bind(this);
+    this.toggleBreakdownForDay = this.toggleBreakdownForDay.bind(this);
   }
   componentDidMount() {
     this.getStatisticsForQuery();
@@ -54,33 +61,18 @@ class Statistics extends Component {
     });
     this.setState(updatedState);
   }
+  onPieEnter(data, index) {
+    this.setState({ activePieSectorIndex: index });
+  }
   renderDayOfWeekList(dayCounts) {
     return dayCounts.map(item => {
-      const daySelected = this.state.showDayOfWeekBreakdown === item.dayName;
-      const showHideClass = !this.state.showDayOfWeekBreakdown || daySelected;
-
       return (
-        <li key={item.dayName} className={ `${showHideClass ? '' : 'hide'}` }>
-          <div className="row">
-            <div>
-              <h4>
-                <button type="button"
-                        className="button-link"
-                        onClick={() => this.toggleBreakdownForDay(item.dayName)}>
-                  { item.dayName }
-                </button>
-              </h4>
-              <CategoryList items={item.counts} />
-            </div>
-            {
-              daySelected &&
-              <BreakdownList title={`${item.dayName} breakdown`}
-                             items={item.countsBreakdown} />
-            }
-          </div>
-        </li>
+        <DayOfWeekItem key={item.dayName}
+                       item={item}
+                       showDayOfWeekBreakdown={this.state.showDayOfWeekBreakdown}
+                       toggleBreakdown={this.toggleBreakdownForDay} />
       );
-    })
+    });
   }
   render() {
     const queryString = CommonService.constructQueryText(this.state.query);
@@ -89,6 +81,8 @@ class Statistics extends Component {
       (this.state.statistics.dayOfWeekCounts && this.state.statistics.dayOfWeekCounts.length > 0)
     );
     const dayOfWeekCounts = this.renderDayOfWeekList(this.state.statistics.dayOfWeekCounts);
+    const pieChartData = ChartService.mapCountsToPieData(this.state.statistics.queryCounts.counts);
+    const barChartData = ChartService.mapCountsToChartData(this.state.statistics.queryCounts.countsBreakdown);
     console.log('statistics render : ', this.state);
 
     return (
@@ -123,10 +117,46 @@ class Statistics extends Component {
             <div className="category-detail">
               <TabContainer>
                 <TabView name="total">
-                  <CategoryList title="Totals"
-                                items={this.state.statistics.queryCounts.counts} />
-                  <BreakdownList title="Breakdown"
-                                 items={this.state.statistics.queryCounts.countsBreakdown} />
+                  <div className="column">
+                    <div className="row">
+                      <PieChart width={730} height={250} onMouseEnter={this.onPieEnter}>
+                        <Pie activeIndex={this.state.activePieSectorIndex}
+                             activeShape={ChartService.renderPieActiveShape}
+                             data={pieChartData}
+                             nameKey="category"
+                             valueKey="count"
+                             cx="50%"
+                             cy="50%"
+                             paddingAngle={5}
+                             innerRadius={30}
+                             outerRadius={90}
+                             fill="#000">
+                        {
+                          pieChartData.map((entry, index) => {
+                            const colour = Constants.colours.find(x => x.name === entry.category);
+                            const value = colour ? colour.value : '#000';
+                            return ( <Cell key={index} fill={value}/> );
+                          })
+                        }
+                        </Pie>
+                      </PieChart>
+                      <BarChart width={730} height={250} data={barChartData}>
+                        <XAxis dataKey="category" />
+                        <YAxis />
+                        <Tooltip formatter={ChartService.formatBarChartTooltip} />
+                        <Legend verticalAlign="top" height={36} />
+                        <Bar dataKey="minimum" unit="h" fill="#f00" />
+                        <Bar dataKey="average" unit="h" fill="#000" />
+                        <Bar dataKey="maximum" unit="h" fill="#0f0" />
+                      </BarChart>
+                    </div>
+                    <div className="row">
+                      <CategoryList title="Totals"
+                                    items={this.state.statistics.queryCounts.counts} />
+                      <BreakdownList title="Breakdown"
+                                     items={this.state.statistics.queryCounts.countsBreakdown} />
+                    </div>
+                  </div>
                 </TabView>
                 <TabView name="by weekday">
                   <ul className="day-of-week-list">

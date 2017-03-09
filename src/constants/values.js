@@ -17,7 +17,22 @@ const strings = {
   date: 'date'
 };
 
+const colours = [
+  { name: 'anime', value: '#ff9900' },
+  { name: 'develop', value: '#674ea7' },
+  { name: 'exercise', value: '#073763' },
+  { name: 'gaming', value: '#ffff00' },
+  { name: 'manga', value: '#6fa8dc' },
+  { name: 'other', value: '#ff00ff' },
+  { name: 'passing', value: '#a61c00' },
+  { name: 'sleep', value: '#666' },
+  { name: 'social', value: '#93c47d' },
+  { name: 'wasted', value: '#7f6000' },
+  { name: 'work', value: '#f2f2f2' }
+];
+
 const Constants = {
+  colours,
   dayNames,
   monthNames,
   queryTypes,
