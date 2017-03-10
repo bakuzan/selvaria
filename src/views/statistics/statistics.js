@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { PieChart, Pie, Cell, BarChart, XAxis, YAxis, Tooltip, Legend, Bar } from 'recharts';
+import { ResponsiveContainer, PieChart, Pie, Cell, BarChart, XAxis, YAxis, Tooltip, Legend, Bar } from 'recharts';
 import update from 'immutability-helper';
 import LoadingSpinner from '../../components/loading-spinner/loading-spinner';
 import ActionBar from '../../components/action-bar/action-bar';
@@ -84,7 +84,8 @@ class Statistics extends Component {
     const pieChartData = ChartService.mapCountsToPieData(this.state.statistics.queryCounts.counts);
     const barChartData = ChartService.mapCountsToChartData(this.state.statistics.queryCounts.countsBreakdown);
     console.log('statistics render : ', this.state);
-
+    // pie => width={730} height={250}
+    // bar => width={730} height={250}
     return (
       <div id="statistics">
       {
@@ -117,40 +118,44 @@ class Statistics extends Component {
             <div className="category-detail">
               <TabContainer>
                 <TabView name="total">
-                  <div className="column">
-                    <div className="row">
-                      <PieChart width={730} height={250} onMouseEnter={this.onPieEnter}>
-                        <Pie activeIndex={this.state.activePieSectorIndex}
-                             activeShape={ChartService.renderPieActiveShape}
-                             data={pieChartData}
-                             nameKey="category"
-                             valueKey="count"
-                             cx="50%"
-                             cy="50%"
-                             paddingAngle={5}
-                             innerRadius={30}
-                             outerRadius={90}
-                             fill="#000">
-                        {
-                          pieChartData.map((entry, index) => {
-                            const colour = Constants.colours.find(x => x.name === entry.category);
-                            const value = colour ? colour.value : '#000';
-                            return ( <Cell key={index} fill={value}/> );
-                          })
-                        }
-                        </Pie>
-                      </PieChart>
-                      <BarChart width={730} height={250} data={barChartData}>
-                        <XAxis dataKey="category" />
-                        <YAxis />
-                        <Tooltip formatter={ChartService.formatBarChartTooltip} />
-                        <Legend verticalAlign="top" height={36} />
-                        <Bar dataKey="minimum" unit="h" fill="#f00" />
-                        <Bar dataKey="average" unit="h" fill="#000" />
-                        <Bar dataKey="maximum" unit="h" fill="#0f0" />
-                      </BarChart>
+                  <div className="flex-container">
+                    <div className="flex-group full-row">
+                      <ResponsiveContainer width="35%" height={250}>
+                        <PieChart onMouseEnter={this.onPieEnter}>
+                          <Pie activeIndex={this.state.activePieSectorIndex}
+                               activeShape={ChartService.renderPieActiveShape}
+                               data={pieChartData}
+                               nameKey="category"
+                               valueKey="count"
+                               cx="50%"
+                               cy="50%"
+                               paddingAngle={5}
+                               innerRadius={30}
+                               outerRadius={90}
+                               fill="#000">
+                          {
+                            pieChartData.map((entry, index) => {
+                              const colour = Constants.colours.find(x => x.name === entry.category);
+                              const value = colour ? colour.value : '#000';
+                              return ( <Cell key={index} fill={value}/> );
+                            })
+                          }
+                          </Pie>
+                        </PieChart>
+                      </ResponsiveContainer>
+                      <ResponsiveContainer width="65%" height={250}>
+                        <BarChart data={barChartData}>
+                          <XAxis dataKey="category" />
+                          <YAxis />
+                          <Tooltip formatter={ChartService.formatBarChartTooltip} />
+                          <Legend verticalAlign="top" height={36} />
+                          <Bar dataKey="minimum" unit="h" fill="#f00" />
+                          <Bar dataKey="average" unit="h" fill="#000" />
+                          <Bar dataKey="maximum" unit="h" fill="#0f0" />
+                        </BarChart>
+                      </ResponsiveContainer>
                     </div>
-                    <div className="row">
+                    <div className="flex-group">
                       <CategoryList title="Totals"
                                     items={this.state.statistics.queryCounts.counts} />
                       <BreakdownList title="Breakdown"
