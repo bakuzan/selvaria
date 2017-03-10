@@ -3,7 +3,7 @@ import { ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import ChartService from '../../actions/chart-service';
 import Constants from '../../constants/values';
 
-class CountsPieChart extends Component { 
+class CountPieChart extends Component { 
   constructor() {
     super();
     this.state = {
@@ -50,4 +50,4 @@ class CountsPieChart extends Component {
   }
 }
 
-export default CountsPieChart
+export default CountPieChart
