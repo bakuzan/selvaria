@@ -29,8 +29,27 @@ body {
   display: inline-flex;
   flex-direction: row;
 }
-
 .column {
   display: flex;
   flex-direction: column;
+}
+
+.flex-group {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  padding: 5px;
+  &.full-row {
+    width: 100%;
+  }
+}
+
+.flex-container {
+  flex: 0 1 auto;
+  display: flex;
+  flex-flow: row wrap;
+  align-items: space-around;
+  align-content: flex-start;
+  padding: 0;
+  margin: 0;
 }
