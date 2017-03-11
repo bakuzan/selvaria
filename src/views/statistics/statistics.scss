@@ -1,3 +1,5 @@
+@import "../../styles/partials/_variables";
+
 .category-detail {
   .category-list {
     display: flex;
@@ -20,5 +22,28 @@
     li.hide {
       display: none;
     }
+  }
+  .day-of-week-list {
+    justify-content: flex-start;
+  }
+}
+
+.day-of-week-list {
+  width: 100%;
+  > li, .day-of-week-item-content {
+    flex: 1 0 0%;
+    // min-width: 50%;  TODO need an alternative for this as breaks raw data
+  }
+}
+
+.display-radio-group {
+  display: flex;
+  justify-content: flex-end;
+  align-content: center;
+  margin-bottom: -25px;
+  z-index: map-get($z-index, above-siblings);
+  label {
+    padding: 2px;
+    z-index: map-get($z-index, wafer)
   }
 }

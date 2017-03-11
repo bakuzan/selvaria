@@ -54,7 +54,7 @@ class ChartService {
     return countsBreakdown.map(item => {
       return Object.assign({}, {
         category: item.category,
-        average: item.average,
+        average: parseFloat(item.average),
         minimum: item.min.count,
         maximum: item.max.count
       });
@@ -68,7 +68,7 @@ class ChartService {
   }
 
   formatBarChartTooltip(barNumber, barName, barData) {
-    return barData.value / 2;
+    return (barData.value / 2).toFixed(1);
   }
 
 }

@@ -31,7 +31,13 @@ const colours = [
   { name: 'work', value: '#f2f2f2' }
 ];
 
+const statisticsTypes = {
+  charts: 'CHARTS',
+  rawData: 'RAW_DATA'
+};
+
 const Constants = {
+  statisticsTypes,
   colours,
   dayNames,
   monthNames,

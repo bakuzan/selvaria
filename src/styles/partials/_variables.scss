@@ -34,6 +34,8 @@ $floats: left right none;
 
 //z-index
 $z-index: (
+  wafer: 1,
   above-siblings: 10,
+  header: 50,
   popover: 100
 );

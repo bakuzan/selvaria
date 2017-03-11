@@ -5,12 +5,12 @@ import ChartService from '../../actions/chart-service';
 class BreakdownBarChart extends Component {
   render() {
     const data = ChartService.mapCountsToChartData(this.props.data);
-    
+
     return (
-      <ResponsiveContainer width="65%" height={250}>
+      <ResponsiveContainer width="100%" height={250}>
         <BarChart data={data}>
           <XAxis dataKey="category" />
-          <YAxis />        
+          <YAxis />
           <Tooltip formatter={ChartService.formatBarChartTooltip} />
           <Legend verticalAlign="top" height={36} />
           <Bar dataKey="minimum" unit="h" fill="#f00" />
