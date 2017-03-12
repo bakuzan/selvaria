@@ -9,7 +9,7 @@ class CategoryStatistic {
     this.setPercentage(total);
   }
   setHours() {
-    this.hours = `${Math.round(this.count / 2)}h`;
+    this.hours = `${(this.count / 2).toFixed(1)}h`;
   }
   setPercentage(total) {
     this.percentage = `${parseFloat((this.count / total) * 100).toFixed(2)}%`;

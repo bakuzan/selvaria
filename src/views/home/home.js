@@ -65,10 +65,11 @@ class Home extends Component {
   }
   handleMirrorDay(dayId, dateToMirror) {
     console.log('cloning day : ', dayId, dateToMirror);
-    if (!this.state.loading) this.setState({ loading: true });
     const days = this.state.days.slice(0);
     const dayIndex = days.findIndex(x => x.id === dayId);
     const day = days[dayIndex];
+    if (!day) return;
+    if (!this.state.loading) this.setState({ loading: true });
     const dayToMirror = days.find(x => CommonService.areDatesEqual(x.date, dateToMirror));
 
     DataService.mirrorDayCategories(day, dayToMirror).then(reflectedDay => {
