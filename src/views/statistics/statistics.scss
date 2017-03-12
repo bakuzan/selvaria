@@ -32,7 +32,11 @@
   width: 100%;
   > li, .day-of-week-item-content {
     flex: 1 0 0%;
-    // min-width: 50%;  TODO need an alternative for this as breaks raw data
+  }
+}
+.day-of-week-list.charts {
+  > li, .day-of-week-item-content {
+    min-width: 50%;
   }
 }
 

@@ -14,14 +14,14 @@ module.exports = () => {
       Time.getForQueryRange(req.params, (err, times) => {
         if (err) return CommonController.handleErrorResponse(err, res);
         console.log('breakdownData : ', times.length);
-        const result = { queryCounts: {}, dayOfWeekCounts: [] };
-        statisticsController.countCategoriesForQuery(times).then(queryCounts => {
-          console.log('=> query counts : ', queryCounts.counts.length);
-          result.queryCounts = queryCounts;
+        const result = { totals: {} };
+        statisticsController.countCategoriesForQuery(times).then(totals => {
+          console.log('=> query counts : ', totals.counts.length);
+          result.totals = totals;
           return statisticsController.countCategoriesForDaysOfWeek(times);
         }).then(dayOfWeekCounts => {
           console.log('=> day of week counts : ', dayOfWeekCounts.length);
-          res.jsonp(Object.assign(result, { dayOfWeekCounts }));
+          res.jsonp(Object.assign({}, result, { dayOfWeekCounts }));
         });
       });
     },

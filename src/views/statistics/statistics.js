@@ -20,10 +20,8 @@ class Statistics extends Component {
     super();
     const newDate = new Date();
     this.state = {
-      statistics: {
-        queryCounts: {},
-        dayOfWeekCounts: []
-      },
+      totals: {},
+      dayOfWeekCounts: [],
       loading: true,
       query: {
         year: newDate.getFullYear(),
@@ -44,7 +42,8 @@ class Statistics extends Component {
     if (!this.state.loading) this.setState({ loading: true });
     const query = this.state.query;
     StatisticsQuery.getBreakdownData(query).then(response => {
-      this.setState({ statistics: response, loading: false });
+      console.log('res: ', response);
+      this.setState({ ...response, loading: false });
     });
   }
   updateSelectBox(name, value) {
@@ -79,13 +78,13 @@ class Statistics extends Component {
   render() {
     const queryString = CommonService.constructQueryText(this.state.query);
     const showStatisticsDisplay = (
-      (this.state.statistics.queryCounts && this.state.statistics.queryCounts.counts && this.state.statistics.queryCounts.counts.length > 0) ||
-      (this.state.statistics.dayOfWeekCounts && this.state.statistics.dayOfWeekCounts.length > 0)
+      (this.state.totals && this.state.totals.counts && this.state.totals.counts.length > 0) ||
+      (this.state.dayOfWeekCounts && this.state.dayOfWeekCounts.length > 0)
     );
     const showCharts = this.state.statisticsType === Constants.statisticsTypes.charts;
-    const dayOfWeekCounts = this.renderDayOfWeekList(this.state.statistics.dayOfWeekCounts, showCharts);
-    const pieChartData = this.state.statistics.queryCounts.counts;
-    const barChartData = this.state.statistics.queryCounts.countsBreakdown;
+    const dayOfWeekCounts = this.renderDayOfWeekList(this.state.dayOfWeekCounts, showCharts);
+    const pieChartData = this.state.totals.counts;
+    const barChartData = this.state.totals.countsBreakdown;
     console.log('statistics render : ', this.state);
     // pie => width={730} height={250}
     // bar => width={730} height={250}
@@ -151,15 +150,15 @@ class Statistics extends Component {
                       !showCharts &&
                       <div className="flex-group">
                         <CategoryList title="Totals"
-                                      items={this.state.statistics.queryCounts.counts} />
+                                      items={this.state.totals.counts} />
                         <BreakdownList title="Breakdown"
-                                       items={this.state.statistics.queryCounts.countsBreakdown} />
+                                       items={this.state.totals.countsBreakdown} />
                       </div>
                     }
                   </div>
                 </TabView>
                 <TabView name="by weekday">
-                  <ul className="day-of-week-list">
+                  <ul className={ `day-of-week-list${showCharts ? ' charts' : '' }` }>
                   { dayOfWeekCounts }
                   </ul>
                 </TabView>
