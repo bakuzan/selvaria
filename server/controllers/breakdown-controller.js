@@ -5,7 +5,8 @@ module.exports = () => {
   const breakdown = {
     performFunctionsOnCounts: (categoryCounts) => {
       const minimumsAndMaximums = [];
-      const total = CommonController.findDistinct(categoryCounts, 'date').length;
+      let total;
+      const totalDays = CommonController.findDistinct(categoryCounts, 'date').length;
       for (let i = 0, length = Constants.categories.length; i < length; i++) {
         const category = Constants.categories[i].name;
         const items = categoryCounts.filter(x => x.category === category);
@@ -13,6 +14,7 @@ module.exports = () => {
 
         const min = breakdown.getObjectWithMinimum(items);
         const max = breakdown.getObjectWithMaximum(items);
+        total = category === 'work' ? CommonController.findDistinct(items, 'date').length : totalDays;
         const average = breakdown.calculateAverageOccurance(items, total);
         minimumsAndMaximums.push({ min, max, average, category });
       }
