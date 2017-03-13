@@ -29,7 +29,7 @@ module.exports = () => {
       let i = array.length;
       let sum = 0;
       while (i--) {
-        sum = sum + array[i].count;
+        sum += array[i].count;
       }
       return (sum / total).toFixed(2);
     }

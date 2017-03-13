@@ -13,7 +13,7 @@ module.exports = () => {
       const distinct = [];
       array.forEach(x => {
         const value = x[property];
-        if(!unique[value]) {
+        if(value && !unique[value]) {
           distinct.push(value);
           unique[value] = true;
         }
