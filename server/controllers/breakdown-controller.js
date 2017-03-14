@@ -1,5 +1,6 @@
 const Constants = require('../constants');
 const CommonController = require('./common-controller.js')();
+const CategoryStatistic = require('../models/category-statistic.js');
 
 module.exports = () => {
   const breakdown = {
@@ -9,12 +10,15 @@ module.exports = () => {
       const totalDays = CommonController.findDistinct(categoryCounts, 'date').length;
       for (let i = 0, length = Constants.categories.length; i < length; i++) {
         const category = Constants.categories[i].name;
+        const isWork = category === 'work';
         const items = categoryCounts.filter(x => x.category === category);
         if (items.length === 0) continue;
 
-        const min = breakdown.getObjectWithMinimum(items);
+        const daysOccuredOn = CommonController.findDistinct(items, 'date').length;
+        total = isWork ? daysOccuredOn : totalDays;
+        
+        const min = daysOccuredOn === total || isWork ? breakdown.getObjectWithMinimum(items) : breakdown.unoccuredMinimum(category, total);
         const max = breakdown.getObjectWithMaximum(items);
-        total = category === 'work' ? CommonController.findDistinct(items, 'date').length : totalDays;
         const average = breakdown.calculateAverageOccurance(items, total);
         minimumsAndMaximums.push({ min, max, average, category });
       }
@@ -34,6 +38,14 @@ module.exports = () => {
         sum += array[i].count;
       }
       return (sum / total).toFixed(2);
+    },
+    unoccuredMinimum: (category, total) => {
+      const item = Object.assign({}, { 
+        time: null, 
+        category, 
+        count: 0 
+      });
+      return Object.assign({}, new CategoryStatistic(item, total));
     }
   };
 
