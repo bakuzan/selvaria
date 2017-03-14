@@ -68,7 +68,7 @@ class ChartService {
   }
 
   formatBarChartTooltip(barNumber, barName, barData) {
-    return (barData.value / 2).toFixed(1);
+    return (barData.value / 2).toFixed(2);
   }
 
 }
