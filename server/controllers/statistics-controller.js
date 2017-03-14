@@ -73,7 +73,7 @@ module.exports = () => {
           const timesForDay = times.filter(x => x.dayOfTheWeek === dayName);
           const occurancesOfDay = timesForDay.length / 48;
           const dayCounts = statisticsController.buildCountsBasedOnCategory(timesForDay);
-          const countsBreakdown = statisticsController.buildMathsFunctions(times);
+          const countsBreakdown = statisticsController.buildMathsFunctions(timesForDay);
 
           counts.push({
             dayName,
