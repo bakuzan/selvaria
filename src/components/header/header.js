@@ -15,11 +15,15 @@ class Header extends Component {
         </Link>
         <h1>SELVARIA</h1>
         <div id="navigation-links">
-          <div className="flex-right center-vertically">
-            <Link className="ripple" to={`${paths.base}${paths.statistics}`}>
+          <div className="flex-right">
+            <Link className="ripple center-contents"
+                  activeClassName="active"
+                  to={`${paths.base}${paths.statistics}`}>
               Statistics
             </Link>
-            <Link className="ripple" to={`${paths.base}${paths.about}`}>
+            <Link className="ripple center-contents"
+                  activeClassName="active"
+                  to={`${paths.base}${paths.about}`}>
               About
             </Link>
           </div>

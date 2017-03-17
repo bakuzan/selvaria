@@ -23,18 +23,30 @@
   right: 10px;
   width: 33%;
   height: 100%;
+  div {
+    height: 100%;
+  }
   a {
     background-color: $primary-background;
     color: $primary-colour-contrast;
+    height: 100%;
     padding: 8px;
     text-decoration: none;
+    box-sizing: border-box;
     &:hover {
       background-color: darken($primary-background, $darken-amount);
+    }
+    &.active {
+      background-color: $secondary-background;
+      color: $secondary-colour-contrast;
+      &:hover {
+        background-color: darken($secondary-background, $darken-amount);
+      }
     }
   }
 }
 .flex-right {
   display: flex;
   justify-content: flex-end;
-  align-items: flex-end;
+  align-items: center;
 }
