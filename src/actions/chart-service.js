@@ -1,5 +1,6 @@
 import React from 'react';
 import { Sector } from 'recharts';
+import CommonService from './common-service';
 
 class ChartService {
 
@@ -68,7 +69,7 @@ class ChartService {
   }
 
   formatBarChartTooltip(barNumber, barName, barData) {
-    return (barData.value / 2).toFixed(2);
+    return CommonService.calculateHoursAndMinutes(barData.value);
   }
 
 }

@@ -13,9 +13,9 @@ class BreakdownBarChart extends Component {
           <YAxis />
           <Tooltip formatter={ChartService.formatBarChartTooltip} />
           <Legend verticalAlign="top" height={36} />
-          <Bar dataKey="minimum" unit="h" fill="#f00" />
-          <Bar dataKey="average" unit="h" fill="#000" />
-          <Bar dataKey="maximum" unit="h" fill="#0f0" />
+          <Bar dataKey="minimum" fill="#f00" />
+          <Bar dataKey="average" fill="#000" />
+          <Bar dataKey="maximum" fill="#0f0" />
         </BarChart>
       </ResponsiveContainer>
     );

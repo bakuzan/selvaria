@@ -9,7 +9,12 @@ class CategoryStatistic {
     this.setPercentage(total);
   }
   setHours() {
-    this.hours = `${(this.count / 2).toFixed(1)}h`;
+    const hours = (this.count / 2).toFixed(2);
+    const parts = hours.split('.');
+    const hoursString = `${parts[0]}h`;
+    const minutes = (hours - parts[0]) * 60;
+    const minutesString = minutes > 0 ? `${minutes}m` : null;
+    this.hours = `${hoursString}${minutesString ? ` ${minutesString}` : ''}`;
   }
   setPercentage(total) {
     this.percentage = `${parseFloat((this.count / total) * 100).toFixed(2)}%`;

@@ -1,5 +1,6 @@
 import React from 'react';
 import CategoryItem from '../../components/category-item/category-item';
+import CommonService from '../common-service';
 
 class BreakdownService {
   generateDayRowDetail(times) {
@@ -20,7 +21,10 @@ class BreakdownService {
       if (aCount < bCount) return 1;
       return 0;
     }).map((item, index) => {
-      const categoryItem = { ...item, hours: `${item.count / 2}h` };
+      const categoryItem = { 
+        ...item,
+        hours: CommonService.calculateHoursAndMinutes(item.count)
+      };
       return (
         <CategoryItem key={index} item={categoryItem} />
       );

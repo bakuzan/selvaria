@@ -24,6 +24,14 @@ class CommonService {
     const minutes = date.getMinutes();
     return `${this.padNumber(hours, 2)}:${this.padNumber(minutes, 2)}`;
   }
+  calculateHoursAndMinutes(count) {
+    const hours = (count / 2).toFixed(2);
+    const parts = hours.split('.');
+    const hoursString = `${parts[0]}h`;
+    const minutes = Math.round((hours - parts[0]) * 60);
+    const minutesString = minutes > 0 ? `${minutes}m` : null;
+    return `${hoursString}${minutesString ? ` ${minutesString}` : ''}`;
+  }
   daysInMonth(year, month) {
     return new Date(year, month + 1, 0).getDate();
   }
