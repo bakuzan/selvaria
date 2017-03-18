@@ -23,7 +23,8 @@
             position: absolute;
             top: -5000px;
             width: 100%;
-            z-index: -1;
+            z-index: map-get($z-index, wafer);
+            pointer-events: none;
         }
       }
     }
