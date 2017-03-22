@@ -53,9 +53,8 @@ class Statistics extends Component {
     this.setState({ query: updatedQuery })
   }
   changeStatisticsDisplay(event) {
-    const { name } = event.target;
-    const type = name.indexOf('Charts') > -1 ? Constants.statisticsTypes.charts : Constants.statisticsTypes.rawData;
-    this.setState({ statisticsType: type });
+    const { value } = event.target;
+    this.setState({ statisticsType: value });
   }
   toggleBreakdownForDay(dayName) {
     const state = this.state;
@@ -122,7 +121,7 @@ class Statistics extends Component {
                 <label>
                   <input type="radio"
                          name="displayCharts"
-                         value={this.state.statisticsType}
+                         value={Constants.statisticsTypes.charts}
                          checked={this.state.statisticsType === Constants.statisticsTypes.charts}
                          onChange={(e) => this.changeStatisticsDisplay(e)} />
                   charts
@@ -130,7 +129,7 @@ class Statistics extends Component {
                 <label>
                   <input type="radio"
                          name="displayRawData"
-                         value={this.state.statisticsType}
+                         value={Constants.statisticsTypes.rawData}
                          checked={this.state.statisticsType === Constants.statisticsTypes.rawData}
                          onChange={(e) => this.changeStatisticsDisplay(e)} />
                   raw data
