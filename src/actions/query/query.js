@@ -1,4 +1,5 @@
 import CommonService from '../common-service';
+import DataService from '../data-service';
 import DayQuery from './day-query';
 import TimeQuery from './time-query';
 
@@ -24,7 +25,7 @@ class Query {
   }
   getTimeSheetHeader() {
     let array = [];
-    const day = new Date();
+    const day = new Date(2017, 0, 1);
     for(let i = 0; i < 24; i++) {
       let dateTime = day;
       dateTime.setHours(i);
@@ -35,11 +36,24 @@ class Query {
     }
     return array;
   }
-  createTimeBlock(id, dateTime, array) {
+  createTimeBlock(id, dateTime) {
     const timeBlock = this.getTimeBlockModel(id, dateTime);
     return TimeQuery.save(timeBlock);
   }
-  getTimeBlocks(day = new Date()) {
+  getTimeBlocks(date = new Date()) {
+    let array = [];
+    const day = new Date(date);
+    const tomorrow = DataService.getTomorrowsDate(day);
+    while(day.getDate() < tomorrow) {
+      let hour = day.getHours();
+      array.push(this.createTimeBlock(hour, day));
+      day.setMinutes(day.getMinutes() + 30);
+      array.push(this.createTimeBlock(`${hour}30`, day));
+      day.setMinutes(day.getMinutes() + 30);
+    }
+    return Promise.all(array);
+  }
+  oldgetTimeBlocks(day = new Date()) {
     let array = [];
     for(let i = 0; i < 24; i++) {
       let dateTime = new Date(day);

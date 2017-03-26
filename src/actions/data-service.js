@@ -22,6 +22,11 @@ class DataService {
     const lastDateOfQuery = new Date(lastDayYear, lastDayMonth, lastDayDate, 23, 59, 59);
     return latestDate.getTime() < lastDateOfQuery.getTime();
   }
+  getTomorrowsDate(date) {
+    const tomorrow = new Date(date);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    return tomorrow.getDate();
+  }
   getQueryStartDate(query) {
     const month = query.month || 0;
     return new Date(query.year, month, 0);
@@ -35,14 +40,15 @@ class DataService {
     let updatedQuery = update(queryValues, {
       [property]: { $set: newValue }
     });
-    
+
     return update(updatedQuery, {
       date: { $set: updatedQuery.month ? updatedQuery.date : '' }
     });
   }
   mirrorDayCategories(day, dayToMirror) {
     const updatedTimes = day.times.map((item, index) => {
-      const reflectedTime = update(item, { category: { $set: dayToMirror.times[index].category } });
+      const mirror = dayToMirror.times.find(x => x.time === item.time);
+      const reflectedTime = update(item, { category: { $set: mirror.category } });
       return TimeQuery.save(reflectedTime).then(response => {
         return response;
       });
