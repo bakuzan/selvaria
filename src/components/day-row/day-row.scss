@@ -9,7 +9,6 @@
   }
   .times {
     .time-block {
-      cursor: pointer;
       &:hover {
         &::after, &::after {
           border: {
@@ -43,6 +42,10 @@
   &.weekend {
     background-color: lighten($secondary-background, $darken-amount);
   }
+}
+
+.time-block:not(.bst-placeholder) {
+  cursor: pointer;
 }
 
 .day-row.is-expanded {

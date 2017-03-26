@@ -2,22 +2,30 @@ import React, { Component } from 'react';
 
 class TimeBlock extends Component {
   shouldComponentUpdate(nextProps, nextState) {
-    return !(nextProps.item.category === this.props.item.category);
+    return !!nextProps.item.dateTime || !(nextProps.item.category === this.props.item.category);
   }
   handleClick(event) {
-    if (this.props.handleEditMode) {
-      const { clientX, clientY } = event;
-      const editItem = Object.assign({}, { 
-        dateTime: this.props.item.dateTime, 
-        timeId: this.props.item.id, 
-        location: { clientX, clientY } 
-      });
-      this.props.handleEditMode(editItem);
-    }
+    if (!this.props.item.dateTime || !this.props.handleEditMode) return;
+
+    const { clientX, clientY } = event;
+    const editItem = Object.assign({}, {
+      dateTime: this.props.item.dateTime,
+      timeId: this.props.item.id,
+      location: { clientX, clientY }
+    });
+    this.props.handleEditMode(editItem);
   }
   render() {
-    const classColour = this.props.item.category ? ` ${this.props.item.category}` : '';
-    return (<div className={`time-block${classColour}`} onClick={(e) => this.handleClick(e)}></div>);
+    const classColour = this.props.item && this.props.item.category ? ` ${this.props.item.category}` : '';
+    const bstClass = this.props.item && !this.props.item.dateTime ? ' bst-placeholder' : '';
+
+    return (
+      <div className={`time-block${classColour}${bstClass}`}
+           onClick={(e) => this.handleClick(e)}
+           title={`${bstClass ? 'BST skipped hour' : ''}`}
+      >
+      </div>
+    );
   }
 }
 

@@ -45,6 +45,16 @@ class DataService {
       date: { $set: updatedQuery.month ? updatedQuery.date : '' }
     });
   }
+  handleDayLength(times) {
+    const length = times.length;
+    if (length === 48) return times;
+    if (length < 48) return [
+      ...times.slice(0, 2),
+      { id: 'bst-0' },
+      { id: 'bst-1' },
+      ...times.slice(2)
+    ];
+  }
   mirrorDayCategories(day, dayToMirror) {
     const updatedTimes = day.times.map((item, index) => {
       const mirror = dayToMirror.times.find(x => x.time === item.time);

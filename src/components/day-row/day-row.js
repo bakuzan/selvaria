@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import TimeBlock from '../../components/time-block/time-block';
 import ActionMenu from '../../components/action-menu/action-menu';
 import CommonService from '../../actions/common-service';
+import DataService from '../../actions/data-service';
 import BreakdownService from '../../actions/statistics/breakdown-service';
 import './day-row.css';
 
@@ -35,13 +36,16 @@ class DayRow extends Component {
   }
   getTimes(array) {
     return array.map((item) => {
-      return <TimeBlock key={item.id}
-                        item={item}
-                        handleEditMode={this.props.handleEditMode} />
+      return (
+        <TimeBlock key={item.id}
+                   item={item}
+                   handleEditMode={this.props.handleEditMode} />
+      );
     });
   }
   render() {
     const dayRow = this.props.item;
+    const times = DataService.handleDayLength(dayRow.times);
     const isExpandedClass = this.state.isExpanded ? ' is-expanded' : '';
     const isWeekendClass = CommonService.isWeekend(dayRow.dayOfTheWeek);
     const classes = `day-row${isExpandedClass} start-center-contents`;
@@ -54,7 +58,7 @@ class DayRow extends Component {
             </button>
           </div>
           <div className="times">
-            { this.getTimes(dayRow.times) }
+            { this.getTimes(times) }
           </div>
           {
             !!this.props.handleMirror &&
