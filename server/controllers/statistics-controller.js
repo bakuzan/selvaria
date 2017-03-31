@@ -46,7 +46,7 @@ module.exports = () => {
     },
     buildMathsFunctions: (times) => {
       const counts = [];
-      const groupedTimes = CommonController.groupBy(times, item => [ item.dateTime.toISOString().split('T')[0] ]);
+      const groupedTimes = CommonController.groupBy(times, item => [ item.dateTime.toLocaleDateString() ]);
       for(let i = 0, length = groupedTimes.length; i < length; i++) {
         counts.push(...statisticsController.buildCountsBasedOnCategory(groupedTimes[i]));
       }
