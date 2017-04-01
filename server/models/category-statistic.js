@@ -3,7 +3,7 @@ class CategoryStatistic {
     this.category = category;
     this.count = count;
     // console.log('stat args : ', !!time ? time.dateTime : 'time is falsey');
-    this.date = !!time && !!time.dateTime ? time.dateTime.toISOString().split('T')[0] : null;
+    this.date = !!time && !!time.dateTime ? time.dateTime.toLocaleDateString() : null;
 
     this.setHours();
     this.setPercentage(total);
