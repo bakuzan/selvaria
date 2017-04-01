@@ -44,7 +44,7 @@ class Query {
     let array = [];
     const day = new Date(date);
     const tomorrow = DataService.getTomorrowsDate(day);
-    while(day.getDate() < tomorrow) {
+    while(day.getDate() !== tomorrow) {
       let hour = day.getHours();
       array.push(this.createTimeBlock(hour, day));
       day.setMinutes(day.getMinutes() + 30);

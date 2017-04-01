@@ -19,7 +19,7 @@ class Home extends Component {
       query: {
         year: new Date().getFullYear(),
         month: new Date().getMonth(),
-        date: ''
+        date: new Date().getDate()
       }
     };
 

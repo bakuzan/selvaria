@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise; // mongoose mpromise is deprecated...so use native.
+
+const Common = require('./common-controller.js')();
 const Time = require('../models/time.js');
 
 module.exports = () => {
