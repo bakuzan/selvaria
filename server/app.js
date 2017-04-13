@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
+const favicon = require('serve-favicon');
 const path = require('path');
 const dotenv = require('dotenv');
 
@@ -13,6 +14,7 @@ const app = express();
 app.use(morgan(':remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] :response-time ms'));
 
 // Serve static assets
+app.use(favicon(path.join(__dirname, '..', 'build', 'favicon.ico')));
 app.use('/selvaria/static', express.static(path.resolve(__dirname, '..', 'build/static')));
 
 //Body parsing for POST-ing
