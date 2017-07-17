@@ -54,17 +54,21 @@ class Home extends Component {
   }
   handleNextDayRequest() {
     const latestDay = this.state.days.slice(0)[0] || {};
-    console.log('handleNextDayRequest: ', latestDay);
+    //console.log('handleNextDayRequest: ', latestDay);
     const date = latestDay.date || DataService.getQueryStartDate(this.state.query);
     if (!DataService.canGetNextDay(date, this.state.query)) return alert('End of date period reached.');
+	this.setState({ loading: true });
     Query.getNextDay(date).then(newDayArray => {
       this.setState(prevState => {
-        return { days: newDayArray.concat(prevState.days) };
+        return { 
+			days: newDayArray.concat(prevState.days),
+			loading: false
+		};
       });
     });
   }
   handleMirrorDay(dayId, dateToMirror) {
-    console.log('cloning day : ', dayId, dateToMirror);
+    //console.log('cloning day : ', dayId, dateToMirror);
     const days = this.state.days.slice(0);
     const dayIndex = days.findIndex(x => x.id === dayId);
     const day = days[dayIndex];
