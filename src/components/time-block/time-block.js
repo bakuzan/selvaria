@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 
 class TimeBlock extends Component {
+  
   shouldComponentUpdate(nextProps, nextState) {
-    return !!nextProps.item.dateTime || !(nextProps.item.category === this.props.item.category);
+    return !nextProps.item.category || !(nextProps.item.category === this.props.item.category);
   }
+  
   handleClick(event) {
     if (!this.props.item.dateTime || !this.props.handleEditMode) return;
 
@@ -15,6 +17,7 @@ class TimeBlock extends Component {
     });
     this.props.handleEditMode(editItem);
   }
+  
   render() {
     const classColour = this.props.item && this.props.item.category ? ` ${this.props.item.category}` : '';
     const bstClass = this.props.item && !this.props.item.dateTime ? ' bst-placeholder' : '';
@@ -27,6 +30,7 @@ class TimeBlock extends Component {
       </div>
     );
   }
+
 }
 
 export default TimeBlock;
