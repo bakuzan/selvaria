@@ -19,6 +19,16 @@ class DayRow extends Component {
       { text: 'Mirror last week', action: () => this.handleMirrorOption(7) }
     ];
   }
+  
+  shouldComponentUpdate(nextProps, nextState) {
+    const currentTimes = this.props.item.times;
+    const nextTimes = nextProps.item.times;
+    for(let i = 0, length = nextTimes.length; i < length; i++) {
+      if (nextTimes[i].category !== currentTimes[i].category) return true;
+    }
+    return false;
+  }
+  
   handleMirrorOption(mirrorDaysAgo) {
     const { id, date } = this.props.item;
     const dateToMirror = new Date(date);
