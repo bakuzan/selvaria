@@ -13,18 +13,17 @@ class CountPieChart extends Component {
     this.onPieEnter = this.onPieEnter.bind(this);
   }
   shouldComponentUpdate(nextProps, nextState) {
-    console.log('update ?? ', nextProps, nextState);
     return !(this.state.activeIndex === nextState.activeIndex);
   }
   renderCells(counts) {
     return counts.map((entry, index) => {
       const colour = Constants.colours.find(x => x.name === entry.category);
       const value = colour ? colour.value : '#000';
-      return ( <Cell key={index} fill={value} /> );
+      return <Cell key={index} fill={value} />;
     });
   }
-  onPieEnter(data, index) {
-    this.setState({ activeIndex: index });
+  onPieEnter(segment, activeIndex) {
+    this.setState({ activeIndex });
   }
   render() {
     const pieChartData = ChartService.mapCountsToPieData(this.props.counts);
@@ -32,21 +31,22 @@ class CountPieChart extends Component {
 
     return (
       <ResponsiveContainer width="100%" height={300}>
-        <PieChart onMouseEnter={this.onPieEnter}>
-          <Pie activeIndex={this.state.activeIndex}
-               activeShape={ChartService.renderPieActiveShape}
-               data={pieChartData}
-               nameKey="category"
-               valueKey="count"
-               cx="50%"
-               cy="50%"
-               paddingAngle={5}
-               innerRadius={30}
-               outerRadius={90}
-               fill="#000">
-               {
-                 cells
-               }
+        <PieChart>
+          <Pie
+            activeIndex={this.state.activeIndex}
+            activeShape={ChartService.renderPieActiveShape}
+            data={pieChartData}
+            onMouseEnter={this.onPieEnter}
+            nameKey="category"
+            dataKey="count"
+            cx="50%"
+            cy="50%"
+            paddingAngle={5}
+            innerRadius={30}
+            outerRadius={90}
+            fill="#000"
+          >
+            {cells}
           </Pie>
         </PieChart>
       </ResponsiveContainer>
@@ -54,4 +54,4 @@ class CountPieChart extends Component {
   }
 }
 
-export default CountPieChart
+export default CountPieChart;

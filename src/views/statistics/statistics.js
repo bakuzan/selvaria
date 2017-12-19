@@ -42,15 +42,13 @@ class Statistics extends Component {
     if (!this.state.loading) this.setState({ loading: true });
     const query = this.state.query;
     StatisticsQuery.getBreakdownData(query).then(response => {
-      console.log('res: ', response);
       this.setState({ ...response, loading: false });
     });
   }
   updateSelectBox(name, value) {
     const query = this.state.query;
     const updatedQuery = DataService.updateQueryValues(query, name, value);
-    console.log('update: ', name, value, updatedQuery);
-    this.setState({ query: updatedQuery })
+    this.setState({ query: updatedQuery });
   }
   changeStatisticsDisplay(event) {
     const { value } = event.target;
@@ -59,113 +57,129 @@ class Statistics extends Component {
   toggleBreakdownForDay(dayName) {
     const state = this.state;
     const updatedState = update(state, {
-      showDayOfWeekBreakdown: { $set: state.showDayOfWeekBreakdown === dayName ? null : dayName }
+      showDayOfWeekBreakdown: {
+        $set: state.showDayOfWeekBreakdown === dayName ? null : dayName
+      }
     });
     this.setState(updatedState);
   }
   renderDayOfWeekList(dayCounts, showCharts) {
     return dayCounts.map(item => {
       return (
-        <DayOfWeekItem key={item.dayName}
-                       item={item}
-                       showDayOfWeekBreakdown={this.state.showDayOfWeekBreakdown}
-                       showCharts={showCharts}
-                       toggleBreakdown={this.toggleBreakdownForDay} />
+        <DayOfWeekItem
+          key={item.dayName}
+          item={item}
+          showDayOfWeekBreakdown={this.state.showDayOfWeekBreakdown}
+          showCharts={showCharts}
+          toggleBreakdown={this.toggleBreakdownForDay}
+        />
       );
     });
   }
   render() {
     const queryString = CommonService.constructQueryText(this.state.query);
-    const showStatisticsDisplay = (
-      (this.state.totals && this.state.totals.counts && this.state.totals.counts.length > 0) ||
-      (this.state.dayOfWeekCounts && this.state.dayOfWeekCounts.length > 0)
+    const showStatisticsDisplay =
+      (this.state.totals &&
+        this.state.totals.counts &&
+        this.state.totals.counts.length > 0) ||
+      (this.state.dayOfWeekCounts && this.state.dayOfWeekCounts.length > 0);
+    const showCharts =
+      this.state.statisticsType === Constants.statisticsTypes.charts;
+    const dayOfWeekCounts = this.renderDayOfWeekList(
+      this.state.dayOfWeekCounts,
+      showCharts
     );
-    const showCharts = this.state.statisticsType === Constants.statisticsTypes.charts;
-    const dayOfWeekCounts = this.renderDayOfWeekList(this.state.dayOfWeekCounts, showCharts);
     const pieChartData = this.state.totals.counts;
     const barChartData = this.state.totals.countsBreakdown;
-    console.log('statistics render : ', this.state);
-    // pie => width={730} height={250}
-    // bar => width={730} height={250}
+    console.log('statistics :: ', pieChartData);
     return (
       <div id="statistics">
-      {
-        this.state.loading &&
-        <LoadingSpinner size="fullscreen" />
-      }
-      {
-        !this.state.loading &&
-        <div>
-          <div className="flex-row">
-            <header className="flex-column">
-              <h2 className="margin-0">
-                Statistics
-              </h2>
-              <p className="subtitle keep-line-breaks">
-              {
-                `Query data for
-                ${queryString}`
-              }
-              </p>
-            </header>
-            <div className="width-75 margin-left-auto">
-              <ActionBar {...this.state.query}
-                         query={this.getStatisticsForQuery}
-                         updateSelectBox={this.updateSelectBox} />
-            </div>
-          </div>
-          {
-            showStatisticsDisplay &&
-            <div className="category-detail">
-              <div className="display-radio-group">
-                <label>
-                  <input type="radio"
-                         name="displayCharts"
-                         value={Constants.statisticsTypes.charts}
-                         checked={this.state.statisticsType === Constants.statisticsTypes.charts}
-                         onChange={(e) => this.changeStatisticsDisplay(e)} />
-                  charts
-                </label>
-                <label>
-                  <input type="radio"
-                         name="displayRawData"
-                         value={Constants.statisticsTypes.rawData}
-                         checked={this.state.statisticsType === Constants.statisticsTypes.rawData}
-                         onChange={(e) => this.changeStatisticsDisplay(e)} />
-                  raw data
-                </label>
+        {this.state.loading && <LoadingSpinner size="fullscreen" />}
+        {!this.state.loading && (
+          <div>
+            <div className="flex-row">
+              <header className="flex-column">
+                <h2 className="margin-0">Statistics</h2>
+                <p className="subtitle keep-line-breaks">
+                  {`Query data for
+                ${queryString}`}
+                </p>
+              </header>
+              <div className="width-75 margin-left-auto">
+                <ActionBar
+                  {...this.state.query}
+                  query={this.getStatisticsForQuery}
+                  updateSelectBox={this.updateSelectBox}
+                />
               </div>
-              <TabContainer>
-                <TabView name="total">
-                  <div className="flex-container full-width">
-                    {
-                      showCharts &&
-                      <div className="flex-container full-width">
-                        <CountPieChart counts={pieChartData} />
-                        <BreakdownBarChart data={barChartData} />
-                      </div>
-                    }
-                    {
-                      !showCharts &&
-                      <div className="flex-group">
-                        <CategoryList title="Totals"
-                                      items={this.state.totals.counts} />
-                        <BreakdownList title="Breakdown"
-                                       items={this.state.totals.countsBreakdown} />
-                      </div>
-                    }
-                  </div>
-                </TabView>
-                <TabView name="by weekday">
-                  <ul className={ `day-of-week-list${showCharts ? ' charts' : '' }` }>
-                  { dayOfWeekCounts }
-                  </ul>
-                </TabView>
-              </TabContainer>
             </div>
-          }
-        </div>
-      }
+            {showStatisticsDisplay && (
+              <div className="category-detail">
+                <div className="display-radio-group">
+                  <label>
+                    <input
+                      type="radio"
+                      name="displayCharts"
+                      value={Constants.statisticsTypes.charts}
+                      checked={
+                        this.state.statisticsType ===
+                        Constants.statisticsTypes.charts
+                      }
+                      onChange={e => this.changeStatisticsDisplay(e)}
+                    />
+                    charts
+                  </label>
+                  <label>
+                    <input
+                      type="radio"
+                      name="displayRawData"
+                      value={Constants.statisticsTypes.rawData}
+                      checked={
+                        this.state.statisticsType ===
+                        Constants.statisticsTypes.rawData
+                      }
+                      onChange={e => this.changeStatisticsDisplay(e)}
+                    />
+                    raw data
+                  </label>
+                </div>
+                <TabContainer>
+                  <TabView name="total">
+                    <div className="flex-container full-width">
+                      {showCharts && (
+                        <div className="flex-container full-width">
+                          <CountPieChart counts={pieChartData} />
+                          <BreakdownBarChart data={barChartData} />
+                        </div>
+                      )}
+                      {!showCharts && (
+                        <div className="flex-group">
+                          <CategoryList
+                            title="Totals"
+                            items={this.state.totals.counts}
+                          />
+                          <BreakdownList
+                            title="Breakdown"
+                            items={this.state.totals.countsBreakdown}
+                          />
+                        </div>
+                      )}
+                    </div>
+                  </TabView>
+                  <TabView name="by weekday">
+                    <ul
+                      className={`day-of-week-list${
+                        showCharts ? ' charts' : ''
+                      }`}
+                    >
+                      {dayOfWeekCounts}
+                    </ul>
+                  </TabView>
+                </TabContainer>
+              </div>
+            )}
+          </div>
+        )}
       </div>
     );
   }
