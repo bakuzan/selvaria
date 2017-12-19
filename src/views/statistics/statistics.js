@@ -91,7 +91,7 @@ class Statistics extends Component {
     );
     const pieChartData = this.state.totals.counts;
     const barChartData = this.state.totals.countsBreakdown;
-    console.log('statistics :: ', pieChartData);
+    console.log('statistics :: ', pieChartData, barChartData);
     return (
       <div id="statistics">
         {this.state.loading && <LoadingSpinner size="fullscreen" />}
