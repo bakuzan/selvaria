@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router';
+import { NavLink } from 'react-router-dom';
 import { paths } from '../../constants/paths';
 import './about.css';
 
@@ -12,7 +12,7 @@ class About extends Component {
           <p className="subtitle">Selvaria is a timesheet application.</p>
         </header>
         <div className="content">
-          <Link to={paths.base}>Home</Link> Start the timesheet!
+          <NavLink to={paths.base}>Home</NavLink> Start the timesheet!
         </div>
       </article>
     );

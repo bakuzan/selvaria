@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import SvgLogo from '../svg-logo/svg-logo.js';
-import { Link } from 'react-router';
+import { NavLink } from 'react-router-dom';
 import { paths } from '../../constants/paths';
 import './header.css';
 import '../../styles/ripple.css';
@@ -10,22 +10,22 @@ class Header extends Component {
   render() {
     return (
       <nav className="application-header center-contents">
-        <Link className="ripple" id="logo-svg" to={paths.base}>
+        <NavLink className="ripple" id="logo-svg" to={paths.base}>
           <SvgLogo text="Selvaria" />
-        </Link>
+        </NavLink>
         <h1>SELVARIA</h1>
         <div id="navigation-links">
           <div className="flex-right">
-            <Link className="ripple center-contents"
+            <NavLink className="ripple center-contents"
                   activeClassName="active"
                   to={`${paths.base}${paths.statistics}`}>
               Statistics
-            </Link>
-            <Link className="ripple center-contents"
+            </NavLink>
+            <NavLink className="ripple center-contents"
                   activeClassName="active"
                   to={`${paths.base}${paths.about}`}>
               About
-            </Link>
+            </NavLink>
           </div>
         </div>
       </nav>
