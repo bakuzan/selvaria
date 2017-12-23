@@ -13,7 +13,6 @@ module.exports = () => {
       });
     },
     save: (req, res) => {
-      console.log('save this', req.body);
       const options = {
         new: true,
         upsert: true,

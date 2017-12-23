@@ -2,7 +2,6 @@ class CategoryStatistic {
   constructor({ time, category, count }, total) {
     this.category = category;
     this.count = count;
-    // console.log('stat args : ', !!time ? time.dateTime : 'time is falsey');
     this.date = !!time && !!time.dateTime ? time.dateTime.toLocaleDateString() : null;
 
     this.setHours();

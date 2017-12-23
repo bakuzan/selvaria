@@ -34,21 +34,33 @@ module.exports = () => {
       const index = date.getDay();
       return Constants.dayNames[index];
     },
+    setDateTime: (d, time) => {
+      const [hour,minute,second] = time.split(":")
+      const date = new Date(d)
+      d.setHours(hour)
+      d.setMinutes(minute)
+      d.setSeconds(second)
+      return d
+    },
+    setTimeToEndOfDay: (d) => {
+      return commonService.setDateTime(d, "23:59:59");
+    },
+    setTimeToStartOfDay: (d) => {
+      return commonService.setDateTime(d, "00:00:00");
+    },
     getSunday: (d) => {
-      d = new Date(d);
+      d = commonService.setTimeToEndOfDay(d);
       const day = d.getDay();
       const diff = d.getDate() - day + (day == 0 ? 0 : 7);
       return new Date(d.setDate(diff));
     },
     getQueryTypeAndValues: ({ year, month, date }) => {
-      // console.log('values : ', year, month, date);
       if (date) return { queryType: Constants.queryTypes.date, queryValues: { year, month, date } };
       if (!date && month) return { queryType: Constants.queryTypes.month, queryValues: { year, month } };
       if (!date && !month) return { queryType: Constants.queryTypes.year, queryValues: { year } };
     },
     constructQueryRangeFromParams: (params) => {
       const { queryType, queryValues } = commonService.getQueryTypeAndValues(params);
-      // console.log('constructor: ', queryType, queryValues);
       switch(queryType) {
         case Constants.queryTypes.date:
           return commonService.buildTwoWeekPeriodQuery(queryValues);
@@ -57,32 +69,26 @@ module.exports = () => {
         case Constants.queryTypes.year:
           return commonService.buildYearQuery(queryValues);
         default:
-          console.log('no query range found - defaulting to year query.');
+          console.log(chalk.bgWhite.black('no query range found - defaulting to year query.'));
           return commonService.buildYearQuery(queryValues);
       }
     },
     buildTwoWeekPeriodQuery: ({ year, month, date }) => {
-      console.log(`period query: ${year}-${month}-${date}`);
       const day = new Date(year, month, date);
       const comingSunday = commonService.getSunday(day);
-      const mondayLastWeek = new Date(comingSunday);
+      const mondayLastWeek = commonService.setTimeToStartOfDay(new Date(comingSunday));
       mondayLastWeek.setDate(mondayLastWeek.getDate() - 13);
-
       return { $gte: mondayLastWeek, $lte: comingSunday };
     },
     buildMonthQuery: ({ year, month }) => {
-      console.log(`month query: ${year}-${month}`);
       const lessThanYear = Number(year);
       const nextMonth = Number(month) + 1;
-
       return { $gte: new Date(year, month, 1), $lt: new Date(year, nextMonth, 1) };
     },
     buildYearQuery: ({ year }) => {
-      console.log(`year query: ${year}`);
       const firstDay = new Date(year, 0, 1);
       const nextYear = new Date(firstDay);
       nextYear.setYear(nextYear.getFullYear() + 1);
-
       return { $gte: firstDay, $lt: nextYear };
     },
     handleErrorResponse: (err, res) => {

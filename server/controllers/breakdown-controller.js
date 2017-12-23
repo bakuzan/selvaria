@@ -16,13 +16,13 @@ module.exports = () => {
 
         const daysOccuredOn = CommonController.findDistinct(items, 'date').length;
         total = isWork ? daysOccuredOn : totalDays;
-        
+
         const min = daysOccuredOn === total || isWork ? breakdown.getObjectWithMinimum(items) : breakdown.unoccuredMinimum(category, total);
         const max = breakdown.getObjectWithMaximum(items);
         const average = breakdown.calculateAverageOccurance(items, total);
+
         minimumsAndMaximums.push({ min, max, average, category });
       }
-      // console.log('min-max-avg : ', minimumsAndMaximums);
       return minimumsAndMaximums;
     },
     getObjectWithMinimum: (array) => {
@@ -40,10 +40,10 @@ module.exports = () => {
       return (sum / total).toFixed(2);
     },
     unoccuredMinimum: (category, total) => {
-      const item = Object.assign({}, { 
-        time: null, 
-        category, 
-        count: 0 
+      const item = Object.assign({}, {
+        time: null,
+        category,
+        count: 0
       });
       return Object.assign({}, new CategoryStatistic(item, total));
     }

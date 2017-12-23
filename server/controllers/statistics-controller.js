@@ -10,17 +10,13 @@ const BreakdownController = require('./breakdown-controller.js')();
 module.exports = () => {
   const statisticsController = {
     getBreakdownData: (req, res) => {
-      console.log('query for breakdown => ');
       Time.getForQueryRange(req.params, (err, times) => {
         if (err) return CommonController.handleErrorResponse(err, res);
-        console.log('breakdownData : ', times.length);
         const result = { totals: {} };
         statisticsController.countCategoriesForQuery(times).then(totals => {
-          console.log('=> query counts : ', totals.counts.length);
           result.totals = totals;
           return statisticsController.countCategoriesForDaysOfWeek(times);
         }).then(dayOfWeekCounts => {
-          console.log('=> day of week counts : ', dayOfWeekCounts.length);
           res.jsonp(Object.assign({}, result, { dayOfWeekCounts }));
         });
       });
@@ -41,15 +37,16 @@ module.exports = () => {
         countGroup = Object.assign({}, { time, category, count: 1 });
         counts.push(countGroup);
       }
-      // console.log('build counts ', counts);
       return counts.map(item => new CategoryStatistic(item, total.count));
     },
     buildMathsFunctions: (times) => {
       const counts = [];
-      const groupedTimes = CommonController.groupBy(times, item => [ item.dateTime.toLocaleDateString() ]);
+      const groupedTimes = CommonController.groupBy(times, item => [ item.dateTime.toLocaleDateString() ])
+
       for(let i = 0, length = groupedTimes.length; i < length; i++) {
         counts.push(...statisticsController.buildCountsBasedOnCategory(groupedTimes[i]));
       }
+
       return BreakdownController.performFunctionsOnCounts(counts);
     },
     countCategoriesForQuery: (times) => {
