@@ -13,13 +13,14 @@ import './home.css';
 class Home extends Component {
   constructor(props) {
     super(props);
+    const d = new Date();
     this.state = {
       days: [],
       loading: true,
       query: {
-        year: new Date().getFullYear(),
-        month: new Date().getMonth(),
-        date: new Date().getDate()
+        year: d.getFullYear(),
+        month: d.getMonth(),
+        date: d.getDate()
       }
     };
 
@@ -37,7 +38,9 @@ class Home extends Component {
     const queryValues = this.state.query;
     const queryType = DataService.getQueryTypeFromValues(queryValues);
     console.log(queryType, queryValues);
-    DayQuery[queryType](queryValues).then(response => this.updateTimesheetState(response));
+    DayQuery[queryType](queryValues).then(response =>
+      this.updateTimesheetState(response)
+    );
   }
   updateTimesheetState(days) {
     console.log('day query res: ', days);
@@ -50,20 +53,22 @@ class Home extends Component {
     const query = this.state.query;
     const updatedQuery = DataService.updateQueryValues(query, name, value);
     console.log('update: ', name, value, updatedQuery);
-    this.setState({ query: updatedQuery })
+    this.setState({ query: updatedQuery });
   }
   handleNextDayRequest() {
     const latestDay = this.state.days.slice(0)[0] || {};
     //console.log('handleNextDayRequest: ', latestDay);
-    const date = latestDay.date || DataService.getQueryStartDate(this.state.query);
-    if (!DataService.canGetNextDay(date, this.state.query)) return alert('End of date period reached.');
-	this.setState({ loading: true });
+    const date =
+      latestDay.date || DataService.getQueryStartDate(this.state.query);
+    if (!DataService.canGetNextDay(date, this.state.query))
+      return alert('End of date period reached.');
+    this.setState({ loading: true });
     Query.getNextDay(date).then(newDayArray => {
       this.setState(prevState => {
-        return { 
-			days: newDayArray.concat(prevState.days),
-			loading: false
-		};
+        return {
+          days: newDayArray.concat(prevState.days),
+          loading: false
+        };
       });
     });
   }
@@ -74,7 +79,9 @@ class Home extends Component {
     const day = days[dayIndex];
     if (!day) return;
     if (!this.state.loading) this.setState({ loading: true });
-    const dayToMirror = days.find(x => CommonService.areDatesEqual(x.date, dateToMirror));
+    const dayToMirror = days.find(x =>
+      CommonService.areDatesEqual(x.date, dateToMirror)
+    );
 
     DataService.mirrorDayCategories(day, dayToMirror).then(reflectedDay => {
       const updatedDays = update(days, { [dayIndex]: { $set: reflectedDay } });
@@ -83,7 +90,9 @@ class Home extends Component {
   }
   handleUpdateDays(dateTime, timeId, category) {
     const days = this.state.days.slice(0);
-    const dayIndex = days.findIndex(x => CommonService.areDatesEqual(x.date, dateTime));
+    const dayIndex = days.findIndex(x =>
+      CommonService.areDatesEqual(x.date, dateTime)
+    );
     const day = days[dayIndex];
     const timeIndex = day.times.findIndex(x => x.id === timeId);
     const time = day.times[timeIndex];
@@ -92,7 +101,9 @@ class Home extends Component {
     if (!this.state.loading) this.setState({ loading: true });
     TimeQuery.save(updatedTime).then(response => {
       console.log('saved time: ', response);
-      const updatedDays = update(days, { [dayIndex]: { times: { [timeIndex]: { $set: response } } } });
+      const updatedDays = update(days, {
+        [dayIndex]: { times: { [timeIndex]: { $set: response } } }
+      });
       this.setState({ days: updatedDays, loading: false });
     });
   }
@@ -102,39 +113,35 @@ class Home extends Component {
 
     return (
       <div id="home">
-      {
-        this.state.loading &&
-        <LoadingSpinner size="fullscreen" />
-      }
-      {
-        !this.state.loading &&
-        <div>
-          <div className="flex-row">
-            <header className="flex-column">
-              <h2 className="margin-0">
-                Timesheet
-              </h2>
-              <p className="subtitle keep-line-breaks">
-              {
-                `Query data for
-                ${queryString}`
-              }
-              </p>
-            </header>
-            <div className="width-75 margin-left-auto">
-              <ActionBar {...this.state.query}
-                         query={this.query}
-                         updateSelectBox={this.updateSelectBox}
-                         handleNextDayRequest={this.handleNextDayRequest} />
+        {this.state.loading && <LoadingSpinner size="fullscreen" />}
+        {!this.state.loading && (
+          <div>
+            <div className="flex-row">
+              <header className="flex-column">
+                <h2 className="margin-0">Timesheet</h2>
+                <p className="subtitle keep-line-breaks">
+                  {`Query data for
+                ${queryString}`}
+                </p>
+              </header>
+              <div className="width-75 margin-left-auto">
+                <ActionBar
+                  {...this.state.query}
+                  query={this.query}
+                  updateSelectBox={this.updateSelectBox}
+                  handleNextDayRequest={this.handleNextDayRequest}
+                />
+              </div>
+            </div>
+            <div>
+              <Timesheet
+                days={this.state.days}
+                handleMirrorDay={this.handleMirrorDay}
+                handleUpdateDays={this.handleUpdateDays}
+              />
             </div>
           </div>
-          <div>
-            <Timesheet days={this.state.days}
-                       handleMirrorDay={this.handleMirrorDay}
-                       handleUpdateDays={this.handleUpdateDays} />
-          </div>
-        </div>
-      }
+        )}
       </div>
     );
   }
