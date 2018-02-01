@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import CategoryPortal from './category-portal';
 import commonService from '../../actions/common-service';
 import categoryService from '../../actions/category-service';
 import '../category-list/category-list.css';
@@ -60,7 +61,7 @@ class CategoryEdit extends Component {
     );
 
     return (
-      <div className="backdrop" onClick={() => this.props.handleCancelEdit()}>
+      <CategoryPortal handleBackdropClick={this.props.handleCancelEdit}>
         <div
           className="category-edit"
           style={positioningStyle}
@@ -73,11 +74,11 @@ class CategoryEdit extends Component {
             type="text"
             placeholder="category..."
             autoComplete="false"
-            onChange={e => this.handleUserInput(e)}
+            onChange={this.handleUserInput}
           />
           <ul className="category-list">{categoryItems}</ul>
         </div>
-      </div>
+      </CategoryPortal>
     );
   }
 }
