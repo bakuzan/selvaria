@@ -6,8 +6,6 @@ class CategoryPortal extends React.Component {
     super(props);
     this.targetNode = document.getElementById('home');
     this.el = document.createElement('div');
-    this.el.className = 'backdrop';
-    this.el.onclick = this.props.handleBackdropClick;
   }
 
   componentDidMount() {

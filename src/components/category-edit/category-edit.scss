@@ -7,7 +7,7 @@
   left: 10px;
   width: calc(100% - 20px);
   height: 100%;
-  z-index: map-get($z-index, popover);
+  z-index: map-get($z-index, backdrop);
 }
 
 .category-edit {

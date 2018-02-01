@@ -24,6 +24,7 @@ class Timesheet extends Component {
     this.handleCategorySelect = this.handleCategorySelect.bind(this);
   }
   handleEditClose() {
+    console.log('CLOSE');
     this.setState({ itemInEditMode: null });
   }
   handleCategorySelect(category) {

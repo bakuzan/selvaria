@@ -61,7 +61,8 @@ class CategoryEdit extends Component {
     );
 
     return (
-      <CategoryPortal handleBackdropClick={this.props.handleCancelEdit}>
+      <CategoryPortal>
+        <div className="backdrop" onClick={this.props.handleCancelEdit} />
         <div
           className="category-edit"
           style={positioningStyle}
