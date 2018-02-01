@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import commonService from '../../actions/common-service';
 import categoryService from '../../actions/category-service';
+import '../category-list/category-list.css';
 import './category-edit.css';
 
 class CategoryEdit extends Component {
@@ -10,7 +11,6 @@ class CategoryEdit extends Component {
       categoryString: '',
       categoryList: []
     };
-
   }
   componentDidMount() {
     categoryService.getCategoryList().then(list => {
@@ -28,35 +28,54 @@ class CategoryEdit extends Component {
   }
   renderCategoryItem(item) {
     return (
-      <li key={item.name}
-          id={item.name}
-          className="category-item ripple"
-          role="button"
-          onClick={(e) => this.handleCategoryClick(e, item.name)}>
-        <span className={`preview-colour ${item.name}`}></span>
+      <li
+        key={item.name}
+        id={item.name}
+        className="category-item ripple"
+        role="button"
+        onClick={e => this.handleCategoryClick(e, item.name)}
+      >
+        <span className={`preview-colour ${item.name}`} />
         <span>{item.name}</span>
       </li>
     );
   }
   filterOnSearch(categories) {
     if (!categories) return [];
-    return categories.filter(item => item.name.indexOf(this.state.categoryString) > -1);
+    return categories.filter(
+      item => item.name.indexOf(this.state.categoryString) > -1
+    );
   }
   render() {
-    const categoryItems = this.filterOnSearch(this.state.categoryList).map(item => this.renderCategoryItem(item));
+    const categoryItems = this.filterOnSearch(this.state.categoryList).map(
+      item => this.renderCategoryItem(item)
+    );
     const { dateTime, location: { clientX, clientY } } = this.props.editItem;
-    const positioningStyle = Object.assign({}, { top: `${clientY}px`, left: `${clientX}px` });
-    const formattedTimeBlockDateTime = commonService.formatDateAndTime(new Date(dateTime));
+    const positioningStyle = Object.assign(
+      {},
+      { top: `${clientY}px`, left: `${clientX}px` }
+    );
+    const formattedTimeBlockDateTime = commonService.formatDateAndTime(
+      new Date(dateTime)
+    );
 
     return (
       <div className="backdrop" onClick={() => this.props.handleCancelEdit()}>
-        <div className="category-edit" style={ positioningStyle } onClick={(e) => { e.stopPropagation(); } }>
-          <h4 className="category-edit-title">{ formattedTimeBlockDateTime }</h4>
-          <input type="text" placeholder="category..." autoComplete="false"
-                 onChange={(e) => this.handleUserInput(e)} />
-          <ul className="category-list">
-            { categoryItems }
-          </ul>
+        <div
+          className="category-edit"
+          style={positioningStyle}
+          onClick={e => {
+            e.stopPropagation();
+          }}
+        >
+          <h4 className="category-edit-title">{formattedTimeBlockDateTime}</h4>
+          <input
+            type="text"
+            placeholder="category..."
+            autoComplete="false"
+            onChange={e => this.handleUserInput(e)}
+          />
+          <ul className="category-list">{categoryItems}</ul>
         </div>
       </div>
     );
