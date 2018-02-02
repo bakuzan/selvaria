@@ -28,9 +28,3 @@
     text-align: center;
   }
 }
-
-@each $key, $value in $category-colours {
-  .#{$key} {
-    background-color: $value;
-  }
-}

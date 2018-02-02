@@ -56,3 +56,14 @@ body {
     width: 100%;
   }
 }
+
+.preview-colour {
+  width: 15px;
+  height: 15px;
+  margin: 0 5px 0 0;
+}
+@each $key, $value in $category-colours {
+  .#{$key} {
+    background-color: $value;
+  }
+}
