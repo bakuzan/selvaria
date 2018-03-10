@@ -25,13 +25,19 @@ const propertyNames = {
   category: 'category'
 };
 
+const environment = {
+  development: 'development',
+  production: 'production'
+};
+
 const Constants = {
   categories,
   dayNames,
   monthNames,
   childPopulateObject,
   queryTypes,
-  propertyNames
+  propertyNames,
+  environment
 };
 
 module.exports = Constants;
