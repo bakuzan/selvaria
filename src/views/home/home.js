@@ -37,31 +37,30 @@ class Home extends Component {
     if (!this.state.loading) this.setState({ loading: true });
     const queryValues = this.state.query;
     const queryType = DataService.getQueryTypeFromValues(queryValues);
-    console.log(queryType, queryValues);
+
     DayQuery[queryType](queryValues).then(response =>
       this.updateTimesheetState(response)
     );
   }
   updateTimesheetState(days) {
-    console.log('day query res: ', days);
-    if (days) {
-      const newDays = days instanceof Array ? days.reverse() : [];
-      this.setState({ days: newDays, loading: false });
-    }
+    if (!days) return;
+    const newDays = days instanceof Array ? days.reverse() : [];
+    this.setState({ days: newDays, loading: false });
   }
   updateSelectBox(name, value) {
     const query = this.state.query;
     const updatedQuery = DataService.updateQueryValues(query, name, value);
-    console.log('update: ', name, value, updatedQuery);
+
     this.setState({ query: updatedQuery });
   }
   handleNextDayRequest() {
     const latestDay = this.state.days.slice(0)[0] || {};
-    //console.log('handleNextDayRequest: ', latestDay);
     const date =
       latestDay.date || DataService.getQueryStartDate(this.state.query);
+
     if (!DataService.canGetNextDay(date, this.state.query))
       return alert('End of date period reached.');
+
     this.setState({ loading: true });
     Query.getNextDay(date).then(newDayArray => {
       this.setState(prevState => {
@@ -73,12 +72,12 @@ class Home extends Component {
     });
   }
   handleMirrorDay(dayId, dateToMirror) {
-    //console.log('cloning day : ', dayId, dateToMirror);
     const days = this.state.days.slice(0);
     const dayIndex = days.findIndex(x => x.id === dayId);
     const day = days[dayIndex];
     if (!day) return;
     if (!this.state.loading) this.setState({ loading: true });
+
     const dayToMirror = days.find(x =>
       CommonService.areDatesEqual(x.date, dateToMirror)
     );
@@ -97,10 +96,9 @@ class Home extends Component {
     const timeIndex = day.times.findIndex(x => x.id === timeId);
     const time = day.times[timeIndex];
     const updatedTime = update(time, { category: { $set: category } });
-    console.log('update time: ', updatedTime, category);
+
     if (!this.state.loading) this.setState({ loading: true });
     TimeQuery.save(updatedTime).then(response => {
-      console.log('saved time: ', response);
       const updatedDays = update(days, {
         [dayIndex]: { times: { [timeIndex]: { $set: response } } }
       });
@@ -108,7 +106,6 @@ class Home extends Component {
     });
   }
   render() {
-    console.log('home render: ', this.state);
     const queryString = CommonService.constructQueryText(this.state.query);
 
     return (
