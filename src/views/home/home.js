@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import update from 'immutability-helper';
-import LoadingSpinner from '../../components/loading-spinner/loading-spinner';
+import LoadableContent from '../../components/loadable-content';
 import ActionBar from '../../components/action-bar/action-bar';
 import Timesheet from '../../components/timesheet/timesheet';
 import Query from '../../actions/query/query.js';
@@ -97,21 +97,26 @@ class Home extends Component {
     const time = day.times[timeIndex];
     const updatedTime = update(time, { category: { $set: category } });
 
-    if (!this.state.loading) this.setState({ loading: true });
-    TimeQuery.save(updatedTime).then(response => {
-      const updatedDays = update(days, {
-        [dayIndex]: { times: { [timeIndex]: { $set: response } } }
-      });
-      this.setState({ days: updatedDays, loading: false });
-    });
+    this.setState({ loading: true }, () =>
+      TimeQuery.save(updatedTime).then(response =>
+        this.setState({
+          days: update(days, {
+            [dayIndex]: { times: { [timeIndex]: { $set: response } } }
+          }),
+          loading: false
+        })
+      )
+    );
   }
   render() {
     const queryString = CommonService.constructQueryText(this.state.query);
 
     return (
       <div id="home">
-        {this.state.loading && <LoadingSpinner size="fullscreen" />}
-        {!this.state.loading && (
+        <LoadableContent
+          isFetching={this.state.loading}
+          spinnerSize="fullscreen"
+        >
           <div>
             <div className="flex-row">
               <header className="flex-column">
@@ -138,7 +143,7 @@ class Home extends Component {
               />
             </div>
           </div>
-        )}
+        </LoadableContent>
       </div>
     );
   }
