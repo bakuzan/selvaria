@@ -29,6 +29,7 @@ class Home extends Component {
     this.handleNextDayRequest = this.handleNextDayRequest.bind(this);
     this.updateSelectBox = this.updateSelectBox.bind(this);
     this.handleMirrorDay = this.handleMirrorDay.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
   }
   componentDidMount() {
     this.query();
@@ -38,7 +39,7 @@ class Home extends Component {
     const queryValues = this.state.query;
     const queryType = DataService.getQueryTypeFromValues(queryValues);
 
-    DayQuery[queryType](queryValues).then(response =>
+    DayQuery[queryType](queryValues).then((response) =>
       this.updateTimesheetState(response)
     );
   }
@@ -62,8 +63,8 @@ class Home extends Component {
       return alert('End of date period reached.');
 
     this.setState({ loading: true });
-    Query.getNextDay(date).then(newDayArray => {
-      this.setState(prevState => {
+    Query.getNextDay(date).then((newDayArray) => {
+      this.setState((prevState) => {
         return {
           days: newDayArray.concat(prevState.days),
           loading: false
@@ -73,38 +74,48 @@ class Home extends Component {
   }
   handleMirrorDay(dayId, dateToMirror) {
     const days = this.state.days.slice(0);
-    const dayIndex = days.findIndex(x => x.id === dayId);
+    const dayIndex = days.findIndex((x) => x.id === dayId);
     const day = days[dayIndex];
     if (!day) return;
     if (!this.state.loading) this.setState({ loading: true });
 
-    const dayToMirror = days.find(x =>
+    const dayToMirror = days.find((x) =>
       CommonService.areDatesEqual(x.date, dateToMirror)
     );
 
-    DataService.mirrorDayCategories(day, dayToMirror).then(reflectedDay => {
+    DataService.mirrorDayCategories(day, dayToMirror).then((reflectedDay) => {
       const updatedDays = update(days, { [dayIndex]: { $set: reflectedDay } });
       this.setState({ days: updatedDays, loading: false });
     });
   }
   handleUpdateDays(dateTime, timeId, category) {
     const days = this.state.days.slice(0);
-    const dayIndex = days.findIndex(x =>
+    const dayIndex = days.findIndex((x) =>
       CommonService.areDatesEqual(x.date, dateTime)
     );
     const day = days[dayIndex];
-    const timeIndex = day.times.findIndex(x => x.id === timeId);
+    const timeIndex = day.times.findIndex((x) => x.id === timeId);
     const time = day.times[timeIndex];
     const updatedTime = update(time, { category: { $set: category } });
 
     this.setState({ loading: true }, () =>
-      TimeQuery.save(updatedTime).then(response =>
+      TimeQuery.save(updatedTime).then((response) =>
         this.setState({
           days: update(days, {
             [dayIndex]: { times: { [timeIndex]: { $set: response } } }
           }),
           loading: false
         })
+      )
+    );
+  }
+  handleDelete(dayId) {
+    this.setState({ loading: true }, () =>
+      DayQuery.delete(dayId).then(() =>
+        this.setState((prev) => ({
+          days: prev.days.filter((x) => x.id !== dayId),
+          loading: false
+        }))
       )
     );
   }
@@ -140,6 +151,7 @@ class Home extends Component {
                 days={this.state.days}
                 handleMirrorDay={this.handleMirrorDay}
                 handleUpdateDays={this.handleUpdateDays}
+                handleDeleteDay={this.handleDelete}
               />
             </div>
           </div>

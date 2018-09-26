@@ -40,7 +40,7 @@ class DataService {
     const month = query.month || 0;
     return new Date(query.year, month, 0);
   }
-  getQueryTypeFromValues({ year, month, date }) {
+  getQueryTypeFromValues({ month, date }) {
     if (date && month !== '') return Constants.queryTypes.date;
     if (!date && month !== '') return Constants.queryTypes.month;
     if (!date && month === '') return Constants.queryTypes.year;
@@ -55,6 +55,8 @@ class DataService {
     });
   }
   handleDayLength(times) {
+    if (!times) return [];
+
     const length = times.length;
     if (length === 48) return times;
     if (length < 48)
@@ -66,17 +68,17 @@ class DataService {
       ];
   }
   mirrorDayCategories(day, dayToMirror) {
-    const updatedTimes = day.times.map((item, index) => {
-      const mirror = dayToMirror.times.find(x => x.time === item.time);
+    const updatedTimes = day.times.map((item) => {
+      const mirror = dayToMirror.times.find((x) => x.time === item.time);
       const reflectedTime = update(item, {
         category: { $set: mirror.category }
       });
-      return TimeQuery.save(reflectedTime).then(response => {
+      return TimeQuery.save(reflectedTime).then((response) => {
         return response;
       });
     });
 
-    return Promise.all(updatedTimes).then(times => {
+    return Promise.all(updatedTimes).then((times) => {
       return update(day, { times: { $set: times } });
     });
   }

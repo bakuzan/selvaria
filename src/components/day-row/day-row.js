@@ -16,14 +16,15 @@ class DayRow extends Component {
 
     this.actions = [
       { text: 'Mirror yesterday', action: () => this.handleMirrorOption(1) },
-      { text: 'Mirror last week', action: () => this.handleMirrorOption(7) }
+      { text: 'Mirror last week', action: () => this.handleMirrorOption(7) },
+      { text: 'Delete', action: () => this.handleDelete() }
     ];
   }
 
   shouldComponentUpdate(nextProps, nextState) {
     const currentTimes = this.props.item.times;
     const nextTimes = nextProps.item.times;
-    for(let i = 0, length = nextTimes.length; i < length; i++) {
+    for (let i = 0, length = nextTimes.length; i < length; i++) {
       if (nextTimes[i].category !== currentTimes[i].category) return true;
     }
     return !(nextState.isExpanded === this.state.isExpanded);
@@ -33,10 +34,15 @@ class DayRow extends Component {
     const { id, date } = this.props.item;
     const dateToMirror = new Date(date);
     dateToMirror.setDate(dateToMirror.getDate() - mirrorDaysAgo);
-    this.props.handleMirror(id, dateToMirror);
+    this.props.actions.handleMirror(id, dateToMirror);
   }
+
+  handleDelete() {
+    this.props.handleDelete(this.props.item.id);
+  }
+
   toggleRowDetail() {
-    this.setState(prevState => {
+    this.setState((prevState) => {
       let detail = prevState.detail;
       if (!prevState.isExpanded) {
         detail = BreakdownService.generateDayRowDetail(this.props.item.times);
@@ -47,9 +53,11 @@ class DayRow extends Component {
   getTimes(array) {
     return array.map((item) => {
       return (
-        <TimeBlock key={item.id}
-                   item={item}
-                   handleEditMode={this.props.handleEditMode} />
+        <TimeBlock
+          key={item.id}
+          item={item}
+          handleEditMode={this.props.handleEditMode}
+        />
       );
     });
   }
@@ -59,30 +67,28 @@ class DayRow extends Component {
     const isExpandedClass = this.state.isExpanded ? ' is-expanded' : '';
     const isWeekendClass = CommonService.isWeekend(dayRow.dayOfTheWeek);
     const classes = `day-row${isExpandedClass} start-center-contents`;
+    const hasActions = this.props.handleMirror && this.props.handleDelete;
 
     return (
       <li className={classes}>
-          <div className="date">
-            <button type="button" className={`button ${isWeekendClass ? 'secondary ' : ''}ripple`} onClick={() => this.toggleRowDetail()}>
-              { dayRow.dateString }
-            </button>
+        <div className="date">
+          <button
+            type="button"
+            className={`button ${isWeekendClass ? 'secondary ' : ''}ripple`}
+            onClick={() => this.toggleRowDetail()}
+          >
+            {dayRow.dateString}
+          </button>
+        </div>
+        <div className="times">{this.getTimes(times)}</div>
+        {hasActions && (
+          <ActionMenu className="margin-left-auto" actions={this.actions} />
+        )}
+        {this.state.isExpanded && (
+          <div className="day-row-detail">
+            <ul className="category-list">{this.state.detail}</ul>
           </div>
-          <div className="times">
-            { this.getTimes(times) }
-          </div>
-          {
-            !!this.props.handleMirror &&
-            <ActionMenu className="margin-left-auto"
-                        actions={this.actions} />
-          }
-          {
-            this.state.isExpanded &&
-            <div className="day-row-detail">
-              <ul className="category-list">
-                { this.state.detail }
-              </ul>
-            </div>
-          }
+        )}
       </li>
     );
   }

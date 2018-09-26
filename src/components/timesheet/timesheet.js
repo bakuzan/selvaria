@@ -4,7 +4,7 @@ import TimesheetHeader from '../timesheet-header/timesheet-header';
 import TimesheetBody from '../timesheet-body/timesheet-body';
 import './timesheet.css';
 
-const Loading = props => props.pastDelay && <div>Waiting on server</div>;
+const Loading = (props) => props.pastDelay && <div>Waiting on server</div>;
 const CategoryEdit = Loadable({
   loader: () =>
     import(/* webpackChunkName: 'category-edit' */ '../category-edit/category-edit'),
@@ -24,7 +24,6 @@ class Timesheet extends Component {
     this.handleCategorySelect = this.handleCategorySelect.bind(this);
   }
   handleEditClose() {
-    console.log('CLOSE');
     this.setState({ itemInEditMode: null });
   }
   handleCategorySelect(category) {
@@ -36,13 +35,12 @@ class Timesheet extends Component {
     this.handleEditClose();
   }
   handleDayEditMode(editItem) {
-    console.log('category edit render', editItem);
     this.setState({ itemInEditMode: editItem });
   }
   render() {
-    console.log('timesheet render');
     return (
       <ol className="timesheet">
+        <div id="menu-portal-target" />
         {!!this.state.itemInEditMode && (
           <CategoryEdit
             editItem={this.state.itemInEditMode}
@@ -53,8 +51,11 @@ class Timesheet extends Component {
         <TimesheetHeader />
         <TimesheetBody
           rows={this.props.days}
-          handleMirrorDay={this.props.handleMirrorDay}
-          handleDayEditMode={this.handleDayEditMode}
+          actions={{
+            handleMirror: this.props.handleMirrorDay,
+            handleEditMode: this.handleDayEditMode,
+            handleDelete: this.props.handleDeleteDay
+          }}
         />
       </ol>
     );

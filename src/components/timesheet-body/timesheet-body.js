@@ -4,19 +4,11 @@ import DayRow from '../day-row/day-row';
 class TimesheetBody extends Component {
   renderRows() {
     return this.props.rows.map((item) => {
-       return (<DayRow key={item.id}
-                       item={item}
-                       handleMirror={this.props.handleMirrorDay}
-                       handleEditMode={this.props.handleDayEditMode} />);
+      return <DayRow key={item.id} item={item} {...this.props.actions} />;
     });
   }
   render() {
-    console.log('timesheet body render');
-    return (
-      <ol className="timesheet-body">
-        { this.renderRows() }
-      </ol>
-    );
+    return <ol className="timesheet-body">{this.renderRows()}</ol>;
   }
 }
 
