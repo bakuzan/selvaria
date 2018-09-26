@@ -11,10 +11,12 @@ class Portal extends React.Component {
   }
 
   componentDidMount() {
+    if (!this.targetNode) return;
     this.targetNode.appendChild(this.el);
   }
 
   componentWillUnmount() {
+    if (!this.targetNode) return;
     this.targetNode.removeChild(this.el);
   }
 

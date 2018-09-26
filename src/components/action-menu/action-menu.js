@@ -40,7 +40,7 @@ class ActionMenu extends Component {
   render() {
     const actions = this.renderActions();
     const menuClasses = `action-menu${` ${this.props.className}` || ''}`;
-    const listClasses = `menu-list${this.state.menuPosition ? ' visible' : ''}`;
+    const hasMenu = this.state.menuPosition;
     const { top, left } = this.state.menuPosition || {};
 
     return (
@@ -50,11 +50,13 @@ class ActionMenu extends Component {
           className="button primary menu-button"
           onClick={(e) => this.handleMenuToggle(e)}
         />
-        <Portal querySelector="#menu-portal-target">
-          <ul className={listClasses} role="menu" style={{ top, left }}>
-            {actions}
-          </ul>
-        </Portal>
+        {hasMenu && (
+          <Portal querySelector="#menu-portal-target">
+            <ul className="menu-list visible" role="menu" style={{ top, left }}>
+              {actions}
+            </ul>
+          </Portal>
+        )}
       </div>
     );
   }

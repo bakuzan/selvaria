@@ -34,7 +34,7 @@ class DayRow extends Component {
     const { id, date } = this.props.item;
     const dateToMirror = new Date(date);
     dateToMirror.setDate(dateToMirror.getDate() - mirrorDaysAgo);
-    this.props.actions.handleMirror(id, dateToMirror);
+    this.props.handleMirror(id, dateToMirror);
   }
 
   handleDelete() {
