@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import CategoryPortal from './category-portal';
 import commonService from '../../actions/common-service';
 import categoryService from '../../actions/category-service';
-import '../category-list/category-list.css';
-import './category-edit.css';
+import '../category-list/category-list.scss';
+import './category-edit.scss';
 
 class CategoryEdit extends Component {
   constructor() {
@@ -14,7 +14,7 @@ class CategoryEdit extends Component {
     };
   }
   componentDidMount() {
-    categoryService.getCategoryList().then(list => {
+    categoryService.getCategoryList().then((list) => {
       console.log('cat list: ', list);
       this.setState({ categoryList: list });
     });
@@ -34,7 +34,7 @@ class CategoryEdit extends Component {
         id={item.name}
         className="category-item ripple"
         role="button"
-        onClick={e => this.handleCategoryClick(e, item.name)}
+        onClick={(e) => this.handleCategoryClick(e, item.name)}
       >
         <span className={`preview-colour ${item.name}`} />
         <span>{item.name}</span>
@@ -44,12 +44,12 @@ class CategoryEdit extends Component {
   filterOnSearch(categories) {
     if (!categories) return [];
     return categories.filter(
-      item => item.name.indexOf(this.state.categoryString) > -1
+      (item) => item.name.indexOf(this.state.categoryString) > -1
     );
   }
   render() {
     const categoryItems = this.filterOnSearch(this.state.categoryList).map(
-      item => this.renderCategoryItem(item)
+      (item) => this.renderCategoryItem(item)
     );
     const { dateTime, location: { clientX, clientY } } = this.props.editItem;
     const positioningStyle = Object.assign(
@@ -66,7 +66,7 @@ class CategoryEdit extends Component {
         <div
           className="category-edit"
           style={positioningStyle}
-          onClick={e => {
+          onClick={(e) => {
             e.stopPropagation();
           }}
         >

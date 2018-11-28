@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import CategoryItem from '../category-item/category-item';
-import './category-list.css';
+import './category-list.scss';
 
 class CategoryList extends Component {
   renderItems(items) {
@@ -11,26 +11,21 @@ class CategoryList extends Component {
     });
 
     return sortedItems.map((item, index) => {
-      return (
-        <CategoryItem key={index} item={item} />
-      );
+      return <CategoryItem key={index} item={item} />;
     });
   }
   render() {
-    const listClasses = `category-list${!!this.props.isHorizontal ? ' row' : ''}`;
+    const listClasses = `category-list${
+      !!this.props.isHorizontal ? ' row' : ''
+    }`;
     const categoryItems = this.renderItems(this.props.items);
 
     return (
       <div className="category-list-container">
-        {
-          !!this.props.title &&
-          <h4 className="category-list-title">
-            { this.props.title }
-          </h4>
-        }
-        <ul className={ listClasses }>
-        { categoryItems }
-        </ul>
+        {!!this.props.title && (
+          <h4 className="category-list-title">{this.props.title}</h4>
+        )}
+        <ul className={listClasses}>{categoryItems}</ul>
       </div>
     );
   }

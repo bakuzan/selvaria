@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Loadable from 'react-loadable';
 import TimesheetHeader from '../timesheet-header/timesheet-header';
 import TimesheetBody from '../timesheet-body/timesheet-body';
-import './timesheet.css';
+import './timesheet.scss';
 
 const Loading = (props) => props.pastDelay && <div>Waiting on server</div>;
 const CategoryEdit = Loadable({

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import HelpBox from '../help-box/help-box';
 import CommonService from '../../actions/common-service';
 import Constants from '../../constants/values';
-import './action-bar.css';
+import './action-bar.scss';
 
 class ActionBar extends Component {
   populateYears() {
@@ -84,7 +84,7 @@ class ActionBar extends Component {
             week.
           </p>
         </HelpBox>
-        <form onSubmit={event => this.handleSubmit(event)}>
+        <form onSubmit={(event) => this.handleSubmit(event)}>
           <button className="button primary ripple bold" type="submit">
             Query
           </button>
@@ -95,7 +95,7 @@ class ActionBar extends Component {
               className="select-box"
               name="year"
               value={this.props.year}
-              onChange={e => this.handleSelectBox(e)}
+              onChange={(e) => this.handleSelectBox(e)}
             >
               {years}
             </select>
@@ -107,7 +107,7 @@ class ActionBar extends Component {
               className="select-box"
               name="month"
               value={this.props.month}
-              onChange={e => this.handleSelectBox(e)}
+              onChange={(e) => this.handleSelectBox(e)}
             >
               {months}
             </select>
@@ -120,7 +120,7 @@ class ActionBar extends Component {
               name="date"
               disabled={dates.length === 1}
               value={this.props.date}
-              onChange={e => this.handleSelectBox(e)}
+              onChange={(e) => this.handleSelectBox(e)}
             >
               {dates}
             </select>

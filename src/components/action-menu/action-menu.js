@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import Portal from '../portal';
-import './action-menu.css';
+import './action-menu.scss';
 
 class ActionMenu extends Component {
   constructor() {

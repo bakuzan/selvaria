@@ -13,7 +13,7 @@ import CommonService from '../../actions/common-service.js';
 import StatisticsQuery from '../../actions/query/statistics-query';
 import DataService from '../../actions/data-service.js';
 import Constants from '../../constants/values';
-import './statistics.css';
+import './statistics.scss';
 
 class Statistics extends Component {
   constructor() {
@@ -41,7 +41,7 @@ class Statistics extends Component {
   getStatisticsForQuery() {
     if (!this.state.loading) this.setState({ loading: true });
     const query = this.state.query;
-    StatisticsQuery.getBreakdownData(query).then(response => {
+    StatisticsQuery.getBreakdownData(query).then((response) => {
       this.setState({ ...response, loading: false });
     });
   }
@@ -64,7 +64,7 @@ class Statistics extends Component {
     this.setState(updatedState);
   }
   renderDayOfWeekList(dayCounts, showCharts) {
-    return dayCounts.map(item => {
+    return dayCounts.map((item) => {
       return (
         <DayOfWeekItem
           key={item.dayName}
@@ -125,7 +125,7 @@ class Statistics extends Component {
                         this.state.statisticsType ===
                         Constants.statisticsTypes.charts
                       }
-                      onChange={e => this.changeStatisticsDisplay(e)}
+                      onChange={(e) => this.changeStatisticsDisplay(e)}
                     />
                     charts
                   </label>
@@ -138,7 +138,7 @@ class Statistics extends Component {
                         this.state.statisticsType ===
                         Constants.statisticsTypes.rawData
                       }
-                      onChange={e => this.changeStatisticsDisplay(e)}
+                      onChange={(e) => this.changeStatisticsDisplay(e)}
                     />
                     raw data
                   </label>

@@ -4,7 +4,7 @@ import ActionMenu from '../../components/action-menu/action-menu';
 import CommonService from '../../actions/common-service';
 import DataService from '../../actions/data-service';
 import BreakdownService from '../../actions/statistics/breakdown-service';
-import './day-row.css';
+import './day-row.scss';
 
 class DayRow extends Component {
   constructor() {

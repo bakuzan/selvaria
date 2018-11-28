@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import TabView from '../tab-view/tab-view';
-import './tab-container.css';
+import './tab-container.scss';
 
 class TabContainer extends Component {
   constructor() {
@@ -9,7 +9,6 @@ class TabContainer extends Component {
     this.state = {
       activeTab: null
     };
-
   }
   componentDidMount() {
     if (this.state.activeTab || !this.props.children) return;
@@ -20,24 +19,29 @@ class TabContainer extends Component {
     this.setState({ activeTab: tabName });
   }
   renderViews(tabs) {
-    return tabs.map(item => {
+    return tabs.map((item) => {
       const name = item.props.name;
-      const props = Object.assign({}, { ...item.props, isActive: name === this.state.activeTab });
-
-      return (
-        <TabView key={name} {...props} />
+      const props = Object.assign(
+        {},
+        { ...item.props, isActive: name === this.state.activeTab }
       );
+
+      return <TabView key={name} {...props} />;
     });
   }
   renderControls(tabs) {
-    return tabs.map(item => {
+    return tabs.map((item) => {
       const name = item.props.name;
       const isActive = name === this.state.activeTab ? 'active' : '';
 
       return (
         <li key={name} className={isActive} role="tab">
-          <button type="button" className="button" onClick={() => this.handleTabChange(name)}>
-            { name }
+          <button
+            type="button"
+            className="button"
+            onClick={() => this.handleTabChange(name)}
+          >
+            {name}
           </button>
         </li>
       );
@@ -51,21 +55,27 @@ class TabContainer extends Component {
     return (
       <div className="tab-container">
         <ul className="tab-controls row" role="tablist">
-          { tabControls }
+          {tabControls}
         </ul>
-        <div className="tabs">
-          { tabViews }
-        </div>
+        <div className="tabs">{tabViews}</div>
       </div>
     );
   }
 }
 
 TabContainer.propTypes = {
-  children: PropTypes.arrayOf(function(propValue, key, componentName, location, propFullName) {
-    propValue.forEach(item => {
+  children: PropTypes.arrayOf(function(
+    propValue,
+    key,
+    componentName,
+    location,
+    propFullName
+  ) {
+    propValue.forEach((item) => {
       if (!item.type || !item.type.name || item.type.name !== 'TabView') {
-        return new Error(`TabContainer propTypes: Invalid prop '${propFullName}' supplied to ${componentName}. Validation failed.`);
+        return new Error(
+          `TabContainer propTypes: Invalid prop '${propFullName}' supplied to ${componentName}. Validation failed.`
+        );
       }
     });
   }).isRequired

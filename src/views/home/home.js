@@ -8,7 +8,7 @@ import DayQuery from '../../actions/query/day-query.js';
 import TimeQuery from '../../actions/query/time-query.js';
 import CommonService from '../../actions/common-service.js';
 import DataService from '../../actions/data-service.js';
-import './home.css';
+import './home.scss';
 
 class Home extends Component {
   constructor(props) {
